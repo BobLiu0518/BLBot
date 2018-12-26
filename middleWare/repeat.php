@@ -2,6 +2,11 @@
 
 global $Event, $Message, $Queue;
 
+if(preg_match('/签到/', $Message) || preg_match('/签出/', $Message) || $Event['group_id'] == "438327282")
+{
+    leave();
+}
+
 if(!fromGroup())throw new \Exception();
 
 if(getData("repeat/{$Event['group_id']}-1")==''){

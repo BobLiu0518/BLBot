@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 global $Queue, $Event;
 loadModule('pixiv.tools');

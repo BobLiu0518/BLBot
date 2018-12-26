@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 file_put_contents("composer-installer", file_get_contents("https://getcomposer.org/installer"));
 exec("php composer-installer",$x,$rValue1);
 exec("php composer.phar install --no-dev",$x,$rValue2);

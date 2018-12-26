@@ -1,14 +1,14 @@
-<?php
+﻿<?php
 
 global $User_id;
 loadModule('credit.tools');
 
 if(trim(getData('recordStat/'.$User_id))!='true')leave();
 
-if(trim(getData('recordStat/r'.$User_id))=='true')decCredit($User_id, 415);
+if(trim(getData('recordStat/r'.$User_id))=='true')decCredit($User_id, 114514);
 setData('recordStat/'.$User_id, 'cancel');
 setData('recordStat/r'.$User_id, 'false');
 
-leave('您已取消 kjBot 的个人记录。');
+leave('您已取消 BL1040Bot 的个人记录。');
 
 ?>

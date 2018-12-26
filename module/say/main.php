@@ -2,9 +2,9 @@
 
 global $Queue, $Text;
 use kjBot\Frame\Message;
-requireMaster();
+requireSeniorAdmin();
 
-if($Text == '')leave();
+if($Text == '')leave('没有参数！');
 
 $escape = false;
 $async = false;

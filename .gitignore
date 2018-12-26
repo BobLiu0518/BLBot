@@ -1,5 +1,8 @@
-config.ini
+.vscode/
 storage/
 vendor/
-composer-installer
 composer.phar
+composer-installer
+public/web.config
+public/aspnet_client
+config.ini

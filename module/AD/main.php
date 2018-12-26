@@ -5,6 +5,8 @@ use kjBot\Frame\Message;
 requireMaster();
 set_time_limit(0);
 
+$Text = nextArg();
+
 $groupList = $CQ->getGroupList();
 $whiteList = file_get_contents('https://raw.githubusercontent.com/kjBot-Dev/ADwhitelist/master/whitelist.json');
 if(false === $whiteList)leave('打开白名单失败，终止');
@@ -18,7 +20,7 @@ EOT;
 $suffix=<<<EOT
 
 ----------
-kjBot 正在接受广告推送请求，5元一次。屏蔽 1元/月。详情联系：kjbot@kj415j45.space
+BL1040Bot 保证每天最多一条广告。如果需要免除广告，请联系2018962389(不收费)，有效期一个月，一个月后需要重新申请。
 EOT;
 
 $Text = $prefix.$Text.$suffix;

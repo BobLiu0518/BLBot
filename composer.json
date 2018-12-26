@@ -1,16 +1,16 @@
 {
-    "name": "kj415j45/kjbot",
-    "description": "kjBot Framework and Modules",
+    "name": "BL1040Bot (Based on kj415j45/kjBot)",
+    "description": "NULL",
     "keywords": ["qqbot", "coolq-http-api", "kj"],
     "license": "(MIT and AGPL-3.0-or-later)",
     "authors": [
         {
-            "name": "kj415j45",
-            "email": "kj415j45@gmail.com"
+            "name": "bobliu0518",
+            "email": "bobliu0518@gmail.com"
         }
     ],
     "support": {
-        "QQ Group": "805348195"
+        "QQ Group": "NULL"
     },
     "type": "project",
     "autoload": {
@@ -22,14 +22,14 @@
     },
     "require": {
         "php": "^7.2",
-        "ext-sqlite3": "^7.2"
+        "ext-sqlite3": "^7.2",
+        "gentle/bitbucket-api": "^1.1",
+        "intervention/image": "^2.4",
+        "kriswallsmith/buzz": "^0.17.2"
     },
     "suggest": {
         "intervention/image": "osu 模块绘图依赖",
         "ext-imagick": "image 库依赖",
-        "knplabs/github-api": "issue, version 模块依赖",
-        "php-http/guzzle6-adapter": "github-api 库依赖",
-        "lcobucci/jwt": "issue 模块依赖",
         "linfo/linfo": "status 模块依赖",
         "nelexa/zip": "osu.listen 模块依赖",
         "statickidz/php-google-translate-free": "translate 模块依赖",
@@ -49,7 +49,6 @@
     },
     "require-dev": {
         "ext-json": "^1.6",
-        "intervention/image": "^2.4",
         "knplabs/github-api": "^2.9",
         "lcobucci/jwt": "^3.2",
         "linfo/linfo": "^4.0",

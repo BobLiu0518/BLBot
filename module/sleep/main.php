@@ -2,7 +2,7 @@
 
 global $Queue, $Event, $CQ;
 
-if(!fromGroup())throw new \Exception();
+if(!fromGroup())leave("只能在群聊中使用！");
 
 date_default_timezone_set('Asia/Shanghai');
 
@@ -18,6 +18,6 @@ while(true){
 
 try{
     $CQ->setGroupBan($Event['group_id'], $Event['user_id'], (strtotime($time)-time()));
-}catch(\Exception $e){}
+}catch(\Exception $e){leave();}
 
 ?>

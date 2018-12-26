@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 global $Event, $Queue, $User_id;
 loadModule('osu.tools');
@@ -48,7 +48,7 @@ do{
 $osuid = $osuid??getOsuID($qq);
 
 if($osuid == ''){
-    throw new \Exception("未绑定 osu!,请使用\n!osu.bind 用户名\n进行绑定");
+    throw new \Exception("未绑定 osu!,请使用\n#osu.bind 用户名\n进行绑定");
 }
 
 $osuid = OsuUsernameEscape($osuid);

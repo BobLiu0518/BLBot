@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Intervention\Image\ImageManagerStatic as Image;
 use SVG\SVG;

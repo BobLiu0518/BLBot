@@ -6,10 +6,14 @@ $method = nextArg();
 
 switch($method){
     case 'encode':
-        $Queue[]= sendBack(base64_encode($Text));
+     
+
+   $Queue[]= sendBack(base64_encode($Text));
         break;
     case 'decode':
-        $Queue[]= sendBack(base64_decode($Text));
+        
+
+$Queue[]= sendBack(base64_decode($Text));
         break;
     default:
 }

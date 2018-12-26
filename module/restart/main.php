@@ -1,7 +1,9 @@
 <?php
 
-global $CQ;
-requireMaster();
+global $CQ, $User_id, $Queue;
+requireSeniorAdmin();
+
+$Queue[]= sendMaster($User_id." restarts bot");
 
 $cleanCache = false;
 do{

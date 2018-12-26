@@ -8,7 +8,7 @@ class Card{
 }
 
 global $Queue, $Text;
-requireMaster();
+requireSeniorAdmin();
 
 $pool = explode("\r\n", $Text);
 foreach($pool as $card){

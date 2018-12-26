@@ -2,7 +2,7 @@
 
 global $Queue;
 use Linfo\Linfo;
-requireMaster();
+requireSeniorAdmin();
 
 $linfo = new Linfo();
 $parser = $linfo->getParser();
@@ -10,7 +10,9 @@ $parser = $linfo->getParser();
 $load = $parser->getLoad();
 $ram = $parser->getRam();
 $uptime = $parser->getUpTime();
-$disk = $parser->getMounts()[5];
+$disk = $parser->getMounts()[2];
+//可以到计算机管理->磁盘管理里面看看要第几个盘
+//第一块是0，第二块是1，以此类推
 
 $usedRam = sprintf('%.2fG', ($ram['total']-$ram['free'])/1000/1000/1000);
 $totalRam = sprintf('%.2fG', $ram['total']/1000/1000/1000);

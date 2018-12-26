@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 global $Event, $Queue, $osu_api_key, $User_id;
 loadModule('osu.tools');

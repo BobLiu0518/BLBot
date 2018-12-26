@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 loadModule('credit.tools');
 loadModule('osu.tools');

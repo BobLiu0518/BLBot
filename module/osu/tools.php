@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 global $osu_api_key, $osu;
 $osu='https://osu.ppy.sh';

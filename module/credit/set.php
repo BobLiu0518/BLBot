@@ -1,7 +1,7 @@
 <?php
 
 global $Queue;
-requireMaster();
+requireSeniorAdmin();
 use kjBot\SDK\CQCode;
 
 loadModule('credit.tools');

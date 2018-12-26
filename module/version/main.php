@@ -1,16 +1,21 @@
-<?php
+﻿<?php
 
 global $Queue, $CQ;
 
 $coolQVersion = $CQ->getVersionInfo();
 $coolQVersion->coolq_edition = ucfirst($coolQVersion->coolq_edition);
+$ip = file_get_contents('ipv4.icanhazip.com');
+$ipv6 = file_get_contents('ipv6.icanhazip.com');
 
-$Github = new \Github\Client();
-$result = $Github->api('repo')->releases()->latest('kj415j45', 'kjBot');
 $Queue[]= sendBack(<<<EOT
-kjBot {$result['tag_name']} {$result['name']} on CoolQ {$coolQVersion->coolq_edition} (HTTP API {$coolQVersion->plugin_version})
-项目地址：https://github.com/kj415j45/kjBot
-{$result['body']}
+BL1040Bot V1.0 (Based on kjBot)
+
+以下为最近三个版本的版本记录：
+V1.0
+· 第一个版本
+
+非常感谢沙雕企鹅复读机下北泽一厂
+(群号761082692)群员提供的帮助！
 EOT
 );
 

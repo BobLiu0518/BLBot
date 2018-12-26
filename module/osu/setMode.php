@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 global $Queue, $Event;
 loadModule('osu.tools');
@@ -40,7 +40,7 @@ if(!isset($m)){
 
 $u = getOsuID($Event['user_id']);
 if($u == ''){
-    throw new \Exception('未绑定 osu!，请使用 osu.bind 来绑定');
+    throw new \Exception('未绑定 osu!，请使用 #osu.bind 来绑定');
 }
 
 setData("osu/mode/{$Event['user_id']}", $m);
