@@ -1,11 +1,11 @@
 <?php
-    global $Queue;
+    //global $Queue;
     //修正时区到日本
     date_default_timezone_set('Asia/Tokyo');
 
     $minute=(int)date('i');
     $second=(int)date('s');
-    if($minute==0 && $second < 15)
+    if($minute==0 && $second==0)
     {
         $groups = array("761082692");
         foreach($groups as $group_id){

@@ -14,7 +14,7 @@ if(preg_match('/see you next time/', $Event['message'])){
 }
 
 if(preg_match('/bot next door/', $Event['message'])){
-    if(！isSeniorAdmin())
+    if(!isSeniorAdmin())
     {
         try{
             $CQ->setGroupKick($Event['group_id'], $Event['user_id']);
