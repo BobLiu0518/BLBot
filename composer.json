@@ -1,7 +1,7 @@
 {
     "name": "BL1040Bot (Based on kj415j45/kjBot)",
     "description": "NULL",
-    "keywords": ["qqbot", "coolq-http-api", "kj"],
+    "keywords": ["qqbot", "coolq-http-api"],
     "license": "(MIT and AGPL-3.0-or-later)",
     "authors": [
         {
@@ -10,7 +10,7 @@
         }
     ],
     "support": {
-        "QQ Group": "NULL"
+        "QQ Group": "828615670"
     },
     "type": "project",
     "autoload": {
