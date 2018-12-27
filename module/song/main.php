@@ -1,10 +1,29 @@
 <?php
 
-global $Queue, $CQ, $Text;
+global $Queue, $CQ, $Text, $Event;
 
 $wyyyy = true;
 
-leave("点歌终结！明天再开");
+if(fromGroup())
+{
+    date_default_timezone_set('Asia/Shanghai');
+    $banList = json_decode(getData("funcBan/song.json"));
+    foreach($banList as $banGroup)
+    {
+        if($Event['group_id'] == $banGroup)
+        {
+            if(time() > $banList[$banGroup])
+            {
+                $banList[$banGroup] = '';
+                setData(json_encode($banList),"funcBan/song.json");
+            }
+            else
+            {
+                leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banList[$banGroup]));
+            }
+        }
+    }
+}
 
 do{
 
