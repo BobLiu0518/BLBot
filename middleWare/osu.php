@@ -13,11 +13,12 @@ if(preg_match('/see you next time/', $Event['message'])){
 }
 
 if(preg_match('/bot next door/', $Event['message'])){
-    if(isSeniorAdmin())leave();
-    try{
-        $CQ->setGroupKick($Event['group_id'], $Event['user_id']);
-    }catch(\Exception $e){leave();}
-    
+    if(!isSeniorAdmin())
+    {
+        try{
+            $CQ->setGroupKick($Event['group_id'], $Event['user_id']);
+        }catch(\Exception $e){leave();}
+    }
 }
 
 
