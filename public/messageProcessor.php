@@ -15,7 +15,6 @@ if(preg_match('/^('.config('prefix', '#').')/', $Event['message'], $prefix) || p
         else
             loadModule($module);
     }catch(\Exception $e){
-        $Queue[]= sendBack("......");
         throw $e;
     }
 }else{ //不是命令
