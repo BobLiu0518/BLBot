@@ -118,7 +118,7 @@ $msg=<<<EOT
 EOT;
 
 $msg2=<<<EOT
-具体内容见私聊。
+具体内容见私聊。如果收不到，可以先尝试加 Bot 为好友。
 EOT;
 
 if(fromGroup()){
