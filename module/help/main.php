@@ -118,7 +118,7 @@ $msg=<<<EOT
 EOT;
 
 $msg2=<<<EOT
-、具体内容见私聊。
+具体内容见私聊。
 EOT;
 
 if(fromGroup()){
