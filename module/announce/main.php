@@ -7,8 +7,8 @@ if(!set_time_limit(360))leave('设置不超时失败！');
 if($Text == NULL){
     $Text = "这是一条测试消息";
 }else{
-$Text = $Text."
-——这是一条Bot集体广播，由".$User_id."命令发送。";
+    $Text = "
+——集体广播";
 }
 
 $Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}");
