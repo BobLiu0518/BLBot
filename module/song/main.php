@@ -8,9 +8,10 @@ if(fromGroup())
 {
     date_default_timezone_set('Asia/Shanghai');
     $banList = json_decode(getData("funcBan/song.json"));
+    $Queue[]=sendBack(time());
+    $Queue[]=sendBack(date('y/m/d H:i:s',$banList[$banGroup]));
     foreach($banList as $banGroup)
     {
-        $Queue[]=sendBack($banGroup.$banList[$banGroup]);
         if($Event['group_id'] == $banGroup)
         {
             if(time() > $banList[$banGroup])
