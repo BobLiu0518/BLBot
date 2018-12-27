@@ -10,6 +10,7 @@ if(fromGroup())
     $banList = json_decode(getData("funcBan/song.json"));
     foreach($banList as $banGroup)
     {
+        $Queue[]=sendBack($banGroup.$banList[$banGroup]);
         if($Event['group_id'] == $banGroup)
         {
             if(time() > $banList[$banGroup])
