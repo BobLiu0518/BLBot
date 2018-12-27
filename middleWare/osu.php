@@ -1,6 +1,6 @@
 <?php
 
-global $CQ, $Event;
+global $CQ, $Event, $Queue;
 
 date_default_timezone_set('Asia/Shanghai');
 
@@ -17,6 +17,7 @@ if(preg_match('/bot next door/', $Event['message'])){
     {
         try{
             $CQ->setGroupKick($Event['group_id'], $Event['user_id']);
+            $Queue[]= sendBack(":D");
         }catch(\Exception $e){leave();}
     }
 }
