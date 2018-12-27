@@ -1,10 +1,6 @@
 .vscode/
-storage/
 vendor/
 composer.phar
 composer-installer
-public/web.config
-public/aspnet_client
-config.ini
 *.swp
 *.save
