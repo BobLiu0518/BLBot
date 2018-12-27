@@ -1,6 +1,6 @@
 <?php
 
-global $Message, $User_id, $Queue, $CQ;
+global $Message, $User_id, $Queue, $CQ, $Event;
 
 if(preg_match('/机器人/', $Message)||parseQQ($Message) == config('bot')){
     if(config('master') == $User_id || config('devgroup') == $Event['group_id'])leave();
