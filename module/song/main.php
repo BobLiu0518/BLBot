@@ -4,6 +4,8 @@ global $Queue, $CQ, $Text;
 
 $wyyyy = true;
 
+leave("点歌终结！明天再开");
+
 do{
 
     $nextArg = trim(nextArg());
