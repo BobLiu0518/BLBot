@@ -3,29 +3,21 @@
 global $Queue, $CQ, $Text, $Event;
 
 $wyyyy = true;
-/*
+
 if(fromGroup())
 {
     date_default_timezone_set('Asia/Shanghai');
     $banList = json_decode(getData("funcBan/song.json"));
-    $Queue[]=sendBack(date());
-    $Queue[]=sendBack(date('y/m/d H:i:s',$banList[$banGroup]));
     foreach($banList as $banGroup)
     {
-        if($Event['group_id'] == $banGroup)
+        if($Event['group_id'] == $banGroup['group_id'])
         {
-            if(time() > $banList[$banGroup])
-            {
-                $banList[$banGroup] = '';
-                setData(json_encode($banList),"funcBan/song.json");
-            }
-            else
-            {
-                leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banList[$banGroup]));
-            }
+            if(time() <= $banGroup['expire'])
+                leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banGroup['expire']));
         }
     }
-}*/
+    unset($banGroup);
+}
 
 do{
 
