@@ -9,13 +9,8 @@ if(fromGroup())
     date_default_timezone_set('Asia/Shanghai');
     $banList = json_decode(getData("funcBan/song.json"));
     foreach($banList as $banGroup)
-    {
-        if($Event['group_id'] == $banGroup['group_id'])
-        {
-            if(time() <= $banGroup['expire'])
-                leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banGroup['expire']));
-        }
-    }
+        if($Event['group_id'] == $banGroup['group_id'] && time() < $banGroup['expire'])
+            leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banGroup['expire']));
     unset($banGroup);
 }
 
