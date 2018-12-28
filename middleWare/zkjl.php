@@ -2,7 +2,10 @@
 
 global $Message, $Queue;
 
-if(preg_match('/六学/', $Message) || preg_match('/我就想到了/', $Message) || preg_match('/文体两开花/', $Message) || preg_match('/多多关注/', $Message) || preg_match('/弘扬中国文化/', $Message) || preg_match('/章口就莱/', $Message) || preg_match('/明年粘稠/', $Message) || preg_match('/中美合拍/', $Message))
-    $Queue[]= sendBack(sendImg(getData("dt/zkjl.gif")));
+$zkjl = array("六学","说起","我就想到了","明年年初","中美合拍","正式开机","文体两开花","弘扬中国文化","希望大家多多关注","章口就莱");
+
+foreach($zkjl as $word)
+    if(preg_match('/'.$word.'/', $Message))
+        $Queue[]= sendBack(sendImg(getData("dt/zkjl.gif")));
 
 ?>
