@@ -8,7 +8,7 @@ if(fromGroup())
 {
     $Queue[]= sendBack("来自群聊的点歌消息");
     if(coolDown("song/{$Event['group_id']}")<0)leave('本命令每15秒只能使用一次！');
-        coolDown("issue/{$Event['group_id']}", 15);
+        coolDown("song/{$Event['group_id']}",15);
 }
 
 do{
