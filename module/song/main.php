@@ -3,7 +3,7 @@
 global $Queue, $CQ, $Text, $Event;
 
 $wyyyy = true;
-
+/*
 if(fromGroup())
 {
     date_default_timezone_set('Asia/Shanghai');
@@ -25,7 +25,7 @@ if(fromGroup())
             }
         }
     }
-}
+}*/
 
 do{
 
