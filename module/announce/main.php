@@ -4,14 +4,15 @@ global $Queue, $Text, $CQ, $User_id;
 use kjBot\Frame\Message;
 requireSeniorAdmin();
 if(!set_time_limit(360))leave('设置不超时失败！');
+
+$Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}");
+
 if($Text == NULL){
     $Text = "这是一条测试消息";
 }else{
     $Text = $Text."
-——集体广播";
+——集体广播 随机数: ";
 }
-
-$Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}");
 
 $groupList = $CQ->getGroupList();
 $success = 0;
@@ -21,7 +22,7 @@ $error = 0;
 
 foreach($groupList as $group){
     try{
-        $CQ->sendGroupMsg($group->group_id, $Text);
+        $CQ->sendGroupMsg($group->group_id, $Text.rand(1,999));
         $success++;
     }catch(\Exception $e){
         if(-34 === $e->getCode()){
