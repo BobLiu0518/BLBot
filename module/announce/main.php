@@ -7,7 +7,7 @@ if(!set_time_limit(360))leave('设置不超时失败！');
 if($Text == NULL){
     $Text = "这是一条测试消息";
 }else{
-    $Text = "
+    $Text = $Text."
 ——集体广播";
 }
 
