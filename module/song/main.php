@@ -4,10 +4,13 @@ global $Queue, $CQ, $Text, $Event;
 
 $wyyyy = true;
 
+if(coolDown("song/user/{$Event['user_id']}")<0)leave('本命令每人每30秒只能使用一次！');
+coolDown("song/user/{$Event['user_id']}",30);
+
 if(fromGroup())
 {
-    if(coolDown("song/{$Event['group_id']}")<0)leave('本命令每15秒只能使用一次！');
-        coolDown("song/{$Event['group_id']}",15);
+    if(coolDown("song/group/{$Event['group_id']}")<0)leave('本命令每群每15秒只能使用一次！');
+    coolDown("song/group/{$Event['group_id']}",15);
 }
 
 do{
