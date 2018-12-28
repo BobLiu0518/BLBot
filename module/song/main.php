@@ -4,8 +4,10 @@ global $Queue, $CQ, $Text, $Event;
 
 $wyyyy = true;
 
-
-
+if(fromGroup())
+{
+    $Queue[]= sendBack("来自群聊的点歌消息");
+}
 
 do{
 
@@ -66,18 +68,3 @@ if(!$wyyyy){
 
 
 ?>
-
-
-/*******/$Queue[]= sendBack("[1]OK");
-if(fromGroup())
-{
-/*******/$Queue[]= sendBack("[2]OK");
-    date_default_timezone_set('Asia/Shanghai');
-/*******/$Queue[]= sendBack("[3]OK");
-    $banList = json_decode(getData("funcBan/song.json"));
-/*******/$Queue[]= sendBack("[4]OK");
-    foreach($banList as $banGroup){/*******/$Queue[]= sendBack("[5]OK");
-        if($Event['group_id'] == $banGroup['group_id'] && time() < $banGroup['expire'])
-            leave("本群点歌功能已被关闭，恢复时间：".date('y/m/d H:i:s',$banGroup['expire']));}
-    unset($banGroup);
-}
