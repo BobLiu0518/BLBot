@@ -3,10 +3,9 @@
     //修正时区到日本
     date_default_timezone_set('Asia/Tokyo');
 
-    $Queue[]= sendMaster("Get heartbeat signal ".rand(1,999));/*
-
     $minute=(int)date('i');
     $second=(int)date('s');
+
     if($minute==0 && $second==0)
     {
         $groups = array("761082692");
@@ -14,5 +13,5 @@
         $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(file_get_contents($dir."/storage/data/time/".$hour.".mp3"))));
         $CQ->sendGroupMsg($group_id, file_get_contents($dir."/storage/data/time/".$hour.".txt"));
     }
-}*/
+}
 ?>
