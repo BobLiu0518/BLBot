@@ -2,7 +2,6 @@
 
 //TODO：重构
 require('zkjl.php');
-require('costumereply.php');
 require('osu.php');
 require('version.php');
 require('ciya.php');
