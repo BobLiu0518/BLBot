@@ -29,7 +29,7 @@ try{
     }
 
 }catch(\Exception $e){
-    $Queue[]= sendBack($e->getMessage(), true, true);
+    $Queue[]= sendBack($e->getMessage(), false, true);
 }
 
 try{
