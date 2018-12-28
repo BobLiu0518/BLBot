@@ -6,7 +6,7 @@
     $minute=(int)date('i');
     $second=(int)date('s');
 
-    if($minute==40 && $second==0)
+    if($minute==45 && $second<2)
     {
         $groups = array("761082692");
         foreach($groups as $group_id){
