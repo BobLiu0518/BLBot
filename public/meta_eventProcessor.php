@@ -6,10 +6,11 @@
     $minute=(int)date('i');
     $second=(int)date('s');
 
-    if($minute==45 && $second<2)
+    if($minute==50 && $second==0)
     {
         $groups = array("761082692");
         foreach($groups as $group_id){
+        $CQ->sendGroupMsg($group_id, "测试！");
         $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(file_get_contents($dir."/storage/data/time/".$hour.".mp3"))));
         $CQ->sendGroupMsg($group_id, file_get_contents($dir."/storage/data/time/".$hour.".txt"));
     }
