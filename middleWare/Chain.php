@@ -1,5 +1,7 @@
 <?php
 
+//TODO：重构
+require('zkjl.php');
 require('osu.php');
 require('version.php');
 require('ciya.php');
