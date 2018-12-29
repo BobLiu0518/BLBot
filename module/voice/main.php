@@ -44,8 +44,6 @@ if(0 == $fee)leave("没有要朗读的文字！");
 
 if($lang == "zh"){
 
-    $Queue[]= sendBack('共'.$strength.'字节，收费'.$fee.'金币');
-
     $VOICE_APP_ID = config('voice_app_id');
     $VOICE_API_KEY = config('voice_api_key');
     $VOICE_SECRET_KEY = config('voice_secret_key');
@@ -61,18 +59,8 @@ if($lang == "zh"){
     if(fromGroup())$Queue[]= sendPM(sendRec($result));
 }else{
     if($lang == 'zh-gl')$lang = 'zh';
-    $Queue[]= sendBack('共'.$strength.'字节，收费'.$fee.'金币');
 
     setCache($hash.'.txt', $Text);
-    //$com='Z: & cd \\BL1040Bot\\storage\\cache & gtts-cli -f '.$hash.'.txt -o '.$hash.'.mp3 --nocheck -l '.$lang;
-    //$Queue[]= sendBack($com);
-    //exec($com);
-    //exec('cd ..\\storage\\cache & C:\\Users\\Administrator\\Documents\\environment\\python\\Scripts\\gtts-cli -f '.$hash.'.txt -o '.$hash.'.mp3 --nocheck -l '.$lang);
-    //安装注意事项：用 pipe 安装好 gTTS 以后手动到目录里面把两个 egg 的
-    //安装注意事项：translate.google.com 全部改成 .cn，要不然就 fq 吧
-    //安装注意事项：其实还有一种办法就是改 hosts 让 translate.google.com
-    //安装注意事项：使之重定向到 203.208.50.79
-    //So f**king hardcore Windows and py3
     exec("export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && cd ../storage/cache/ && gtts-cli -f {$hash}.txt -o {$hash}.mp3 --nocheck -l {$lang}"); //So fucking hardcore py3
 	decCredit($Event['user_id'], $fee);
     $Queue[]= sendBack(sendRec(getCache($hash.'.mp3')));
@@ -80,9 +68,6 @@ if($lang == "zh"){
 }
 
 
-$Queue[]= sendBack('已收取 '.$fee.' 金币，您的余额为 '.getCredit($Event['user_id']));
-
-//exec("export LC_ALL=C.UTF-8 ; export LANG=C.UTF-8 ; cd ../storage/cache/ ; gtts-cli -f {$hash}.txt -o {$hash}.mp3 --nocheck -l {$lang}"); //So fucking hardcore py3
-////$Queue[]= sendBack(sendRec(getCache($hash.'.mp3')));
+$Queue[]= sendBack('共'.$strength.' 个字节，已收取 '.$fee.' 金币，您的余额为 '.getCredit($Event['user_id']));
 
 ?>

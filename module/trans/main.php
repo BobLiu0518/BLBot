@@ -26,10 +26,9 @@ if($source == NULL || $target == NULL){
 $textLength = strlen($Text);
 if(0 == $textLength)leave("没有要翻译的内容！");
 $fee = intval($textLength*0.1+1);
-$Queue[]= sendBack("共 ".$textLength." 个字节，收费 ".$fee." 个金币");
 decCredit($User_id, $fee);
 $trans = new GoogleTranslate();
 $Queue[]= sendBack($trans->translate($source, $target, $Text));
-$Queue[]= sendBack('已收取 '.$fee.' 金币，您的余额为 '.getCredit($User_id));
+$Queue[]= sendBack('共 '.$textLength.' 个字节，已收取 '.$fee.' 金币，您的余额为 '.getCredit($User_id));
 
 ?>
