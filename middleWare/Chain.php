@@ -1,6 +1,7 @@
 <?php
 
 //TODO：重构
+require('littleIce.php');
 require('zkjl.php');
 require('osu.php');
 require('version.php');
