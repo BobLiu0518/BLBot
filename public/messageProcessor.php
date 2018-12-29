@@ -1,7 +1,7 @@
 <?php
 
         $CQ->sendGroupMsg($group_id, getData("time/".$hour.".txt"));
-if(preg_match('/^('.config('prefix', '#').')/', $Event['message'], $prefix) /*|| preg_match('/^('.config('prefix2', '＃').')/', $Event['message'], $prefix)*/){
+if(preg_match('/^('.config('prefix', '#').')/', $Event['message'], $prefix) || preg_match('/^('.config('prefix2', '＃').')/', $Event['message'], $prefix)){
     $length = strpos($Event['message'], "\r");
     if(false===$length)$length=strlen($Event['message']);
     $Command = parseCommand(substr($Event['message'], strlen($prefix[1])-1, $length));
