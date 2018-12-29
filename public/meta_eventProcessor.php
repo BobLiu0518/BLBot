@@ -10,10 +10,10 @@
     {
         $groups = array("761082692");
         foreach($groups as $group_id){
-        $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(getData("time/".$hour.".mp3"))));
-        $CQ->sendGroupMsg($group_id, getData("time/".$hour.".txt"));
+            $CQ->sendGroupMsg($group_id, getData("time/".$hour.".txt"));
+            $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(getData("time/".$hour.".mp3"))));
+        }
     }
 
     date_default_timezone_set('Asia/Shanghai');
-}
 ?>
