@@ -10,7 +10,7 @@ $parser = $linfo->getParser();
 $load = $parser->getLoad();
 $ram = $parser->getRam();
 $uptime = $parser->getUpTime();
-$disk = $parser->getMounts()[2];
+$disk = $parser->getMounts()[5];
 //可以到计算机管理->磁盘管理里面看看要第几个盘
 //第一块是0，第二块是1，以此类推
 
