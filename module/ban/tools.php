@@ -2,12 +2,12 @@
 
 function loadBanList()
 {
-    $Queue[]= sendBack("拉黑功能功能");
+    return "啊啊啊";
 }
 
 function saveBanList()
 {
-    $Queue[]= sendBack("啊啊啊");
+    return "棒不棒";
 }
 
 ?>
