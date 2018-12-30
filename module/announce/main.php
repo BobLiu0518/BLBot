@@ -2,7 +2,7 @@
 
 global $Queue, $Text, $CQ, $User_id;
 use kjBot\Frame\Message;
-requireSeniorAdmin();
+requireMaster();
 if(!set_time_limit(360))leave('设置不超时失败！');
 
 $Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}");
