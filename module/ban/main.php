@@ -4,6 +4,6 @@ global $Queue;
 loadModule('ban.tools');
 requireSeniorAdmin();
 
-loadBanList();saveBanList();
+$Queue[]=sendBack(loadBanList().saveBanList());
 
 ?>
