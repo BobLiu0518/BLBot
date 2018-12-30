@@ -4,6 +4,6 @@ global $Event, $Queue;
 if($Event['user_id'] == "2854196306" && !preg_match("/@我说/", $Event['message']) && !preg_match("/艾特我说/", $Event['message']))
     leave("[CQ:at,qq=2854196306] 不玩了");
 else if($Event['user_id'] == "2854196306")
-    leave("玩冰不如玩我，发送 #help 查看帮助！");
+    leave();
 
 ?>
