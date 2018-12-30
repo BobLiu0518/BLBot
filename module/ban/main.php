@@ -5,6 +5,6 @@ loadModule('ban.tools');
 requireSeniorAdmin();
 
 $Queue[]= sendBack("拉黑功能框架");
-test();
+tes111t();
 
 ?>
