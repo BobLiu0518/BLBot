@@ -4,5 +4,4 @@ composer.phar
 composer-installer
 *.swp
 *.save
-data/
-cache/
+storage/
