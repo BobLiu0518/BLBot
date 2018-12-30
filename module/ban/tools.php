@@ -2,12 +2,14 @@
 
 function loadBanList()
 {
-    return "啊啊啊";
+    return json_decode(getData("usertype.json"));
 }
 
-function saveBanList()
+function saveBanList($banList)
 {
-    return "棒不棒";
+    setData("usertype.json",json_encode($banList));
+    exec("git add .;git commit -m \"\";git push");
+    return;
 }
 
 ?>
