@@ -1,8 +1,13 @@
 <?php
 
-function tes111t()
+function loadBanList()
 {
-    $Queue[]= sendBack("拉黑功能功能");return;
+    $Queue[]= sendBack("拉黑功能功能");
+}
+
+function saveBanList()
+{
+    $Queue[]= sendBack("啊啊啊");
 }
 
 ?>
