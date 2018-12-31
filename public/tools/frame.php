@@ -59,6 +59,10 @@ function sendMaster(string $msg, bool $auto_escape = false, bool $async = false)
     return new Message($msg, config('master'), false, $auto_escape, $async);
 }
 
+function sendDevGroup(string $msg, bool $auto_escape = false, bool $async = false):Message{
+    if(config('devgroup'))
+        return new Message($msg, config('devgroup'), true, $auto_escape, $async);
+}
 /**
  * 记录数据
  * @param string $filePath 相对于 storage/data/ 的路径

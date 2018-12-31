@@ -14,6 +14,7 @@ switch($Event['notice_type']){
     case 'group_decrease':
         if($Event['sub_type']=='kick_me'){
             $Queue[]= sendMaster('Being kicked from group '.$Event['group_id'].' by '.$Event['operator_id']);
+            $Queue[]= sendDevGroup('Being kicked from group '.$Event['group_id'].' by '.$Event['operator_id']);
         }
         break;
     case 'group_admin':
@@ -24,6 +25,7 @@ switch($Event['notice_type']){
                 $prefix = 'Lost ';
             }
             $Queue[]= sendMaster($prefix.'admin in group '.$Event['group_id']);
+            $Queue[]= sendDevGroup($prefix.'admin in group '.$Event['group_id']);
         }
         break;
     default:
