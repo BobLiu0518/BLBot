@@ -190,10 +190,6 @@ function parseCommand(string $str){
     return $cmd;
 }
 
-function pd(){
-    throw new UnauthorizedException();
-}
-
 /**
  * 判断是否是机器人主人
  * @param bool 是就return true，不是return false
