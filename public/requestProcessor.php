@@ -4,6 +4,7 @@ switch($Event['request_type']){
     case 'friend':
         $CQ->setFriendAddRequest($Event['flag'], config('allowFriends')); //交给master二次审核？
         $Queue[]= sendMaster('Being friends with '.$Event['user_id']); //通知master
+        $Queue[]= sendDevGroup('Being friends with '.$Event['user_id']);
         $Queue[]= sendBack(config('WelcomeMsg')); //发送欢迎消息
         break;
     case 'group':
@@ -14,6 +15,7 @@ switch($Event['request_type']){
             case 'invite':
                 $CQ->setGroupAddRequest($Event['flag'], $Event['sub_type'], config('allowGroups'));
                 $Queue[]= sendMaster('Join Group '.$Event['group_id'].' by '.$Event['user_id']); //通知master
+                $Queue[]= sendDevGroup('Join Group '.$Event['group_id'].' by '.$Event['user_id']);
                 break;
             default:
         }

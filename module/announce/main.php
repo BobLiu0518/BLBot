@@ -5,7 +5,8 @@ use kjBot\Frame\Message;
 requireMaster();
 if(!set_time_limit(360))leave('设置不超时失败！');
 
-$Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}");
+$Queue[]= sendMaster("{$User_id} 广播了一条消息：{$Text}", false, true);
+$Queue[]= sendDevGroup("{$User_id} 广播了一条消息：{$Text}", false, true);
 
 if($Text == NULL){
     $Text = "这是一条测试消息";
