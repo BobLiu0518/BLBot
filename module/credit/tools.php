@@ -12,18 +12,13 @@ function setCredit($QQ, $credit, $set = false){
 }
 
 function addCredit($QQ, $income){
-    if($QQ==config('master')){
-        return setCredit($QQ, getCredit($QQ), true);
-    }
     setData('credit.history', "+ {$QQ} {$income}\n", true);
     return setCredit($QQ, getCredit($QQ)+(int)$income, true);
 }
 
 function decCredit($QQ, $pay){
     $balance = getCredit($QQ);
-    if($QQ==config('master')){
-        return setCredit($QQ, (int)($balance), true);
-    }else if($balance >= $pay){
+    if($balance >= $pay){
         setData('credit.history', "- {$QQ} {$pay}\n");
         return setCredit($QQ, (int)($balance-$pay), true);
     }else{
