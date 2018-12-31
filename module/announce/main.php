@@ -22,7 +22,7 @@ $error = 0;
 
 foreach($groupList as $group){
     try{
-        $CQ->sendGroupMsg($group->group_id, str_replace("#CURRENT_GROUP#",$group,$Text).rand(1,999));
+        $CQ->sendGroupMsg($group->group_id, $Text.rand(1,999));
         $success++;
     }catch(\Exception $e){
         if(-34 === $e->getCode()){
