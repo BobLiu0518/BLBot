@@ -1,6 +1,6 @@
 <?php
 
 global $Queue;
-$Queue[]= sendBack("❤️");
+$Queue[]= sendBack("❤");
 
 ?>
