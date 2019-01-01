@@ -1,3 +1,5 @@
 <?php
 
+loadModule('permission.check');
+
 ?>

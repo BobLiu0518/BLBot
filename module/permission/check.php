@@ -1,5 +1,6 @@
 <?php
 
+loadModule('permission.tools');
 global $Event, $Queue;
 
 $QQ = nextArg();
@@ -8,6 +9,6 @@ if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
 }
 if(!$QQ) $QQ = $Event['user_id'];
 
-$Queue[]= sendBack($QQ);
+$permissionList = loadPermissionList();
 
 ?>

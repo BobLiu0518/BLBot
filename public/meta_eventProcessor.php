@@ -3,6 +3,7 @@
     
     date_default_timezone_set('Asia/Tokyo');
 
+    $hour=(int)date('H');
     $minute=(int)date('i');
     $second=(int)date('s');
 
