@@ -11,4 +11,6 @@ if(!$QQ) $QQ = $Event['user_id'];
 
 $permissionList = loadPermissionList();
 
+foreach($permissionList as $permissionType);
+
 ?>
