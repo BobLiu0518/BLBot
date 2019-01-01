@@ -10,7 +10,6 @@ $banList = loadBanList();
 /*****/$CQ->sendGroupMsg($Event['group_id'], "Debug: 加载列表成功！");
 if($banId = nextArg())
 {
-    /*****/$CQ->sendGroupMsg($Event['group_id'],  (",",$banList));
     $banList['Blacklist'][] = $banId;
     /*****/$CQ->sendGroupMsg($Event['group_id'], "Debug: 修改列表成功！");
     saveBanList($banList);
