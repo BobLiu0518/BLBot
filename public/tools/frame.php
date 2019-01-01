@@ -310,56 +310,6 @@ function requireInsider(){
     }
 }
 
-/**
- * 设置为Insider
- * @param bool 成功 ture 失败 false
- */
-function setInsider(){
-    if(isInsider()){//防止管理gg
-        return true;
-    }//下面是设置Insider的操作
-    /*
-    global $Event;
-    $qq = $Event['user_id'];
-    $usertype = getData('usertype.json');
-    if($usertype === false)return false; //无法打开黑名单时不再抛异常
-    $usertype = json_decode($usertype)->Insider;
-    foreach($usertype as $person){
-        if($qq == $person){
-            return true;
-        }
-    }//上面是设置Insider的操作
-    if(isInsider()){
-        return true;
-    }*/
-    return false;
-}
-
-/**
- * 取消Insider权限
- * @param bool 成功true 失败false
- */
-function cancelInsider(){
-    if(isSeniorAdmin()){
-        return true;//防止管理gg
-    }//下面是取消Insider的操作
-    /*
-    global $Event;
-    $qq = $Event['user_id'];
-    $usertype = getData('usertype.json');
-    if($usertype === false)return false; //无法打开黑名单时不再抛异常
-    $usertype = json_decode($usertype)->Insider;
-    foreach($usertype as $person){
-        if($qq == $person){
-            return true;
-        }
-    }//上面是取消Insider的操作
-    if(!isInsider()){
-        return true;
-    }*/
-    return false;
-}
-
 function nextArg(){
     global $Command;
     static $index=0;
