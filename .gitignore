@@ -8,7 +8,7 @@ storage/cache/
 storage/data/checkin/
 storage/data/checkout/
 storage/data/ciyaCount/
-storage/data/cooldown/
+storage/data/coolDown/
 storage/data/credit/
 storage/data/insider/
 storage/data/log/
