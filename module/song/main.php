@@ -4,18 +4,6 @@ global $Queue, $CQ, $Text, $Event, $User_id;
 loadModule('credit.tools');
 $wyyyy = true;
 
-decCredit($User_id,50);
-
-if(coolDown("song/user/{$Event['user_id']}")<0)leave('本命令每人每30秒只能使用一次！');
-
-if(fromGroup())
-{
-    if(coolDown("song/group/{$Event['group_id']}")<0)leave('本命令每群每15秒只能使用一次！');
-    coolDown("song/group/{$Event['group_id']}",15);
-}
-
-coolDown("song/user/{$Event['user_id']}",30);
-
 do{
 
     $nextArg = trim(nextArg());
@@ -49,6 +37,18 @@ do{
 }while($nextArg);
 
 if($Text == NULL)leave('请填写歌曲信息！');
+
+if(coolDown("song/user/{$Event['user_id']}")<0)leave('本命令每人每30秒只能使用一次！');
+
+if(fromGroup())
+{
+    if(coolDown("song/group/{$Event['group_id']}")<0)leave('本命令每群每15秒只能使用一次！');
+    coolDown("song/group/{$Event['group_id']}",15);
+}
+
+coolDown("song/user/{$Event['user_id']}",30);
+
+decCredit($User_id,50);
 
 $Text = rawurlencode($Text);
 
