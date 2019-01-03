@@ -1,8 +1,8 @@
 ﻿<?php
 
-global $Queue/*, $Text, $Event*/;
+/*global $Queue, $Text, $Event*/;
 
-$Queue[]= sendBack("请到 https://support.qq.com/product/50670 进行反馈，谢谢！");
+leave("请到 https://support.qq.com/product/50670 进行反馈，谢谢！");
 
 /*
 requireSeniorAdmin();
