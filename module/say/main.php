@@ -35,17 +35,19 @@ do{
 
 if($toGroup){
     if($async)
-        $msgID = $CQ->sendGroupMsgAsync($id, $Text, $escape);
+        $retData = $CQ->sendGroupMsgAsync($id, $Text, $escape);
     else
-        $msgID = $CQ->sendGroupMsg($id, $Text, $escape);
+        $retData = $CQ->sendGroupMsg($id, $Text, $escape);
 }else if($toPerson){
     if($async)
-        $msgID = $CQ->sendPrivateMsgAsync($id, $Text, $escape);
+        $retData = $CQ->sendPrivateMsgAsync($id, $Text, $escape);
     else
-        $msgID = $CQ->sendPrivateMsg($id, $Text, $escape);
+        $retData = $CQ->sendPrivateMsg($id, $Text, $escape);
 }else{
     $Queue[]= sendBack($Text, $escape, $async);
 }
+
+$msgID = $retData->message_id;
 
 if($msgID)
     $Queue[]= sendBack("消息ID：".$msgID);
