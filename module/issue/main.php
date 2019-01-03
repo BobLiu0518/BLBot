@@ -2,7 +2,7 @@
 
 /*global $Queue, $Text, $Event*/;
 
-leave("请到 http://blbot.ml:8080/feedback 进行反馈，谢谢！");
+leave("请到 http://feedback.blbot.tk/ 进行反馈，谢谢！");
 
 /*
 requireSeniorAdmin();
