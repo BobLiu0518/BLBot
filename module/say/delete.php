@@ -6,6 +6,8 @@ requireSeniorAdmin();
 if(!$msgID = nextArg())
     leave('没有消息ID！');
 else
-    $CQ->deleteMsg($msgID);
+    try{
+        $CQ->deleteMsg($msgID);
+    }catch(\Exception $e){}
 
 ?>
