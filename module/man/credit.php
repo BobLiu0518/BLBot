@@ -2,7 +2,7 @@
 
 global $Queue;
 $msg=<<<EOT
-kjBot金币 系列命令
+BL1040Bot 金币 系列命令
 用法：
 #credit
 #credit.{check|transfer} [参数列表]
