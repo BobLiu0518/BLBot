@@ -1,7 +1,10 @@
 ﻿<?php
 
-global $Queue, $Text, $Event;
+global $Queue/*, $Text, $Event*/;
 
+$Queue[]= sendBack("请到 https://support.qq.com/product/50670 进行反馈，谢谢！");
+
+/*
 requireSeniorAdmin();
 
 $length = strpos($Text, "\r");
@@ -19,7 +22,7 @@ if($title == ''){
 
 $result = file_get_contents();
 
-/*
+
 
 //if(coolDown("issue/{$Event['user_id']}")<0)leave('本命令每小时只能使用一次！');
 //coolDown("issue/{$Event['user_id']}", 60*60*1);
