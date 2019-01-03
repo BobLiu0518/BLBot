@@ -1,6 +1,6 @@
 <?php
 
-global $Queue, $Text, $CQ;
+global $Queue, $Text, $CQ, $Event;
 use kjBot\Frame\Message;
 requireSeniorAdmin();
 
@@ -44,12 +44,20 @@ if($toGroup){
     else
         $retData = $CQ->sendPrivateMsg($id, $Text, $escape);
 }else{
-    $Queue[]= sendBack($Text, $escape, $async);
+    if(isset($Event['group_id']))
+        if($async)
+            $retData = $CQ->sendGroupMsgAsync($Event['group_id'], $Text, $escape);
+        else
+            $retData = $CQ->sendGroupMsg($Event['group_id'], $Text, $escape);
+    else
+        if($async)
+            $retData = $CQ->sendPrivateMsgAsync($Event['user_id'], $Text, $escape);
+        else
+            $retData = $CQ->sendPrivateMsg($Event['user_id'], $Text, $escape);
+    
 }
 
-$msgID = $retData->message_id;
 
-if($msgID)
-    $Queue[]= sendBack("消息ID：".$msgID);
+$Queue[]= sendBack("消息ID：".$retData->message_id);
 
 ?>
