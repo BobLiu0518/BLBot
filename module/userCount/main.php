@@ -5,9 +5,9 @@ global $CQ, $Queue;
 $groupList = $CQ->getGroupList();
 $idList = array();
 foreach($groupList as $group){
-    $member = json_decode($CQ->getGroupMemberList($group->group_id));
-    $id = $member->user_id;
-    $idList[]= $id;
+    $memberList = json_decode($CQ->getGroupMemberList($group->group_id));
+    foreach($memberList as $member)
+        $idList[]= $member->user_id;
 }
 /*****/$Queue[]= sendBack("Debug: 4");
 $idList = array_unique($idList);
