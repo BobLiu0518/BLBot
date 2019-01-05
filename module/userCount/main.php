@@ -10,6 +10,6 @@ foreach($groupList as $group){
     $idList[]= $id;
 }
 $idList = array_unique($idList);
-$Queue[]= sendBack("本 Bot 一共加了 ".count($groupList)." 个群，群成员（去重）一共有".count($idList)."个");
+$Queue[]= sendBack("本 Bot 一共加了 "/*.count($groupList)." 个群，群成员（去重）一共有".count($idList)."个"*/);
 
 ?>
