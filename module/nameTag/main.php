@@ -1,0 +1,5 @@
+<?php
+
+loadModule('nameTag.set');
+
+?>
