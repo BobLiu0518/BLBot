@@ -72,6 +72,7 @@ if(!$wyyyy){
     $id = json_decode(file_get_contents($apiurl),true)['Body'][0]['id'];
     if(!$id){leave('没有搜索到歌曲，没有扣除金币！');addCredit($User_id,50);}
     $Queue[]= sendBack('[CQ:music,type=163,id='.$id.']');
+    if(fromGroup())$Queue[]= sendPM('[CQ:music,type=163,id='.$id.']');
     $Queue[]= sendBack('点歌成功，扣除 50 金币，你的余额为 '.getCredit($User_id));
 }
 
