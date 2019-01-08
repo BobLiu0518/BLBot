@@ -35,6 +35,9 @@ try{
 try{
     //将队列中的消息发出
     foreach($Queue as $msg){
+        if($Event["user_id"]==80000000){
+            throw new \Exception("请不要使用匿名帐号！");
+        }
         $MsgSender->send($msg);
     }
 }catch(\Exception $e){
