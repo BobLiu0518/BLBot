@@ -4,7 +4,7 @@ global $Queue, $Text, $User_id;
 loadModule('credit.tools');
 while($nextArg = nextArg())
     $Text = $nextArg." ".$Text;
-if(!$Text)leave("没有内容！");
+if($Text === "")leave("没有内容！");
 if(strlen($Text) > 271)leave("消息过长！");
 $fee = intval(mb_strlen($Text, 'utf-8')/10)+1;
 
