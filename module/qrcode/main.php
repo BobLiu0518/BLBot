@@ -6,6 +6,8 @@ while($nextArg = nextArg())
     $Text = $nextArg." ".$Text;
 if(!$Text)leave("没有内容！");
 
+$Queue[]= sendBack(strlen("哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"));
+
 decCredit($User_id, strlen($Text)/10+1);
 $link = "http://tool.oschina.net/action/qrcode/generate?output=image/jpeg&error=L&type=0&margin=4&size=4&data=";
 $qr = file_get_contents(urlencode($link.$Text));
