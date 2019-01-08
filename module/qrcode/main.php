@@ -1,7 +1,7 @@
 <?php
 
 global $Queue, $Text, $User_id;
-loadModule(credit.tools);
+loadModule('credit.tools');
 while($nextArg = nextArg())
     $Text = $nextArg." ".$Text;
 if(!$Text)leave("没有内容！");
