@@ -1,7 +1,7 @@
 ---
 name: 要求功能
 about: 想要功能点这里 →
-title: "【功能】"
+title: "[Feature wanted]"
 labels: enhancement
 assignees: ''
 
