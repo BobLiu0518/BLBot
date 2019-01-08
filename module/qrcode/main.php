@@ -6,7 +6,7 @@ while($nextArg = nextArg())
     $Text = $nextArg." ".$Text;
 if(!$Text)leave("没有内容！");
 if(strlen($Text) > 271)leave("消息过长！");
-$fee = intval(mb_strlen($Text)/10)+1;
+$fee = intval(mb_strlen($Text, 'utf-8')/10)+1;
 
 decCredit($User_id, $fee);
 $link = "http://tool.oschina.net/action/qrcode/generate?output=image%2Fjpeg&error=L&type=0&margin=4&size=4&data=";
