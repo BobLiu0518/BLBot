@@ -8,7 +8,7 @@ if(!$Text)leave("没有内容！");
 if(strlen($Text) > 271)leave("消息过长！");
 
 decCredit($User_id, strlen($Text)/10+1);
-$link = "http://tool.oschina.net/action/qrcode/generate?output=image/jpeg&error=L&type=0&margin=4&size=4&data=";
+$link = "http://tool.oschina.net/action/qrcode/generate?output=image%2Fjpeg&error=L&type=0&margin=4&size=4&data=";
 $qr = file_get_contents($link.urlencode($Text));
 $Queue[]= sendBack(sendImg($qr));
 $Queue[]= sendBack("共 ".strlen($Text)." 个字节，已收取 ".(strlen($Text)/10+1)." 个金币，你的余额为 ".getCredit($User_id));
