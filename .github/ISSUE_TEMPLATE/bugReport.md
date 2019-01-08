@@ -1,7 +1,7 @@
 ---
 name: 报告 Bug
 about: 有 Bug 点这里 →
-title: "【Bug】"
+title: "[Bug report]"
 labels: bug
 assignees: ''
 
