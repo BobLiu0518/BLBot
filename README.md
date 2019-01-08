@@ -1,29 +1,105 @@
-README 文件最后更新日期：2018/10/10 18:00
-本项目基于 kjBot， 依赖开源库和其他内容详见 [kj415j45/kjBot](https://github.com/kj415j45/kjBot) (除用户协议)
-# Git库说明
-这个项目根据 kjBot/modules 中的 LICENSE 开源，commit 分为 Daily/Alpha/Beta/Stable 四种。
-Daily 版本是每天晚上或第二天早上提交的，关于当天对源码的修改。Daily 版本大多极度不稳定，但是可以体验到新的功能。如果某一天没有 Daily 版本，很有可能是源码没有动过。
-Alpha 版本是对 Daily 版本，根据测试，做了一些修改并修复了一些 bug 而发布的版本。这个版本也极度不稳定，不推荐。
-Beta 版本是功能基本完全，可以进行使用的版本。虽然 Beta 版本相对稳定，但是可能依然有 bug。
-Stable 版本是经过时间较长的测试（大约一周），功能完全，可以正常使用的版本，bug 数量相对而言大大减少。除了 Stable 版本外，其他版本可能都包含个性化内容（即不能在 config.ini 中进行修改就可以个性化运行的内容）。
-Daily、Alpha 和 Beta 版本可能没有更新说明，但是 Stable 版一定有。
-目前的 BL1040Bot (2094361499) 使用的是 Daily 版本，后期放出 Stable 版本后可能稳定使用 Stable 版本的功能。届时可能会另创新号测试 Daily、Alpha 或 Beta 版本，**详细内容请加群 885444381** （加群的验证问题嘛，自己想吧）
-# 依赖库说明
-除了 kjBot 依赖的库以外，还依赖以下：
-（暂空）
-**本节内容保证在每一次 Stable 版本发布之前修正。**
-# 可能导致被机器人ban的行为
-在被加入黑名单（简称ban，下同）之前，机器人管理一般会警告违规使用者并说明原因，如果不加以改正，机器人将ban你。
-如果你认为管理组误判，请直接联系管理组。“没有看到此 README 文件”不是逃避被ban的利益。
-（如果你情节特别严重或者是有意破坏，可能不警告直接ban）
-短时间内发送大量请求；
-多次发送侮辱机器人或与其有关的人的信息；
-发表机器人无用论或其它有害机器人、损毁机器人名誉的言论；
-是其它含有签到功能的机器人；
-是会说脏话的机器人；
-不停和机器人发送它无法回复的打招呼内容；
-将机器人拉到福利群（包括但不限于红包群、薅羊毛群）；
-将机器人拉到违规群（包括但不限于涉及毒品、暴力、色情等内容的群）；
-使用 issue 或者试用 #issue 命令但是不是报告 bug 或者反馈建议（包括但不限于版聊）；
-使用 issue 或者使用 #issue 命令报告安全问题（这种问题直接联系管理）。
-**本节内容可能随时更新，管理组保留不加警告不解释原因不通知用户直接ban用户的权利。**
+# BL1040Bot
+[![CoolQ Pro](https://img.shields.io/badge/CoolQ-PRO-Orange.svg)](https://cqp.me) [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
+[![基于kjBot](https://img.shields.io/badge/%E5%9F%BA%E4%BA%8E-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
+[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
+[![Telegram](https://img.shields.io/badge/Telegram-BL1040Bot-blue.svg)](https://t.me/BL1040Bot)
+
+BL1040Bot 基于 [kjBot v2](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的酷Q机器人。
+
+## 请使用CoolQ Pro
+
+本项目开发目标为CoolQ Pro。为获得最好的效果，请您使用CoolQ Pro运行。
+
+## 框架结构
+
+```
+/
+|--SDK/ #kjBot\SDK
+|--public/
+    |--tools/ #各类开放函数的文件
+    |--index.php #入口文件
+    |--init.php #初始化用
+    |......
+|--vendor/ #包目录
+|--storage/ #请确保运行 PHP 的用户具有这个文件夹的写权限
+    |--data/ #数据文件夹
+        |--error.log #如果出现异常未捕获则会在此存放日志
+        |......
+    |--cache/ #缓存文件夹
+|--middleWare/ #中间件，用于处理非命令
+    |--Chain.php #中间件链，用于调整中间件顺序以及启用状态
+    |--......
+|--module/ #在这里开始编写你的模块吧 :)
+    |--......
+|--config.ini.example #配置文件样例，本地部署时请复制为 config.ini 并根据实际情况调整
+|--build.sh #进行环境配置
+|--run.sh #一键部署（大概 :v
+```
+
+## 上手
+
+### 快速安装
+
+如果你安装有 composer
+```sh
+mkdir kjBot/
+composer create-project kj415j45/kjbot ./kjBot
+cd kjBot/
+./build.sh
+```
+
+如果没有
+```sh
+git clone https://github.com/kj415j45/kjBot.git
+cd kjBot/
+./build.sh
+```
+
+仅作为框架使用时请清除 `composer.json` 内的 `require` 以及 `module/`、`middleWare/` 文件夹内的全部内容。
+
+### 入门
+
+`public/init.php` 中存在一个全局变量区供编写模块的程序员使用，约定本框架产生的全局变量均为大写字母开头。  
+
+`public/tools/` 下的文件将为框架扩展各类方法，请仔细阅读。
+
+### 编写第一个模块
+
+假定该模块为 `hello/main.php` ，向 bot 发送 `!hello` 即可触发该模块。
+
+```php
+<?php
+
+global $Queue; //从全局变量区中导入 $Queue 数组，该数组提供消息队列的功能
+
+if(!fromGroup()){ //如果消息不是来自群聊
+    $Queue[]= sendBack('Hello, world!'); //向消息队列尾插入一句 'Hello, world!'，在哪收到就发到哪，此处只会在私聊中发送
+}else{
+    leave(); //从模块中退出，不再执行下面的语句
+}
+
+?>
+```
+
+### 编写更多模块
+
+参考 `module/` 文件夹下的其他模块
+
+## 感谢
+
+- [richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)
+  - 酷Q 与许多 Bot 之间的桥梁
+- [kilingzhang/coolq-php-sdk](https://github.com/kilingzhang/coolq-php-sdk)
+  - 本项目的起源
+- [kj415j45/jkBot](https://github.com/kj415j45/jkBot)
+  - 本项目的零代
+- 框架作者
+  - [kj415j45](https://github.com/kj415j45)
+- 贡献者
+  - [Cyanoxygen](https://github.com/Cyanoxygen)
+  - [Baka-D](https://github.com/Baka-D)
+  - [lslqtz](https://github.com/lslqtz)
+
+## LICENSE
+
+BL1040Bot 框架及 SDK 均为 MIT 协议。但是模块与中间件均为 AGPL 协议，如果您希望闭源开发，请不要使用该项目提供的模块和中间件。
