@@ -19,3 +19,6 @@ storage/data/vote/
 storage/data/credit.history/
 storage/data/stat.db
 storage/data/error.log
+
+config.ini
+storage/
