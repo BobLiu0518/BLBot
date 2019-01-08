@@ -145,7 +145,7 @@ function loadModule(string $module){
     if($Event['user_id'] == "80000000")
         leave('请不要使用匿名！');
     if('.' === $module[0]){
-        leave('Illegal module name');
+        leave('非法命令！');
     }
     $moduleFile = str_replace('.', '/', $module, $count);
     if(0 === $count){
@@ -166,13 +166,9 @@ function loadModule(string $module){
         if(strpos($module, 'man')!==0){ //防止无限尝试加载help
             try{
                 loadModule('man.'.$module); //尝试加载help
-            }catch(\Exception $e){
-                if(!fromGroup()){
-                    throw $e;
-                }
-            }
+            }catch(\Exception $e){}
         }else{
-            leave('没有该命令：'.substr($module, 5));
+            leave('没有该命令：'.substr($module, strlen('man.')));
         }
     }
 }
