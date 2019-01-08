@@ -2,7 +2,7 @@
 
 global $Queue, $CQ, $Text, $Event, $User_id;
 loadModule('credit.tools');
-$wyyyy = true;
+$wyyyy = true;$cd = true;
 
 do{
 
@@ -31,6 +31,9 @@ do{
         case '-neteasycloudmusic':
         $wyyyy = true; break;
 
+        case '-noCoolDown':
+        $cd = false;
+
         default:
         $Text = trim($nextArg.' '.$Text);
 }
@@ -38,15 +41,15 @@ do{
 
 if($Text == NULL)leave('请填写歌曲信息！');
 
-if(coolDown("song/user/{$Event['user_id']}")<0)leave('本命令每人每30秒只能使用一次！');
-
-if(fromGroup())
-{
-    if(coolDown("song/group/{$Event['group_id']}")<0)leave('本命令每群每15秒只能使用一次！');
-    coolDown("song/group/{$Event['group_id']}",15);
+if($cd){
+    if(coolDown("song/user/{$Event['user_id']}")<0)leave('本命令每人每150秒只能使用一次！');
+    if(fromGroup())
+    {
+        if(coolDown("song/group/{$Event['group_id']}")<0)leave('本命令每群每30秒只能使用一次！');
+        coolDown("song/group/{$Event['group_id']}",30);
+    }
+    coolDown("song/user/{$Event['user_id']}",150);
 }
-
-coolDown("song/user/{$Event['user_id']}",30);
 
 decCredit($User_id,50);
 

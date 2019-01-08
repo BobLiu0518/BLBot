@@ -9,6 +9,7 @@ if(preg_match('/机器人/', $Message)||parseQQ($Message) == config('bot')){
     $Queue[]= sendDevGroup($message);
 }
 if(parseQQ($Message) == config('bot')){
+    if($Event['user_id'] == "80000000")leave("请不要使用匿名！");
     $Queue[]= sendBack('艾特/回复我没有卵用，请发送 '.config('prefix').'help 查看帮助');
 }
 

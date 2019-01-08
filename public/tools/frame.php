@@ -142,6 +142,8 @@ function sendRec($str):string{
  * @param string $module 模块名
  */
 function loadModule(string $module){
+    if($Event['user_id'] == "80000000")
+        leave('请不要使用匿名！');
     if('.' === $module[0]){
         leave('Illegal module name');
     }
