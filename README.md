@@ -1,10 +1,11 @@
 # BL1040Bot
-[![CoolQ Pro](https://img.shields.io/badge/CoolQ-PRO-Orange.svg)](https://cqp.me) [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
+[![CoolQ Pro](https://img.shields.io/badge/CoolQ-PRO-Orange.svg)](https://cqp.me)
 [![基于kjBot](https://img.shields.io/badge/%E5%9F%BA%E4%BA%8E-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
 [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
 [![Telegram](https://img.shields.io/badge/Telegram-BL1040Bot-blue.svg)](https://t.me/BL1040Bot)
 
-BL1040Bot 基于 [kjBot v2](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的酷Q机器人。
+BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的酷Q机器人。
 
 ## 请使用CoolQ Pro
 
@@ -99,6 +100,7 @@ if(!fromGroup()){ //如果消息不是来自群聊
   - [Cyanoxygen](https://github.com/Cyanoxygen)
   - [Baka-D](https://github.com/Baka-D)
   - [lslqtz](https://github.com/lslqtz)
+  - [LovelyA72](https://github.com/LovelyA72)
 
 ## LICENSE
 
