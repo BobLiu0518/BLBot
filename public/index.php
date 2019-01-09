@@ -18,7 +18,6 @@ try{
         case 'request':
         case 'meta_event':
             require($Event['post_type'].'Processor.php');
-            $Queue[]= sendMaster('Unknown post type '.$Event['post_type'].', Event:'."\n".var_export($_SERVER, true));
             break;
         default:
             $Queue[]= sendMaster('Unknown post type '.$Event['post_type'].', Event:'."\n".var_export($_SERVER, true));
