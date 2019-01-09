@@ -7,7 +7,7 @@ $zkjl = array("六学","说起","我就想到了","明年年初","中美合拍",
 foreach($zkjl as $word)
     if(preg_match('/'.$word.'/', $Message))
     {
-        $Queue[]= sendBack(sendImg(getData("dt/zkjl".rand(1,2).".gif")));
+        $Queue[]= sendBack(sendImg(getImg("dt/zkjl".rand(1,2).".gif")));
         break;
     }
 ?>

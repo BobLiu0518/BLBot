@@ -106,6 +106,10 @@ function getCache($cacheFileName){
     return file_get_contents('../storage/cache/'.$cacheFileName);
 }
 
+function getImg(string $filePath){
+    return file_get_contents('../storage/img/'.$filePath);
+}
+
 /**
  * 清理缓存
  */
