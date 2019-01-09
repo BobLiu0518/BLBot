@@ -13,11 +13,10 @@ switch($Event['request_type']){
                 //TODO 新人加群的情况可能需要中间件来处理
                 break;
             case 'invite':
-                if(config('allowGroups') != 'ignore'){
+                if(config('allowGroups') != 'ignore')
                     $CQ->setGroupAddRequest($Event['flag'], $Event['sub_type'], config('allowGroups'));
-                    $Queue[]= sendMaster('Join Group '.$Event['group_id'].' by '.$Event['user_id']); //通知master
-                    $Queue[]= sendDevGroup('Join Group '.$Event['group_id'].' by '.$Event['user_id']);
-                }
+                $Queue[]= sendMaster('Join Group '.$Event['group_id'].' by '.$Event['user_id']); //通知master
+                $Queue[]= sendDevGroup('Join Group '.$Event['group_id'].' by '.$Event['user_id']);
                 break;
             default:
         }
