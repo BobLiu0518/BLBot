@@ -4,7 +4,7 @@ namespace kjBot\Frame;
 
 class UnauthorizedException extends \Exception{
     function __construct(){
-        $img = sendImg(getImg("dt/pd".rand(1,23).".jpg"));
+        $img = sendImg(getImg("pd".rand(1,23).".jpg"));
         switch(rand(1,3))
         {
             case 1:
