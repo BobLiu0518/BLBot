@@ -9,7 +9,7 @@ $msg=<<<EOT
 该命令有24小时冷却
 
 示例：
-#unsleep 885444381
+#unsleep 789029454
 EOT;
 
 $Queue[]= sendBack($msg);
