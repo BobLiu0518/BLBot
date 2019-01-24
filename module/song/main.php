@@ -4,6 +4,8 @@ global $Queue, $CQ, $Text, $Event, $User_id;
 loadModule('credit.tools');
 $wyyyy = true;$cd = true;
 
+leave('由于过多点歌会导致腾讯吞消息，现暂停点歌功能，具体恢复时间请联系签名大号。感谢支持~！');
+
 do{
 
     $nextArg = trim(nextArg());
