@@ -1,7 +1,9 @@
 <?php
 
 require('littleIce.php');
-require('zkjl.php');
+require('qiandao.php');
+require('fudai.php');
+require('666.php');
 require('osu.php');
 require('ciya.php');
 require('checkin.php');

@@ -379,5 +379,5 @@ function inBlackList($qq):bool{
 }
 
 function block($qq){
-    if(inBlackList($qq))throw new UnauthorizedException();
+    if($qq)if(inBlackList($qq))throw new UnauthorizedException();
 }

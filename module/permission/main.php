@@ -1,5 +1,5 @@
 <?php
 
-loadModule('permission.check');
+loadModule('permission.set');
 
 ?>
