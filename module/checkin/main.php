@@ -13,24 +13,24 @@ if(12000==$income)
 clearstatcache();
 $lastCheckinTime = filemtime('../storage/data/checkin/'.$Event['user_id']);
 if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
-    $reply = rand(1,14);
+    $reply = rand(1,16);
     switch ($reply){
         case 1:
         $replyWord = '你今天签到过了！（震声';break;
         case 2:
-        $replyWord = '小可爱，你今天签到过了，不要再戳人家啦';break;
+        $replyWord = '签到过了www';break;
         case 3:
-        $replyWord = '手也太勤快了吧亲，都已经签到过啦!';break;
+        $replyWord = '好像，签到，过了，呢？';break;
         case 4:
         $replyWord = '签到过了呢';break;
         case 5:
-        $replyWord = '今日已经签到，请明日再来!';break;
+        $replyWord = '准备一直签到调戏我吗？';break;
         case 6:
-        $replyWord = '不要再戳签到啦，人家怕痛呢~';break;
+        $replyWord = '一直签到还是嫌金币不够的话可以试试 #checkout';break;
         case 7:
         $replyWord = '给你讲个鬼故事，你今天签到过了。';break;
         case 8:
-        $replyWord = '签到过了啦，到隔壁kjBot那里签到去。';break;
+        $replyWord = '签到过了啦，到隔壁 YeziiBot 那里签到去。';break;
         case 9:
         $replyWord = '你…你失忆了？签到过了啊……';break;
         case 10:
@@ -45,6 +45,8 @@ if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
         $replyWord = '还签到？我签到你好不好？[CQ:at,qq='.$User_id.'] 签到！';break;
         case 15:
         $replyWord = '签到够了没…我都不知道说什么好……';break;
+	case 16:
+	$replyWord = '你事整天签到的屑[CQ:emoji,id=128052]？';break;
     };
     $Queue[]= sendBack($replyWord);
 }else{
