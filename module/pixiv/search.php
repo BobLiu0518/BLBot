@@ -15,7 +15,7 @@ do{
             break;
         case '-page':
             $page = nextArg();
-            break;  
+            break;
         case '-mode':
             $mode = nextArg();
             break;

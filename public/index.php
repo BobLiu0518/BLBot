@@ -38,9 +38,12 @@ try{
         $MsgSender->send($msg);
     }
 }catch(\Exception $e){
+    if($e->getCode() == -11){
+        try{
+            $MsgSender0->send($msg);
+        }catch(\Exception $e){}
+    }
     setData('error.log', var_dump($Event).$e.$e->getCode()."\n", true);
 }
-
-
 
 ?>

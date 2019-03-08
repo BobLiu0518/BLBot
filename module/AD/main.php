@@ -2,14 +2,18 @@
 
 global $Queue, $Text, $CQ;
 use kjBot\Frame\Message;
-requireMaster();
+requireSeniorAdmin();
 set_time_limit(0);
 
-$Text = nextArg();
+leave('禁止发广告');
+
+//$Text = nextArg();
+if(!$Text)
+leave('失败');
 
 $groupList = $CQ->getGroupList();
-$whiteList = file_get_contents('https://raw.githubusercontent.com/kjBot-Dev/ADwhitelist/master/whitelist.json');
-if(false === $whiteList)leave('打开白名单失败，终止');
+//$whiteList = file_get_contents('https://raw.githubusercontent.com/kjBot-Dev/ADwhitelist/master/whitelist.json');
+//if(false === $whiteList)leave('打开白名单失败，终止');
 
 $prefix=<<<EOT
 广告：
@@ -20,7 +24,8 @@ EOT;
 $suffix=<<<EOT
 
 ----------
-BL1040Bot 保证每天最多一条广告。如果需要免除广告，请联系2018962389(不收费)，有效期一个月，一个月后需要重新申请。
+BL1040Bot 仅在极少部分情况下发送广告。
+每自然月最多一条。
 EOT;
 
 $Text = $prefix.$Text.$suffix;
@@ -41,7 +46,7 @@ foreach($groupList as $group){
         if($now < $expireDay[$group->group_id])continue;
     }
     try{
-        $CQ->sendGroupMsg($group->group_id, $Text);
+        $CQ->sendGroupMsg($group->group_id, $Text.rand(1,100));
         $success++;
     }catch(\Exception $e){
         if(-34 === $e->getCode()){
@@ -56,6 +61,9 @@ foreach($groupList as $group){
 }
 $groupCount = count($groupList);
 $whiteCount = $groupCount-$success-$error-$silence;
-$Queue[]= sendMaster("目前共有 {$groupCount} 个群，有 {$whiteCount} 个群白名单生效中。\n已投放 {$success} 条广告，异常原因失败 {$error} 个，被 {$silence} 个群禁言中");
+$ret = "目前共有 {$groupCount} 个群，\n投放 {$success} 条广告，异常原因失败 {$error} 个，被 {$silence} 个群禁言中";
+$Queue[]= sendMaster($ret);
+$Queue[]= sendDevGroup($ret);
+
 
 ?>

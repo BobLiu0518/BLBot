@@ -2,7 +2,7 @@
 
 	global $Queue;
 	$api = "http://api.bilibili.com/x/web-interface/view?aid=";
-	if(($av = nextArg()) === NULL)leave('请提供av号！');
+	if(($av = intval(nextArg())) === NULL)leave('请提供av号！');
 	if(!($data = json_decode(file_get_contents($api.$av),ture)['data']))leave('查询失败！');
 
 	$pic = $data['pic'];
