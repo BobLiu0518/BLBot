@@ -2,7 +2,7 @@
 
 	global $Queue;
 	$api = "http://api.bilibili.com/x/relation/stat?vmid=";
-	if(($uid = nextArg()) === NULL)leave('请提供uid！');
+	if(($uid = intval(nextArg())) === NULL)leave('请提供uid！');
 	if(!($data = json_decode(file_get_contents($api.$uid),ture)['data']))leave('查询失败！');
 
 	$following = $data['following'];

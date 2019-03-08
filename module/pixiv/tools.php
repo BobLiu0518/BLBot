@@ -1,9 +1,12 @@
 ﻿<?php
 global $pixivCookieHeader;
+requireSeniorAdmin();
 
 $pixivCookieHeader = [
     "http" => [
-        "header" => 'cookie: PHPSESSID='.config('Pixiv_Session').';'."\n" //通过指明 Session ID 获得某些图
+        "header" => 'cookie: PHPSESSID='.config('Pixiv_Session').';'."\n", //通过指明 Session ID 获得某些图
+        "proxy" => 'tcp://127.0.0.1:6666',
+        "request_fulluri" => true
     ]
 ];
 

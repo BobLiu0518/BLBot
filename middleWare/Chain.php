@@ -1,6 +1,6 @@
 <?php
 
-require('littleIce.php');
+//require('littleIce.php');
 require('qiandao.php');
 require('fudai.php');
 require('666.php');
