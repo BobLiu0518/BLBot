@@ -41,7 +41,7 @@ if(!$osz){addCredit($Event['user_id'], 500);leave('没有这个谱面ID！');}
 try{
     $osz->openFromString($web);
 }catch(\Exception $e){addCredit($Event['user_id'], 500);leave('无法打开谱面，请联系'.config('master').'！');}
-        
+//$CQ->sendGroupMsg($Event['group_id'],"114514");
 $oszFiles = $osz->matcher();
 
 $mp3FileName = $oszFiles->match('~\S*\.mp3~')->getMatches()[0];
