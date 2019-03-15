@@ -2,6 +2,7 @@
 
 //require('littleIce.php');
 require('qiandao.php');
+require('mol.php');
 require('fudai.php');
 require('666.php');
 require('osu.php');
