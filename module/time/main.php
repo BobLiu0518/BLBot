@@ -12,6 +12,8 @@ $hour=(int)date('H');
 if($minute>=45)$hour++;
 if($hour==24)$hour=0;
 
+$hour = nextArg()??$hour;
+
 $Queue[]= sendBack(CQCode::Record('base64://'.base64_encode(getData("time/{$hour}.mp3"))));
 $Queue[]= sendBack(getData("time/{$hour}.txt"));
 if(fromGroup()){
