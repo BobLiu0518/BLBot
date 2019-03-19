@@ -14,10 +14,10 @@ if($hour==24)$hour=0;
 
 $hour = nextArg()??$hour;
 
-$Queue[]= sendBack(CQCode::Record('base64://'.base64_encode(getData("time/{$hour}.mp3"))));
 $Queue[]= sendBack(getData("time/{$hour}.txt"));
+$Queue[]= sendBack(CQCode::Record('base64://'.base64_encode(getData("time/{$hour}.mp3"))));
 if(fromGroup()){
-    $Queue[]= sendPM(CQCode::Record('base64://'.base64_encode(getData("time/{$hour}.mp3"))));
     $Queue[]= sendPM(getData("time/{$hour}.txt"));
+    $Queue[]= sendPM(CQCode::Record('base64://'.base64_encode(getData("time/{$hour}.mp3"))));
 }
 ?>
