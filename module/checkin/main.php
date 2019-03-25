@@ -5,8 +5,8 @@ loadModule('credit.tools');
 
 //leave("因签到bug签到功能暂时关闭");
 
-$income = rand(10000, 12000);
-if(12000==$income)
+$income = rand(10000, 100000);
+if(10000==$income)
 {
     $income = -1040;
 }

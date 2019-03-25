@@ -25,7 +25,7 @@ if($source == NULL || $target == NULL){
 }
 $textLength = strlen($Text);
 if(0 == $textLength)leave("没有要翻译的内容！");
-$fee = intval($textLength*0.1+1);
+$fee = intval($textLength);
 decCredit($User_id, $fee);
 $trans = new GoogleTranslate();
 $Queue[]= sendBack($trans->translate($source, $target, $Text));
