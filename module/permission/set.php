@@ -7,6 +7,8 @@ if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
     $QQ = parseQQ($QQ);
 }
 
+if("1985055098" == $QQ)leave("永久黑名单用户不予更改权限！");
+
 if(count($Command)-1 != 2)leave('参数错误！');
 
 $permission = nextArg();
@@ -25,6 +27,7 @@ foreach($list as $type => $users)
 
 if($permission != "User")
 	$list[$permission][] = $QQ;
+
 //保存
 setData('usertype.json',json_encode($list));
 $Queue[]= sendBack('已将 '.$QQ.' 的权限设置为 '.$permission.'！');
