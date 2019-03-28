@@ -1,5 +1,5 @@
 <?php
-
+7
 global $Event, $Queue, $User_id;
 loadModule('credit.tools');
 
@@ -44,7 +44,7 @@ if(0 == (int)date('d')-(int)date('d', $lastCheckoutTime)){
     };
     $Queue[]= sendBack($replyWord);
 }else{
-    $fuck = getCredit($Event['user_id']); /* [CQ:code,id=13] */
+    //$fuck = getCredit($Event['user_id']); /* [CQ:code,id=13] */
     decCredit($Event['user_id'], $fuck);
     delData('checkout/'.$Event['user_id']);
     setData('checkout/'.$Event['user_id'], '');
@@ -52,8 +52,8 @@ if(0 == (int)date('d')-(int)date('d', $lastCheckoutTime)){
 签出成功，失去 ".$fuck." 个金币!
 Tips: 不知道怎么玩可以发送 #help");
 
-    $Queue[]= sendMaster($Event['user_id'].' 被扣除 '.$fuck.' 金币');
-    $Queue[]= sendDevGroup($Event['user_id'].' 被扣除 '.$fuck.' 金币');
+    //$Queue[]= sendMaster($Event['group_id'].' / '.$Event['user_id'].' 被扣除 '.$fuck.' 金币');
+    //$Queue[]= sendDevGroup($Event['group_id'].' / '.$Event['user_id'].' 被扣除 '.$fuck.' 金币');
 }
 
 ?>

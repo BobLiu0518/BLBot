@@ -1,6 +1,6 @@
 <?php
 
-if(isAdmin())leave('いいよ、こいよ！');
+//if(isAdmin())leave('いいよ、こいよ！');
 
 	global $Event, $CQ, $Queue;
 	$t = rand(0, 10*60);
