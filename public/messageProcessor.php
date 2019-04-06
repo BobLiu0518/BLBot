@@ -10,7 +10,7 @@ if(preg_match('/^('.config('prefix', '#').')/', $Event['message'], $prefix)
     try{
         if(config('alias',false) == true && $alias = json_decode(getData('alias/'.$Event['user_id'].'.json'),true)[$module])
         {
-            $Queue[]= sendBack("alias: redirect to ".$alias);
+            //$Queue[]= sendBack("alias: redirect to ".$alias);
             loadModule($alias);
         }
         else
