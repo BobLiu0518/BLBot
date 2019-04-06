@@ -167,13 +167,7 @@ function loadModule(string $module){
         }
         require('../module/'.$moduleFile);
     }else{
-        if(strpos($module, 'man')!==0){ //防止无限尝试加载help
-            try{
-                loadModule('man.'.$module); //尝试加载help
-            }catch(\Exception $e){}
-        }else{
-            leave('没有该命令：'.substr($module, strlen('man.')));
-        }
+        leave('没有该命令：#'.$module);
     }
 }
 
