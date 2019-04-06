@@ -1,5 +1,5 @@
 <?php
-7
+
 global $Event, $Queue, $User_id;
 loadModule('credit.tools');
 

@@ -7,15 +7,20 @@ $max = 100;
 
 switch($countArg){
     case 1:
-        $max = (int)nextArg();
+        $max = nextArg();
         break;
     case 2:
-        $min = (int)nextArg();
-        $max = (int)nextArg();
+        $min = nextArg();
+        $max = nextArg();
         break;
     default:
-    
+
 }
+
+if($min == $max || !is_numeric($min) || !is_numeric($max))leave('NM$L');
+
+$min = intval($min);
+$max = intval($max);
 
 $Queue[]= sendBack(rand($min, $max));
 
