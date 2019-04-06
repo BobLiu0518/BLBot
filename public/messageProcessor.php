@@ -8,7 +8,7 @@ if(preg_match('/^('.config('prefix', '#').')/', $Event['message'], $prefix)
     $Text = substr($Event['message'], $length+2);
     $module = substr(nextArg(), strlen($prefix[1]));
     try{
-        if(config('alias',false) == true && $alias = json_decode(getData('alias/'.$Event['user_id'].'/alias.json'),true)[$module])
+        if(config('alias',false) == true && $alias = json_decode(getData('alias/'.$Event['user_id'].'.json'),true)[$module])
         {
             $Queue[]= sendBack("alias: redirect to ".$alias);
             loadModule($alias);

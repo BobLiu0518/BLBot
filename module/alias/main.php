@@ -1,5 +1,5 @@
 <?php
 
-global $Event;
+loadModule('alias.check');
 
 ?>

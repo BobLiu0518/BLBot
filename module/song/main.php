@@ -4,7 +4,7 @@ global $Queue, $CQ, $Text, $Event, $User_id;
 loadModule('credit.tools');
 $wyyyy = true;$cd = true;
 
-if(fromGroup())leave('由于过多点歌会导致腾讯吞消息，现暂停点歌功能，具体恢复时间请联系签名大号。感谢支持！');
+if(fromGroup() && !isAdmin())leave('由于过多点歌会导致腾讯吞消息，现暂停非Bot管理的点歌功能，具体恢复时间请联系签名大号。感谢支持！');
 //leave('由于过多点歌会导致腾讯吞消息，现暂停点歌功能，具体恢复时间请联系签名大号。感谢支持！');
 
 do{
@@ -54,7 +54,7 @@ if($cd){
     coolDown("song/user/{$Event['user_id']}",150);
 }
 
-decCredit($User_id,50);
+decCredit($User_id,500);
 
 $Text = rawurlencode($Text);
 
@@ -64,7 +64,7 @@ if(!$wyyyy){
     $song = json_decode(file_get_contents($apiurl),true)['Body'][0];
 
     $mid = $song['mid'];
-    if(!$mid){*/addCredit($User_id,50);/*leave('没有搜索到歌曲，没有扣除金币！');}
+    if(!$mid){*/addCredit($User_id,500);/*leave('没有搜索到歌曲，没有扣除金币！');}
     $url = 'https://y.qq.com/n/yqq/song/'.$mid.'.html';
     //$audio = $song['url'];
     $audio = file_get_contents($song['url']);
@@ -76,10 +76,10 @@ if(!$wyyyy){
 }else{
     $apiurl = 'https://api.mlwei.com/music/api/wy/?key=523077333&id='.$Text.'&type=so&cache=0&nu=1';
     $id = json_decode(file_get_contents($apiurl),true)['Body'][0]['id'];
-    if(!$id){leave('没有搜索到歌曲，没有扣除金币！');addCredit($User_id,50);}
+    if(!$id){leave('没有搜索到歌曲，没有扣除金币！');addCredit($User_id,500);}
     $Queue[]= sendBack('[CQ:music,type=163,id='.$id.']');
     if(fromGroup())$Queue[]= sendPM('[CQ:music,type=163,id='.$id.']');
-    $Queue[]= sendBack('点歌成功，扣除 50 金币，你的余额为 '.getCredit($User_id));
+    $Queue[]= sendBack('点歌成功，扣除 500 金币，你的余额为 '.getCredit($User_id));
 }
 
 
