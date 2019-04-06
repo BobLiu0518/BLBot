@@ -2,7 +2,11 @@
 
 	global $Queue, $Event;
 	loadModule('alias.tools');
-	delAlias($Event['user_id'], nextArg());
-	$Queue[]= sendBack('删除别名成功！');
+	$alias = nextArg();
+	if($alias !== NULL){
+		delAlias($Event['user_id'], $alias);
+		$Queue[]= sendBack('删除别名 #'.$alias.' 成功！');
+	}else
+		$Queue[]= sendBack('请输入要删除的别名！');
 
 ?>
