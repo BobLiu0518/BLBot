@@ -10,7 +10,7 @@ else leave('参数错误！');
 
 $requestUrl1 = "http://www.shjt.org.cn:8005/bus/TrafficLineXML.aspx?TypeID=1&name=".$lineName;
 $xml1 = simplexml_load_string(file_get_contents($requestUrl1));
-if(!$xml1)leave('暂不支持查询该线路！');
+if(!$xml1)leave('线路不存在或暂不支持查询该线路！');
 $lineId = $xml1->line_id;
 if(!$upDown)$time = $xml1->start_earlytime.'-'.$xml1->start_latetime;
 else $time = $xml1->end_earlytime.'-'.$xml1->end_latetime;
