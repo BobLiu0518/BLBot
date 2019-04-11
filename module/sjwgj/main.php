@@ -21,7 +21,7 @@ else if($lineName && $upDown == '下行' || $upDown == '下' || $upDown == '1')$
 else leave('参数错误！');
 
 //先读取缓存，如果有就不重新获取了
-$data = json_decode(getData('sjwgj/'.$lineName.'-'.$upDown),true);
+$data = json_decode(getData('sjwgj/'.$lineName.'-'.$upDown.'.json'),true);
 if(!$data){
 	// 如果没有缓存
 	$requestData = '{'.
@@ -39,7 +39,7 @@ if(!$data){
 	$data = json_decode(curl_exec($curl),true)['result'];
 	curl_close($curl);
 
-	setData('sjwgj/'.$lineName.'-'.$upDown, json_encode($data));
+	setData('sjwgj/'.$lineName.'-'.$upDown.'.json', json_encode($data));
 }
 
 if($data['code'] < 0)leave('查询失败['.$data['code'].']：'.$data['msg']);
