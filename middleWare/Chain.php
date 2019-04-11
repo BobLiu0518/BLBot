@@ -1,5 +1,6 @@
 <?php
 
+require('alias.php');
 //require('littleIce.php');
 require('qiandao.php');
 //require('mol.php');
