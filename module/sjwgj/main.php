@@ -58,6 +58,7 @@ $reply = <<<EOT
 线路名：{$data['data']['Roadline']}
 环线类型：$lineType
 运营时间：{$data['data']['StartTime']}-{$data['data']['EndTime']}
+
 $upDownPrompt 设站：
 EOT;
 
@@ -71,8 +72,11 @@ EOT;
 
 $reply .= <<<EOT
 
+
 如果需要切换上下行，
 请在命令最后加上“上行”或者“下行”！
+需要查询实时信息 请使用指令：
+#sjwgj.rti {$data['data']['LineCode']} $upDownPrompt 站级序号
 EOT;
 
 $Queue[]= sendBack($reply);
