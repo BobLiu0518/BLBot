@@ -39,6 +39,13 @@ else
 {$stop['id']} {$stop['zdmc']}
 TOC;
 
+$reply .= <<<EOT
+
+
+如果需要切换上下行，
+请在命令最后加上上行或者下行！
+EOT;
+
 $Queue[]= sendBack($reply);
 
 ?>
