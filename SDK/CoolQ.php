@@ -272,7 +272,7 @@ class CoolQ{
         $param = [];
         return $this->query($api, $param);
     }
-    
+
     public function getCsrfToken(){
         $api = API::get_csrf_token;
         $param = [];
