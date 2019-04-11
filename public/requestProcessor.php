@@ -15,8 +15,8 @@ switch($Event['request_type']){
             case 'invite':
                 if(config('allowGroups') != 'ignore')
                     $CQ->setGroupAddRequest($Event['flag'], $Event['sub_type'], config('allowGroups'));
-                $Queue[]= sendMaster('Join Group '.$Event['group_id'].' by '.$Event['user_id']); //通知master
-                $Queue[]= sendDevGroup('Join Group '.$Event['group_id'].' by '.$Event['user_id']);
+                $Queue[]= sendMaster('Join Group '.$Event['group_id'].' by '.$Event['user_id'].', flag: '.$Event['flag']); //通知master
+                $Queue[]= sendDevGroup('Join Group '.$Event['group_id'].' by '.$Event['user_id'].', flag: '.$Event['flag']);
                 break;
             default:
         }

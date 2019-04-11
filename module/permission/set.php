@@ -12,6 +12,12 @@ if("1985055098" == $QQ)leave("永久黑名单用户不予更改权限！");
 if(count($Command)-1 != 2)leave('参数错误！');
 
 $permission = nextArg();
+
+if($permission == "B")$permission = "Blacklist";
+if($permission == "U")$permission = "User";
+if($permission == "A")$permission = "Admin";
+if($permission == "S")$permission = "SeniorAdmin";
+
 if(!in_array($permission,array("SeniorAdmin","Admin","User","Blacklist")))leave('权限仅能为 SeniorAdmin Admin User Blacklist 中的一个！');
 
 if($permission == "SeniorAdmin" || $permission == "Admin")

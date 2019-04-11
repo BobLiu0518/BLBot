@@ -1,18 +1,35 @@
+;不懂的就别动了
 API="127.0.0.1:5700"
 token=
-prefix="!"
-master=919815238
-bot=2839098896
+;命令前缀，可以设置俩
+prefix="#"
+prefix2=";"
+enablePrefix2=true
+;依次填入你的Q号、你机器人的Q号和你的开发群
+master=2018962389
+bot=2094361499
+devgroup=789029454
+;是否允许加好友和加群，可选 true false ignore
 allowFriends=true
-allowGroups=true
-WelcomeMsg="感谢您添加 kjBot 为好友，发送 !help 查看帮助列表。用户协议：https://github.com/kjBot-Dev/TOS/blob/master/README.md"
-;DEBUG=true
-DebugListen=919815238
-;Listen=
+allowGroups=ignore
+;添加好友时的提示语
+WelcomeMsg="感谢您添加 BL1040Bot 为好友，发送 #help 查看帮助列表。"
+;调试选项
+DEBUG=false
+DebugListen=2018962389
+Listen=0
+;是否开启一些功能
 recordStat=true
+alias=true
 ;这里往下是模块定义的 config，以后可能会改为使用 data
-Github_Integration_ID=
-Github_Installation_ID=
+;填入cookie和一些key，看着填就可以了
 Pixiv_Session=
 osu_cookie=
 osu_api_key=
+baidumap_ak_key=
+amap_api_key=
+voice_app_id=
+voice_api_key=
+voice_secret_key=
+translate_appkey=
+translate_secret_key=
