@@ -53,8 +53,8 @@ foreach($data['data'] as $vehicle){
 
 {$vehicle['VehicleId']}
 EOT;
-	if($vehicle['Plantime'])
-		$reply .= " 计划发车 ".$PlanTime;
+	if($vehicle['PlanTime'])
+		$reply .= " 计划发车 ".$vehicle['PlanTime'];
 	else
 		$reply .= " 距离 ".$vehicle['LevelId']."站 / ".round($vehicle['Distance']/1000, 2)."千米，约 ".round($vehicle['Time']/60, 2)."分钟后到达";
 }

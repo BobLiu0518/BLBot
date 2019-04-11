@@ -56,6 +56,7 @@ $upDownPrompt = $upDown?"下行":"上行";
 // 线路元信息
 $reply = <<<EOT
 线路名：{$data['data']['Roadline']}
+线路编码：{$data['data']['LineCode']}
 环线类型：$lineType
 运营时间：{$data['data']['StartTime']}-{$data['data']['EndTime']}
 
