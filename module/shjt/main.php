@@ -2,6 +2,8 @@
 
 global $Queue;
 
+if(!isAdmin() && fromGroup())leave('请私聊使用');
+
 $lineName = nextArg();
 $upDown = nextArg();
 if($lineName && $upDown == '上行' || $upDown == '上' || $upDown == '0' || $upDown === NULL)$upDown = '0';
@@ -15,7 +17,8 @@ if(!$xml1){
 	setData('shjt/'.$lineName.'-'.$upDown.'-1.xml', $xml1);
 }
 $xml1 = simplexml_load_string($xml1);
-if(!$xml1)leave('线路不存在或暂不支持查询该线路！');
+if(!$xml1)leave('线路不存在或暂不支持查询该线路，
+查询松江公交线路可以使用 #sjwgj！');
 $lineId = $xml1->line_id;
 if(!$upDown)$time = $xml1->start_earlytime.'-'.$xml1->start_latetime;
 else $time = $xml1->end_earlytime.'-'.$xml1->end_latetime;
@@ -54,6 +57,7 @@ $reply .= <<<EOT
 
 如果需要切换上下行，
 请在命令最后加上上行或者下行！
+查询松江公交线路可以使用 #sjwgj！
 EOT;
 
 $Queue[]= sendBack($reply);
