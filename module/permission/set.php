@@ -31,6 +31,7 @@ foreach($list as $type => $users)
 			$oldType = $type;
 			break;
 		}
+if(!$oldType)$oldType = 'User';
 
 if($permission != "User")
 	$list[$permission][] = $QQ;
