@@ -1,5 +1,5 @@
 <?php
-requireAdmin();
+requireAdmin();requireMaster();
 //不知道为什么就是想写函数
 function re(string $str){
 	global $Event, $CQ;
@@ -26,7 +26,11 @@ $f = getData('rh/'.$g);
 if($f)leave('游戏正在进行中，请勿重复开始！');
 setData('rh/'.$g, json_encode(array('status' => 'starting', 'players' => array($Event['user_id']))));
 re('已发起赛'.$h."游戏，发送指令 #rh.join 加入！\n一分钟后游戏自动开始！");
-sleep(60);
+sleep(30);
+re('还有30秒赛'.$h.'游戏开始');
+sleep(25);
+re('还有5秒赛'.$h.'游戏开始');
+sleep(5);
 
 //开始游戏
 $f = json_decode(getData('rh/'.$g),true);
@@ -52,25 +56,30 @@ sleep(1);
 while(true){ //其实我觉得这里分开几个函数写会比较容易…
 	$n = rand(0, ($playersCount-1));
 	if($horses[$n]->isDead())continue; //死马不能动！！！
-	switch($m = rand(1, 9)){ //随机触发事件！这里可以随便加，但是要注意保持平衡
-		case 1: case 2: case 3:
+	switch(rand(1, 13)){ //随机触发事件！这里可以随便加，但是要注意保持平衡
+		case 1: case 2: case 3: case 4: case 5:
 		$horses[$n]->goAhead(2);
 		$reply = randString(array('跨越了自己的一小步，马类的一大步！','觉得过于无聊于是走了一步！','不情愿的挪了一下屁股！','被奖杯诱惑到了'));
 		break;
 
-		case 4: case 5: case 6:
+		case 6: case 7:case 8:
 		$horses[$n]->goAhead(4);
 		$reply = randString(array('跑了一大步，可喜可贺！','向着闪闪发光的奖杯跑了几步！','似乎看到了功成业就，女神在向他招手！'));
 		break;
 
-		case 7: case 8:
+		case 9: case 10:
 		$horses[$n]->goBack(1);
 		$reply = randString(array('照了一下镜子，被自己的样子吓到，后退了一步！','感到一阵眩晕！','迷路了！'));
 		break;
 
-		case 9:
+		case 11:
 		$horses[$n]->kill();
 		$reply = randString(array('被晒死了！','吼了一声“NM$L”，随即倒在了地上！','绊了一跤，摔死了！'));
+		break;
+
+		case 12: case 13:
+		$horses[$n]->nbIfy();
+		$reply = '变成了一只独角兽！';
 		break;
 	}
 	re(($n+1).'号'.$h.$reply);
@@ -90,7 +99,7 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 		le($win.'号'.$h.'成功抵达终点，获胜！[CQ:emoji,id=127942]');
 	if(!$alive)
 		le($h.'死光了，没有'.$h.'获胜！');
-	sleep(3);
+	sleep(5);
 }
 
 ?>

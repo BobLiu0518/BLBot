@@ -2,10 +2,12 @@
 
 class Horse{
 	private $distance;
-	private $dead;
 	private $maxDistance;
+	private $dead;
+	private $nb;
 	private const normalHorse = "[CQ:emoji,id=128052]";
 	private const deadHorse = "[CQ:emoji,id=128128]";
+	private const nbHorse = "🦄";
 
 	function __construct($n = 10, $m = 13){
 		$this->maxDistance = $m;
@@ -41,6 +43,10 @@ class Horse{
 	}
 	public function kill(){
 		$this->dead = true;
+		return;
+	}
+	public function nbIfy(){
+		$this->nb = true;
 		return;
 	}
 	public function isDead(){
