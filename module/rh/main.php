@@ -1,5 +1,5 @@
 <?php
-requireAdmin();requireMaster();
+
 //不知道为什么就是想写函数
 function re(string $str){
 	global $Event, $CQ;
@@ -78,8 +78,13 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 		break;
 
 		case 12: case 13:
-		$horses[$n]->nbIfy();
-		$reply = '变成了一只独角兽！';
+		if($horses[$n]->isNb()){
+			$horses[$n]->sbIfy();
+			$reply = '变回了一匹马！';
+		}else{
+			$horses[$n]->nbIfy();
+			$reply = '变成了一只独角兽！';
+		}
 		break;
 	}
 	re(($n+1).'号'.$h.$reply);

@@ -49,6 +49,13 @@ class Horse{
 		$this->nb = true;
 		return;
 	}
+	public function sbIfy(){
+		$this->nb = false;
+		return;
+	}
+	public function isNb(){
+		return $this->nb;
+	}
 	public function isDead(){
 		return $this->dead;
 	}
