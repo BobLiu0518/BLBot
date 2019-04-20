@@ -8,4 +8,3 @@ storage/cache/
 storage/data/
 config.ini
 .DS_Store
-storage/rh/
