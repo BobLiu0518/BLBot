@@ -12,7 +12,7 @@ devgroup=789029454
 ;是否允许加好友和加群，可选 true false ignore
 allowFriends=true
 allowGroups=ignore
-;添加好友或新人进群时的提示语
+;添加好友或新人进群时的默认提示语
 addFriendMsg="感谢您添加 BL1040Bot 为好友，发送 #help 查看帮助列表。"
 addGroupMsg="欢迎加入本群，我是 BL1040Bot，发送 #help 查看帮助列表。"
 ;调试选项

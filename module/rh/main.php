@@ -1,5 +1,5 @@
 <?php
-
+leave('功能升级中暂缓开放');
 //不知道为什么就是想写函数
 function re(string $str){
 	global $Event, $CQ;
@@ -70,7 +70,7 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 
 		case 9: case 10:
 		$horses[$n]->goBack(1);
-		$reply = randString(array('照了一下镜子，被自己的样子吓到，后退了一步！','感到一阵眩晕！','迷路了！'));
+		$reply = randString(array('照了一下镜子，被自己的样子吓到，后退了一步！','感到一阵眩晕！','迷路了！','喝了一口昏睡红茶！'));
 		break;
 
 		case 11:
