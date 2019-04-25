@@ -4,11 +4,11 @@
 
     date_default_timezone_set('Asia/Tokyo');
 
-    $hour=(int)date('H');
-    $minute=(int)date('i');
-    $second=(int)date('s');
+    $hour = (int)date('H');
+    $minute = (int)date('i');
+    $second = (int)date('s');
 
-    if($minute==0 && $second<=1)
+    if($minute == 0 && $second <= 1)
     {
         $groups = array("761082692","967313330");
         foreach($groups as $group_id){
@@ -19,7 +19,26 @@
 
     date_default_timezone_set('Asia/Shanghai');
 
-    $hour=(int)date('H');
+    $hour = (int)date('H');
+
+    if($minute >= 35 && $minute < 40 && ($hour == 10 || $hour == 22) && $second <= 1){
+        $groups = array("772503459");
+        foreach($groups as $group_id)
+            $CQ->sendGroupMsg($group_id, '滴，滴，离发车时间还有'.(40 - $minute).'分钟');
+    }
+
+    if($minute == 40 && ($hour == 10 || $hour == 22) && $second <= 1){
+        $groups = array("772503459");
+        foreach($groups as $group_id)
+            $CQ->sendGroupMsg($group_id, '滴，滴，请发车');
+    }
+
+    if($minute == 41 && ($hour == 10 || $hour == 22) && $second <= 1){
+        $groups = array("772503459");
+        foreach($groups as $group_id)
+            $CQ->sendGroupMsg($group_id, '滴，滴，车辆出场，以下漏乖');
+    }
+
     if(($hour==10 || $hour==22)&& $minute==40 &&($second==30 || $second==31))
     {
         $groups = array("761082692");

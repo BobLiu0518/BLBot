@@ -31,7 +31,7 @@ $Text = removeCQCode(removeEmoji($Text));
 
 $strength = strlen($Text);
 
-$fee = strlen(preg_replace('# #','',$Text))*1000;
+$fee = strlen(preg_replace('# #','',$Text))*100;
 
 if($lang == NULL || !is_numeric($voice_type) || nextArg() !=NULL){
     $Queue[]= sendBack("参数错误，请阅读以下内容！请确保要朗读的内容在第二行！");
