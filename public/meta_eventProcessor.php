@@ -10,7 +10,7 @@
 
     if($minute == 0 && $second <= 1)
     {
-        $groups = array("761082692","967313330");
+        $groups = array("761082692","967313330","314353477");
         foreach($groups as $group_id){
             $CQ->sendGroupMsg($group_id, getData("time/".$hour.".txt"));
             $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(getData("time/".$hour.".mp3"))));
@@ -21,7 +21,7 @@
 
     $hour = (int)date('H');
 
-    if($minute >= 35 && $minute < 40 && ($hour == 10 || $hour == 22) && $second <= 1){
+    if($minute >= 37 && $minute < 40 && ($hour == 10 || $hour == 22) && $second <= 1){
         $groups = array("772503459");
         foreach($groups as $group_id)
             $CQ->sendGroupMsg($group_id, '滴，滴，离发车时间还有'.(40 - $minute).'分钟');

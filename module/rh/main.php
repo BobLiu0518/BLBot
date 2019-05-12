@@ -1,5 +1,7 @@
 <?php
-leave('功能升级中暂缓开放');
+
+//leave('功能升级中暂缓开放');
+
 //不知道为什么就是想写函数
 function re(string $str){
 	global $Event, $CQ;
@@ -20,12 +22,15 @@ loadModule('rh.tools');
 $g = $Event['group_id'];
 if(!fromGroup())leave('该功能仅能在群聊中使用！');
 
+if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每5分钟只能使用一次！');
+
 //发起游戏，写文件
 $h = "[CQ:emoji,id=128052]";
 $nh = "🦄"; //[CQ:emoji,id=129412]
 $f = getData('rh/'.$g);
 if($f)leave('游戏正在进行中，请勿重复开始！');
 setData('rh/'.$g, json_encode(array('status' => 'starting', 'players' => array($Event['user_id']))));
+
 re('已发起赛'.$h."游戏，发送指令 #rh.join 加入！\n一分钟后游戏自动开始！");
 sleep(30);
 re('还有30秒赛'.$h.'游戏开始');
@@ -41,6 +46,8 @@ if(nextArg())$players[] = 2094361499;
 $playersCount = count($players);
 if($playersCount < 2)
 	le('人数不足，游戏结束！');
+
+coolDown("rh/{$Event['group_id']}",5*60);
 
 //分配马
 $horses = array();
