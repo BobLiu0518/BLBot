@@ -22,7 +22,7 @@ loadModule('rh.tools');
 $g = $Event['group_id'];
 if(!fromGroup())leave('该功能仅能在群聊中使用！');
 
-if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每5分钟只能使用一次！');
+if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每10分钟只能使用一次！');
 
 //发起游戏，写文件
 $h = "[CQ:emoji,id=128052]";
@@ -47,7 +47,7 @@ $playersCount = count($players);
 if($playersCount < 2)
 	le('人数不足，游戏结束！');
 
-coolDown("rh/{$Event['group_id']}",5*60);
+coolDown("rh/{$Event['group_id']}",10*60);
 
 //分配马
 $horses = array();
