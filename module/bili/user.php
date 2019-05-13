@@ -3,7 +3,7 @@
 	global $Queue;
 	$api = "http://api.bilibili.com/x/relation/stat?vmid=";
 	$api2 = "https://api.bilibili.com/x/space/acc/info?mid=";
-	if(($uid = intval(nextArg())) === NULL)leave('请提供uid！');
+	if(($uid = intval(nextArg())) === NULL || $uid === "")leave('请提供纯数字uid！');
 	if(!($data = json_decode(file_get_contents($api.$uid),ture)['data']))leave('查询失败！');
 	if(!($data2 = json_decode(file_get_contents($api2.$uid),ture)['data']))leave('查询失败！');
 
