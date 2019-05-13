@@ -17,8 +17,7 @@
 	$coins = $data2['coins'];
 	$official = $data2['official']['title'];
 	$sex = $data2['sex'];
-	if(!$official)$official = "暂未认证";
-	else $official = "官方认证：".$official;
+	$official = $official?"官方认证：".$official:"暂未进行个人认证";
 
 	do{
 		$n += 1;
@@ -33,9 +32,10 @@
 		$minutes = intval($duration[0]);
 		$seconds = intval($duration[1]);
 		$sumseconds += 60*$minutes + $seconds;
+		$sumplay += $video['play'];
 	}
 
-	$sumtime = "看完".($sex == "女"?"她":"他")."全部视频需要".intval($sumseconds / 60 / 60)."小时".intval(($sumseconds / 60) % 60)."分钟".($sumseconds % 60 % 60)."秒";
+	$sumtime = $sumseconds?"看完".($sex == "女"?"她":"他")."的全部视频需要".intval($sumseconds / 86400)."天".intval($sumseconds % 86400 / 3600)."小时".intval($sumseconds % 3600 / 60)."分钟".($sumseconds % 60)."秒":($sex == "女"?"她":"他")."还没有发过视频嗷";
 
 	$msg = <<<EOT
 Bilibili 用户 uid{$uid} 的数据：
@@ -45,7 +45,7 @@ Bilibili 用户 uid{$uid} 的数据：
 {$official}
 {$sumtime}
 
-{$level}级/{$following}关注/{$follower}粉丝
+{$level}级/{$following}关注/{$follower}粉丝/{$sumplay}播放
 EOT;
 	$Queue[]= sendBack($msg);
 
