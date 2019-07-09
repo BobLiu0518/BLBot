@@ -11,7 +11,7 @@ if(preg_match('/机器人/', $Message)||parseQQ($Message) == config('bot')){
 if(parseQQ($Message) == config('bot')){
     if($Event['user_id'] == "80000000")leave("请不要使用匿名！");
     if(!isAdmin())
-    	$Queue[]= sendBack('亲亲，这边建议您不要艾特/回复呢，是没有用的哦，可以发送 '.config('prefix').'help 看看帮助哦！');
+    	$Queue[]= sendBack('⑧要艾特/回复，有几率被拉黑，发送 '.config('prefix').'help 查看帮助列表。');
 }
 
 ?>

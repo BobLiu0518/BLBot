@@ -12,6 +12,13 @@ try{
         $Queue[]= sendMaster('['.date('Y-m-d H:i:s', $Event['time']-86400)."] {$Event['user_id']} say:\n{$Event['message']}", false, true);
     }
 
+    $whiteList = json_decode(getData('grouplist.json'), true)['groups'];
+    if(!in_array($Event['group_id'], $whiteList) && $Event['group_id'] != NULL){
+        $Queue[]= sendMaster('No access at '.$Event['group_id']);
+        $CQ->setGroupLeave($Event['group_id']);
+        exit();
+    }
+
     switch($Event['post_type']){
         case 'message':
         case 'notice':

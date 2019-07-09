@@ -1,6 +1,6 @@
 <?php
 
-//leave('功能升级中暂缓开放');
+if(!isMaster())leave('功能升级中暂缓开放');
 
 //不知道为什么就是想写函数
 function re(string $str){
@@ -19,10 +19,11 @@ function randString(array $strArr){
 //基本逻辑判断
 global $Event, $CQ;
 loadModule('rh.tools');
+loadModule('credit.tools');
 $g = $Event['group_id'];
 if(!fromGroup())leave('该功能仅能在群聊中使用！');
 
-if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每10分钟只能使用一次！');
+//if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每10分钟只能使用一次！');
 
 //发起游戏，写文件
 $h = "[CQ:emoji,id=128052]";
@@ -47,7 +48,7 @@ $playersCount = count($players);
 if($playersCount < 2)
 	le('人数不足，游戏结束！');
 
-coolDown("rh/{$Event['group_id']}",10*60);
+//coolDown("rh/{$Event['group_id']}",10*60);
 
 //分配马
 $horses = array();
@@ -63,7 +64,17 @@ for($n = 0; $n < $playersCount; $n++)
 sleep(1);
 while(true){ //其实我觉得这里分开几个函数写会比较容易…
 	$n = rand(0, ($playersCount-1));
-	if($horses[$n]->isDead())continue; //死马不能动！！！
+	if($horses[$n]->isDead()){
+		if(!rand(0,9)){
+			$horses[$n]->makeAlive();
+			re(($n+1).'号'.($horses[$n]->isNb()?$nh:$h)."复活了！");
+			$reply = "";
+			foreach($horses as $n => $horse)
+				$reply .= $horse->display();
+			re(rtrim($reply));
+		}
+		continue;
+	}
 	switch(rand(1, 13)){ //随机触发事件！这里可以随便加，但是要注意保持平衡
 		case 1: case 2: case 3: case 4: case 5:
 		$horses[$n]->goAhead(2);
