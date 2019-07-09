@@ -45,6 +45,10 @@ class Horse{
 		$this->dead = true;
 		return;
 	}
+	public function makeAlive(){
+		$this->dead = false;
+		return;
+	}
 	public function nbIfy(){
 		$this->nb = true;
 		return;

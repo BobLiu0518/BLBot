@@ -2,7 +2,7 @@
 
 global $Queue;
 
-if(!isAdmin() && fromGroup())leave('请私聊使用');
+//if(!isAdmin() && fromGroup())leave('请私聊使用');
 
 $lineName = nextArg();
 $upDown = nextArg();
