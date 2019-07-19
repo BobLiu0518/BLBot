@@ -15,6 +15,7 @@ try{
     $whiteList = json_decode(getData('grouplist.json'), true)['groups'];
     if(!in_array($Event['group_id'], $whiteList) && $Event['group_id'] != NULL){
         $Queue[]= sendMaster('No access at '.$Event['group_id']);
+        $Queue[]= sendDevGroup('No access at '.$Event['group_id']);
         $CQ->setGroupLeave($Event['group_id']);
         exit();
     }
