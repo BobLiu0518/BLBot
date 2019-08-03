@@ -17,7 +17,7 @@ if(!$xml1){
 	setData('shjt/'.$lineName.'-'.$upDown.'-1.xml', $xml1);
 }
 $xml1 = simplexml_load_string($xml1);
-if(!$xml1)leave('线路不存在或暂不支持查询该线路，
+if(!$xml1)leave('上海交通接口失效，
 查询松江公交线路可以使用 #sjwgj！');
 $lineId = $xml1->line_id;
 if(!$upDown)$time = $xml1->start_earlytime.'-'.$xml1->start_latetime;
