@@ -1,5 +1,5 @@
 <?php
 
-	loadModule('bili.video');
+	loadModule('bili.user');
 
 ?>
