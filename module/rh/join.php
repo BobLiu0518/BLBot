@@ -9,7 +9,7 @@ else if(!$f){
 	leave();
 };
 $u = $Event['user_id'];
-if(isMaster() && $a = nextArg())$u = $a;
+if(isSeniorAdmin() && $a = nextArg())$u = $a;
 if(in_array($u, $f['players']))leave('你已经加入游戏，不能重复添加！');
 $f['players'][] = $u;
 setData('rh/'.$g, json_encode($f));

@@ -1,6 +1,6 @@
 <?php
 
-if(!isMaster())leave('功能升级中暂缓开放');
+if(!isAdmin())leave('功能升级中暂缓开放');
 
 //不知道为什么就是想写函数
 function re(string $str){
