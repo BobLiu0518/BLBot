@@ -1,9 +1,14 @@
 <?php
 
-	global $Queue;
+	global $Queue, $Event;
 	$api = "http://api.bilibili.com/x/relation/stat?vmid=";
 	$api2 = "https://api.bilibili.com/x/space/acc/info?mid=";
-	if(($uid = intval(nextArg())) === NULL || $uid === "")leave('请提供纯数字uid！');
+
+	$uid = nextArg();
+	if(parseQQ($uid))$uid = getData("bili/user/".parseQQ($uid));
+	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
+	if($uid == "")leave("请提供uid！如需绑定请使用 #bili.bind ！");
+	else if(intval($uid) === NULL)leave('请提供纯数字uid！');
 	if(!($data = json_decode(file_get_contents($api.$uid),ture)['data']))leave('查询失败！');
 	if(!($data2 = json_decode(file_get_contents($api2.$uid),ture)['data']))leave('查询失败！');
 
