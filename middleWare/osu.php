@@ -8,7 +8,7 @@ if(fromGroup())
 {
     if(preg_match('/see you next time/', $Event['message']))
     {
-        if(!isSeniorAdmin())
+        if(true/*!isSeniorAdmin()*/)
         {
             try
             {
@@ -18,7 +18,7 @@ if(fromGroup())
     }
     if(preg_match('/bot next door/', $Event['message']))
     {
-        if(!isSeniorAdmin())
+        if(true/*!isSeniorAdmin()*/)
         {
             try
             {
