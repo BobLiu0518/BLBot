@@ -1,9 +1,10 @@
 <?php
 
-global $Queue;
+global $Queue, $Message;
 
 $url = "http://trash.lhsr.cn/sites/feiguan/trashTypes_3/Handler/Handler.ashx?a=GET_KEYWORDS&kw=";
-if(!$trash = trim(nextArg()))leave("没有垃圾名称！");
+if(!$trash = trim(nextArg()))$trash = trim($Message);
+if(!$trash)leave("没有垃圾名称！");
 
 $text = getData("trash/".$trash);
 if(!$text || nextArg() == "--flushcache"){

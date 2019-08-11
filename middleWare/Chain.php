@@ -2,6 +2,7 @@
 
 require('alias.php');
 require('littleIce.php');
+require('trash.php');
 require('qiandao.php');
 //require('mol.php');
 require('fudai.php');
