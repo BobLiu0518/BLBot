@@ -19,6 +19,7 @@
 
 	$msg = <<<EOT
 Bilibili 视频 av{$av} 的数据：
+https://b23.tv/av{$av}
 
 [CQ:image,file={$pic}]
 
