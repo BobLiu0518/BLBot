@@ -10,7 +10,7 @@
 
     if($minute == 0 && $second <= 1)
     {
-        $groups = array(/*"761082692"*/,"967313330","314353477");
+        $groups = array(/*"761082692"*/,"967313330","314353477","496111478");
         foreach($groups as $group_id){
             $CQ->sendGroupMsg($group_id, getData("time/".$hour.".txt"));
             $CQ->sendGroupMsg($group_id, CQCode::Record('base64://'.base64_encode(getData("time/".$hour.".mp3"))));
