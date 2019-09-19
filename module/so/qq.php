@@ -21,7 +21,7 @@ if(!$id){
 	addCredit($Event['user_id'], 1000);
 	leave("点歌 ".$name." 失败！");
 }
-leave($id);
+//leave($id);
 $Queue[]= sendBack("[CQ:music,type=qq,id=".$id."]");
 if(fromGroup())$Queue[]= sendPM("[CQ:music,type=qq,id=".$id."]");
 leave("点歌成功，扣除1000金币！");
