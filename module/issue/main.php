@@ -1,5 +1,5 @@
 ﻿<?php
 
-leave("请到 http://feedback.blbot.tk/ 进行反馈，谢谢！");
+leave("功能暂缓开放，可至 https://feedback.blbot.top/ 反馈");
 
 ?>
