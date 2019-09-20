@@ -2,6 +2,7 @@
 
 requireMaster();
 global $CQ;
-$CQ->setGroupLeave(nextArg());
+$CQ->setGroupLeave($g=nextArg());
+leave("Leaving ".$g);
 
 ?>
