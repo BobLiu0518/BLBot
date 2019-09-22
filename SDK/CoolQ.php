@@ -393,7 +393,7 @@ class CoolQ{
             case 1:
                 return NULL;
             default:
-                throw new \Exception("执行失败！", $result->retcode);
+                //throw new \Exception("执行失败！", $result->retcode);
         }
     }
 
