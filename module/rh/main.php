@@ -17,7 +17,7 @@ function randString(array $strArr){
 }
 
 //基本逻辑判断
-global $Event, $CQ;
+global $Event, $CQ, $Config;
 loadModule('rh.tools');
 loadModule('credit.tools');
 $g = $Event['group_id'];
@@ -43,7 +43,7 @@ sleep(5);
 $f = json_decode(getData('rh/'.$g),true);
 setData('rh/'.$g, json_encode(array('status' => 'started')));
 $players = $f['players'];
-if(nextArg())$players[] = 2094361499;
+if(nextArg())$players[] = $Config["bot"];
 $playersCount = count($players);
 if($playersCount < 2)
 	le('人数不足，游戏结束！');
