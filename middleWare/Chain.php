@@ -1,6 +1,7 @@
 <?php
 
 require('alias.php');
+require('creeper.php');
 require('littleIce.php');
 require('trash.php');
 require('qiandao.php');
