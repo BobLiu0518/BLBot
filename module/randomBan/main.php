@@ -1,6 +1,6 @@
 <?php
 
-//if(isAdmin())leave('いいよ、こいよ！');
+if(!fromGroup())leave('请在群聊中使用！');
 
 	global $Event, $CQ, $Queue;
 	$t = rand(0, 10*60);
