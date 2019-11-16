@@ -12,6 +12,6 @@ $text .= $Text;
 if(!$text)leave("没有文字！");
 
 $result = file_get_contents($api.urlencode($text));
-$Queue[]= sendBack($result);
+$Queue[]= sendBack(trim($result));
 
 ?>
