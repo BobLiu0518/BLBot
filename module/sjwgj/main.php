@@ -81,7 +81,7 @@ $reply .= <<<EOT
 #sjwgj.rti {$data['data']['LineCode']} $upDownPrompt 站级序号
 
 相关命令：
-浦东公交 #pjt   嘉定公交 #jjt
+久事公交 #jst   浦东公交 #pjt   嘉定公交 #jjt
 EOT;
 
 $Queue[]= sendBack($reply);
