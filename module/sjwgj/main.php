@@ -15,6 +15,7 @@ $uid = $uname."_".$timeStr;
 $pwd = md5($uname.$timeStr.$pwd);
 
 $lineName = nextArg();
+if($lineName == "松莘线B线")$lineName = "松莘B线";
 $upDown = nextArg();
 if($lineName && $upDown == '上行' || $upDown == '上' || $upDown == '0' || $upDown === NULL)$upDown = '0';
 else if($lineName && $upDown == '下行' || $upDown == '下' || $upDown == '1')$upDown = '1';
@@ -78,6 +79,9 @@ $reply .= <<<EOT
 请在命令最后加上“上行”或者“下行”！
 需要查询实时信息 请使用指令：
 #sjwgj.rti {$data['data']['LineCode']} $upDownPrompt 站级序号
+
+相关命令：
+浦东公交 #pjt   嘉定公交 #jjt
 EOT;
 
 $Queue[]= sendBack($reply);
