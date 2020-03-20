@@ -34,3 +34,6 @@ voice_api_key=
 voice_secret_key=
 translate_appkey=
 translate_secret_key=
+
+;浦交通API地址
+PJT_API=
