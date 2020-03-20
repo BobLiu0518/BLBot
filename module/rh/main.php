@@ -23,7 +23,7 @@ loadModule('credit.tools');
 $g = $Event['group_id'];
 if(!fromGroup())leave('该功能仅能在群聊中使用！');
 
-//if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每10分钟只能使用一次！');
+if(coolDown("rh/{$Event['group_id']}")<0)leave('本命令每群每10分钟只能使用一次！');
 
 //发起游戏，写文件
 $h = "[CQ:emoji,id=128052]";
@@ -46,7 +46,7 @@ $players = $f['players'];
 if(nextArg())$players[] = $Config["bot"];
 $playersCount = count($players);
 if($playersCount < 2)
-	le('人数不足，游戏结束！');
+	le('你'.$h.'的，人数不足，游戏结束！');
 
 //coolDown("rh/{$Event['group_id']}",10*60);
 
@@ -83,7 +83,7 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 
 		case 6: case 7:case 8:
 		$horses[$n]->goAhead(4);
-		$reply = randString(array('跑了一大步，可喜可贺！','向着闪闪发光的奖杯跑了几步！','似乎看到了功成业就，女神在向他招手！'));
+		$reply = randString(array('跑了一大步，可喜可贺！','向着闪闪发光的奖杯跑了几步！','开挂了！'));
 		break;
 
 		case 9: case 10:
@@ -93,16 +93,16 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 
 		case 11:
 		$horses[$n]->kill();
-		$reply = randString(array('被晒死了！','吼了一声“NM$L”，随即倒在了地上！','绊了一跤，摔死了！'));
+		$reply = randString(array('吃了老八秘制小汉堡！','螺旋升天了！','被群主禁言了！','吼了一声“NM$L”，随即倒在了地上！','绊了一跤，摔死了！','被SWB6129BEV38碾死了！','感染了冠状病毒！'));
 		break;
 
 		case 12: case 13:
 		if($horses[$n]->isNb()){
 			$horses[$n]->sbIfy();
-			$reply = '变回了一匹马！';
+			$reply = '限定皮肤到期了！';
 		}else{
 			$horses[$n]->nbIfy();
-			$reply = '变成了一只独角兽！';
+			$reply = '穿上了女装！';
 		}
 		break;
 	}
@@ -119,8 +119,11 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 		$reply .= $horse->display();
 	}
 	re(rtrim($reply));
-	if($win)
-		le($win.'号'.$h.'成功抵达终点，获胜！[CQ:emoji,id=127942]');
+	if($win){
+		$money = rand($playersCount*250, $playersCount*750);
+		addCredit($players[$win-1], $money);
+		le($win.'号'.$h.'成功抵达终点，[CQ:at,qq='.$players[$win-1].'] 获胜，获得'.$money.'金币！[CQ:emoji,id=127942]');
+	}
 	if(!$alive)
 		le($h.'死光了，没有'.$h.'获胜！');
 	sleep(5);
