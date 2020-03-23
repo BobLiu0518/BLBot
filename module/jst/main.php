@@ -29,6 +29,10 @@ else leave('参数错误！');
 $dataA = json_decode(getData('jst/'.$route.'a.json'),true);
 $dataB = json_decode(getData('jst/'.$route.'b-'.$upDown.'.json'),true);
 if(!$dataA){
+
+	//久事封堵API期间禁止查询
+	//leave('由于久事集团封堵API，暂无法提供未缓存线路的站级信息，可尝试使用 #shjt 命令替代。');
+
 	$dataA = json_decode(json_encode(simplexml_load_string(iconv('GB2312', 'UTF-8', file_get_contents($apiA.escape($route))))), true);
 	setData('jst/'.$route.'a.json', json_encode($dataA));
 }
@@ -59,11 +63,12 @@ $reply .= <<<EOT
 
 
 如果需要切换上下行，
-请在命令最后加上“上行”或者“下行”！
+请在命令最后加上上行或者下行！
 如单环线不显示中途站，请尝试查询下行！
 
 相关命令：
-松江公交 #sjwgj   浦东公交 #pjt   嘉定公交 #jjt
+上海交通 #shjt  松江公交 #sjwgj
+浦东公交 #pjt  嘉定公交 #jjt
 EOT;
 
 $Queue[]= sendBack($reply);
