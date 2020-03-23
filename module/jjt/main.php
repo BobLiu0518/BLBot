@@ -45,7 +45,8 @@ $reply .= <<<EOT
 如单环线不显示中途站，请尝试查询下行！
 
 相关命令：
-久事公交 #jst   松江公交 #sjwgj   浦东公交 #pjt
+上海交通 #shjt  久事公交 #jst
+松江公交 #sjwgj  浦东公交 #pjt
 EOT;
 
 $Queue[]= sendBack($reply);
