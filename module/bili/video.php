@@ -1,10 +1,15 @@
 <?php
 
 	global $Queue;
-	$api = "http://api.bilibili.com/x/web-interface/view?aid=";
-	if(($av = intval(nextArg())) === NULL)leave('请提供av号！');
-	if(!($data = json_decode(file_get_contents($api.$av),ture)['data']))leave('查询失败！');
+	$api = "http://api.bilibili.com/x/web-interface/view?";
+	$vid = nextArg();
+	if(strpos($vid, 'BV') === 0) $bvid = $vid;
+	else if(is_numeric($vid = ltrim(ltrim($vid, 'av'), 'AV'))) $avid = $vid;
+	else leave('请输入有效的AV或BV号！');
+	if(!($data = json_decode(file_get_contents($api.'aid='.$avid.'&bvid='.$bvid),ture)['data']))leave('查询失败！');
 
+	$avid = $data['aid'];
+	$bvid = $data['bvid'];
 	$pic = $data['pic'];
 	$title = $data['title'];
 	$desc = $data['desc'];
@@ -18,8 +23,8 @@
 	$videos = $data['videos'];
 
 	$msg = <<<EOT
-Bilibili 视频 av{$av} 的数据：
-https://b23.tv/av{$av}
+Bilibili 视频 av{$avid} / {$bvid} 的数据：
+https://b23.tv/{$bvid}
 
 [CQ:image,file={$pic}]
 
