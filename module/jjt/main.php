@@ -47,6 +47,7 @@ $reply .= <<<EOT
 相关命令：
 上海交通 #shjt  久事公交 #jst
 松江公交 #sjwgj  浦东公交 #pjt
+闵行客运 #mkt
 EOT;
 
 $Queue[]= sendBack($reply);

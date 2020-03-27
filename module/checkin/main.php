@@ -39,7 +39,7 @@ if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
         case 11:
         $replyWord = '签到过了啦（半恼）';break;
         case 12:
-        $replyWord = '还签到…嫌金币不够是不是？去py2018962389啊';break;
+        $replyWord = '还签到…嫌金币不够是不是？去py2018962329啊';break;
         case 13:
         $replyWord = '老说签到签到，qiān dào，会读了吗？不要再问我了';break;
         case 14:
