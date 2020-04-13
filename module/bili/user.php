@@ -11,7 +11,7 @@
 	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
 	if($uid == "")leave("请提供uid！如需绑定请使用 #bili.bind ！");
 	else if(!is_numeric($uid))leave('uid不合法！');
-	if(!($data = json_decode(file_get_contents($tpApi.$uid), true)['data']))leave('查询失败！');
+//	if(!($data = json_decode(file_get_contents($tpApi.$uid), true)['data']))leave('查询失败！');
 	$liveData = json_decode(file_get_contents($liveApi.$uid), true)['data'];
 	$statData = json_decode(file_get_contents($statApi.$uid), true)['data'];
 
