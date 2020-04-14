@@ -1,31 +1,34 @@
 <?php
 
 	global $Queue, $Event;
-	$tpApi = "https://api.kaaass.net/biliapi/user/space?id=";
-	$liveApi = "http://api.live.bilibili.com/bili/living_v2/";
+	$relationApi = "https://api.bilibili.com/x/relation/stat?vmid=";
+	$liveApi = "https://api.live.bilibili.com/bili/living_v2/";
 	$statApi = "https://api.bilibili.com/x/space/upstat?mid=";
-	$videoApi = "http://space.bilibili.com/ajax/member/getSubmitVideos?pagesize=50&mid=";
+	$videoApi = "https://space.bilibili.com/ajax/member/getSubmitVideos?pagesize=50&mid=";
+	$spaceApi = "https://api.bilibili.com/x/space/acc/info?mid=";
 
 	$uid = ltrim(ltrim(nextArg(), 'uid'), 'UID');
 	if(parseQQ($uid))$uid = getData("bili/user/".parseQQ($uid));
 	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
 	if($uid == "")leave("请提供uid！如需绑定请使用 #bili.bind ！");
 	else if(!is_numeric($uid))leave('uid不合法！');
-//	if(!($data = json_decode(file_get_contents($tpApi.$uid), true)['data']))leave('查询失败！');
+	$relationData = json_decode(file_get_contents($relationApi.$uid), true)['data'];
 	$liveData = json_decode(file_get_contents($liveApi.$uid), true)['data'];
 	$statData = json_decode(file_get_contents($statApi.$uid), true)['data'];
+	$spaceData = json_decode(file_get_contents($spaceApi.$uid), true)['data'];
 
-	$attention = $data['card']['attention'];
-	$fans = $data['card']['fans'];
-	$name = $data['card']['name'];
-	$sign = $data['card']['sign'];
-	$face = $data['card']['face'];
-	$level = $data['card']['level_info']['current_level'];
-	$official = $data['card']['official_verify']['title'];
-	$sex = $data['card']['sex'];
+	$following = $relationData['following'];
+	$follower = $relationData['follower'];
+	$name = $spaceData['name'];
+	$sign = $spaceData['sign'];
+	$face = $spaceData['face'];
+	$level = $spaceData['level'];
+	$official = $spaceData['official']['title'];
+	$sex = $spaceData['sex'];
 	$official = $official?"官方认证：".$official:"暂未进行个人认证";
 	$archiveViews = $statData['archive']['view'];
 	$sumSeconds = 0;
+	$sumPlay = 0;
 	$liveUrl = $liveData['url'];
 
 	$n = 1; //小破站起始页竟然是1不是0
@@ -34,6 +37,7 @@
 		foreach($videoData['vlist'] as $video){
 			$videoLength = explode(":", $video['length']);
 			$sumSeconds += $videoLength[0] * 60 + $videoLength[1];
+			$sumPlay += $video['play'];
 		}
 		$pages = $videoData['pages'];
 		$n += 1;
@@ -52,7 +56,7 @@ https://space.bilibili.com/{$uid}
 {$official}
 {$sumtime}
 
-{$level}级/{$attention}关注/{$fans}粉丝/{$archiveViews}播放
+{$level}级/{$following}关注/{$follower}粉丝/{$archiveViews}播放/{$sumPlay}真实播放
 EOT;
 	$Queue[]= sendBack($msg);
 
