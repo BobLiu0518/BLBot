@@ -27,6 +27,7 @@
 	$sex = $spaceData['sex'];
 	$official = $official?"官方认证：".$official:"暂未进行个人认证";
 	$archiveViews = $statData['archive']['view'];
+	$articleViews = $statData['article']['view'];
 	$sumSeconds = 0;
 	$sumPlay = 0;
 	$liveUrl = $liveData['url'];
@@ -56,7 +57,8 @@ https://space.bilibili.com/{$uid}
 {$official}
 {$sumtime}
 
-{$level}级/{$following}关注/{$follower}粉丝/{$archiveViews}播放/{$sumPlay}真实播放
+{$level}级/{$following}关注/{$follower}粉丝
+{$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}阅读
 EOT;
 	$Queue[]= sendBack($msg);
 

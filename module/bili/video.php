@@ -22,6 +22,15 @@
 	$reply = $data['stat']['reply'];
 	$videos = $data['videos'];
 
+	if(count($data['staff']) > 1){
+		$owner = '多位Staff';
+		$staff = '创作团队：';
+		foreach($data['staff'] as $person){
+			$staff .= $person['title'].'：'.$person['name'].'；';
+		}
+		$staff = rtrim($staff, '；')."。\n\n";
+	}
+
 	$msg = <<<EOT
 Bilibili 视频 av{$avid} / {$bvid} 的数据：
 https://b23.tv/{$bvid}
@@ -30,7 +39,7 @@ https://b23.tv/{$bvid}
 
 {$title} by {$owner}，共{$videos}分p
 
-{$desc}
+{$staff}{$desc}
 
 {$view}观看/{$danmaku}弹幕/{$reply}评论/{$like}赞/{$coin}硬币/{$favorite}收藏
 EOT;
