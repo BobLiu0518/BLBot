@@ -6,12 +6,12 @@ class Horse{
 	private $dead;
 	private $nb;
 //	private const normalHorse = "[CQ:emoji,id=128052]";
-	private const deadHorse = "[CQ:emoji,id=128128]";
 //	private const nbHorse = "🦄"; //[CQ:emoji,id=129412]
+	private const deadHorse = "[CQ:emoji,id=128128]";
 	private $normalHorse;
 	private $nbHorse;
 
-	function __construct($n = 10, $m = 13, $h = "[CQ:emoji,id=128052]", $nh = ""){
+	function __construct($n = 10, $m = 13, $h = "[CQ:emoji,id=128052]", $nh = "🦄"){
 		$this->maxDistance = $m;
 		$this->distance = $n;
 		$this->dead = false;
