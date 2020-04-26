@@ -58,7 +58,7 @@ https://space.bilibili.com/{$uid}
 {$sumtime}
 
 {$level}级/{$following}关注/{$follower}粉丝
-{$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}阅读
+{$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}专栏阅读
 EOT;
 	$Queue[]= sendBack($msg);
 

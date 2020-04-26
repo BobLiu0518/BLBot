@@ -60,7 +60,7 @@ re(rtrim($reply));
 //硬性规定赛道长度的话，人多的时候不好
 //根据玩家人数来分配赛道长度，人多的时候也不好
 for($n = 0; $n < $playersCount; $n++)
-	$horses[] = new Horse();
+	$horses[] = new Horse(10, 13, $h, $nh);
 
 sleep(1);
 while(true){ //其实我觉得这里分开几个函数写会比较容易…

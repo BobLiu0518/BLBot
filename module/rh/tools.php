@@ -27,9 +27,9 @@ class Horse{
 		if($this->dead)
 			$str .= self::deadHorse;
 		else if($this->nb)
-			$str .= self::nbHorse;
+			$str .= $this->nbHorse;
 		else
-			$str .= self::normalHorse;
+			$str .= $this->normalHorse;
 		$str = $this->str_suffix($str, $this->maxDistance - $this->distance);
 		return $str."\n";
 	}
