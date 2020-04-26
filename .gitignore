@@ -8,3 +8,6 @@ storage/cache/
 storage/data/
 config.ini
 .DS_Store
+module/ai/db.sqlite3
+module/ai/sentence_tokenizer.pickle
+module/ai/data.txt
