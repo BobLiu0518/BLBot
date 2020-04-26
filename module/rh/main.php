@@ -32,6 +32,8 @@ $f = getData('rh/'.$g);
 if($f)leave('游戏正在进行中，请勿重复开始！');
 setData('rh/'.$g, json_encode(array('status' => 'starting', 'players' => array($Event['user_id']))));
 
+if(($def1 = nextArg()) !== NULL && ($def2 = nextArg()) !== NULL){$h = $def1; $nh = $def2;}
+
 re('已发起赛'.$h."游戏，发送指令 #rh.join 加入！\n一分钟后游戏自动开始！");
 sleep(30);
 re('还有30秒赛'.$h.'游戏开始');
@@ -43,7 +45,6 @@ sleep(5);
 $f = json_decode(getData('rh/'.$g),true);
 setData('rh/'.$g, json_encode(array('status' => 'started')));
 $players = $f['players'];
-if(nextArg())$players[] = $Config["bot"];
 $playersCount = count($players);
 if($playersCount < 2)
 	le('你'.$h.'的，人数不足，游戏结束！');

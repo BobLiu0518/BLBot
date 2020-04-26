@@ -5,14 +5,18 @@ class Horse{
 	private $maxDistance;
 	private $dead;
 	private $nb;
-	private const normalHorse = "[CQ:emoji,id=128052]";
+//	private const normalHorse = "[CQ:emoji,id=128052]";
 	private const deadHorse = "[CQ:emoji,id=128128]";
-	private const nbHorse = "🦄"; //[CQ:emoji,id=129412]
+//	private const nbHorse = "🦄"; //[CQ:emoji,id=129412]
+	private $normalHorse;
+	private $nbHorse;
 
-	function __construct($n = 10, $m = 13){
+	function __construct($n = 10, $m = 13, $h = "[CQ:emoji,id=128052]", $nh = ""){
 		$this->maxDistance = $m;
 		$this->distance = $n;
 		$this->dead = false;
+		$this->normalHorse = $h;
+		$this->nbHorse = $nh;
 	}
 	private function str_suffix($str, $n=1, $char=" "){
 		for ($x=0;$x<$n;$x++){$str = $str.$char;}
