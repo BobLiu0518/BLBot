@@ -3,6 +3,7 @@
 global $Event;
 use kjBot\SDK\CQCode;
 
+requireLvl(1);
 $QQ = nextArg();
 
 $g = $Event['group_id'];

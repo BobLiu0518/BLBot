@@ -2,6 +2,7 @@
 
 	global $Queue, $Event;
 	loadModule('alias.tools');
+	requireLvl(2);
 	$alias = nextArg();
 	$command = nextArg();
 	if($alias !== NULL && $command !== NULL){

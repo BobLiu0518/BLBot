@@ -3,6 +3,7 @@
 use kjBot\SDK\CQCode;
 use kjBot\Frame\Message;
 use kjBot\Frame\UnauthorizedException;
+use kjBot\Frame\LvlLowException;
 
 error_reporting(E_ALL ^ E_WARNING);
 
@@ -192,6 +193,18 @@ function parseCommand(string $str){
 
 function pd(){
     throw new UnauthorizedException();
+}
+
+/**
+ * 继续执行脚本需要指定等级
+ * 是就继续，不是就抛出异常，返回权限不足
+ */
+function requireLvl($lvl){
+    global $Event;
+    loadModule('exp.tools');
+    if(getLvl($Event['user_id']) < $lvl){
+         throw new LvlLowException($lvl, getLvl($Event['user_id']));
+    }
 }
 
 /**

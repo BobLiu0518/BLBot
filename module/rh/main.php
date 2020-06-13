@@ -1,6 +1,6 @@
 <?php
 
-if(!isAdmin())leave('功能升级中暂缓开放');
+requireLvl(3);
 
 //不知道为什么就是想写函数
 function re(string $str){
@@ -79,7 +79,7 @@ while(true){ //其实我觉得这里分开几个函数写会比较容易…
 	switch(rand(1, 13)){ //随机触发事件！这里可以随便加，但是要注意保持平衡
 		case 1: case 2: case 3: case 4: case 5:
 		$horses[$n]->goAhead(2);
-		$reply = randString(array('跨越了自己的一小步，马类的一大步！','觉得过于无聊于是走了一步！','不情愿的挪了一下屁股！','被奖杯诱惑到了'));
+		$reply = randString(array('跨越了自己的一小步，'.$h.'类的一大步！','觉得过于无聊于是走了一步！','不情愿的挪了一下屁股！','被奖杯诱惑到了'));
 		break;
 
 		case 6: case 7:case 8:

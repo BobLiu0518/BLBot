@@ -1,6 +1,7 @@
 <?php
 
 global $Event, $Queue, $CQ;
+requireLvl(0);
 
 $str = date("Ymd").$Event['user_id'];
 $hash = hexdec(crc32($str));

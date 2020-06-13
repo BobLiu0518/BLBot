@@ -1,5 +1,7 @@
 <?php
 
+	requireLvl(1);
+
 	global $Queue, $Event;
 	$relationApi = "https://api.bilibili.com/x/relation/stat?vmid=";
 	$liveApi = "https://api.live.bilibili.com/bili/living_v2/";
