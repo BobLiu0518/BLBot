@@ -1,7 +1,6 @@
 <?php
 namespace kjBot\Frame;
 
-
 class UnauthorizedException extends \Exception{
     function __construct(){
         $img = sendImg(getImg("pd".rand(1,23).".jpg"));
@@ -14,13 +13,6 @@ class UnauthorizedException extends \Exception{
             case 3:
             $this->message = $img."\n没有权限…一定是哪里不对头";break;
         }
-        $this->code = 401;
-    }
-}
-
-class InsiderRequiredException extends \Exception{
-    function __construct(){
-        $this->message = '权！限！不！足！请先注册成为内测人员！';
         $this->code = 401;
     }
 }

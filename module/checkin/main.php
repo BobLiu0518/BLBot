@@ -2,8 +2,7 @@
 
 global $Event, $Queue, $User_id;
 loadModule('credit.tools');
-
-//leave("因签到bug签到功能暂时关闭");
+loadModule('exp.tools');
 
 $income = rand(10000, 100000);
 if(10000==$income)
@@ -52,10 +51,11 @@ if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
     $Queue[]= sendBack($replyWord);
 }else{
     addCredit($Event['user_id'], $income);
+    addExp($Event['user_id'], 1);
     delData('checkin/'.$Event['user_id']);
     setData('checkin/'.$Event['user_id'], '');
     $Queue[]= sendBack("[CQ:at,qq=".$User_id."]
-签到成功，获得 ".$income." 个金币!
+签到成功，获得 ".$income." 金币，1 经验!
 Tips: 不知道怎么玩可以发送 #help!");
 }
 
