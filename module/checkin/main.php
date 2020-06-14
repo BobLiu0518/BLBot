@@ -1,6 +1,7 @@
 <?php
 
 global $Event, $Queue, $User_id;
+requireLvl(0);
 loadModule('credit.tools');
 loadModule('exp.tools');
 
