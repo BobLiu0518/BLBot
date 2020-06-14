@@ -199,10 +199,10 @@ function pd(){
  * 继续执行脚本需要指定等级
  * 是就继续，不是就抛出异常，返回权限不足
  */
-function requireLvl($lvl){
+function requireLvl($lvl = 0){
     global $Event;
     loadModule('exp.tools');
-    if(getLvl($Event['user_id']) < $lvl){
+    if(intval(getLvl($Event['user_id'])) < $lvl){
          throw new LvlLowException($lvl, getLvl($Event['user_id']));
     }
 }
