@@ -57,7 +57,7 @@ if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
     setData('checkin/'.$Event['user_id'], '');
     $Queue[]= sendBack("[CQ:at,qq=".$User_id."]
 签到成功，获得 ".$income." 金币，1 经验!
-Tips: 不知道怎么玩可以发送 #help!");
+Tips: 等级系统已上线，发送 #me 查看等级！");
 }
 
 ?>
