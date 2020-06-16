@@ -14,7 +14,7 @@ $id = $article['idnew'];
 $nameStr = $article['nameStr'];
 $author = $article['author'];
 $chaodai = rtrim($article['chaodai'], '代');
-$content = str_replace('<p>', '', str_replace('</p>', '', $article['cont']));
+$content = preg_replace('/<.*?>/', '', $article['cont']);
 
 $reply =<<<EOT
 《{$nameStr}》 {$chaodai} · {$author}
