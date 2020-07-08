@@ -1,2 +1,0 @@
-<?php
-loadModule('osu.profile');
