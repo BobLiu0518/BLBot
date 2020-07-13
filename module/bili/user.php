@@ -33,20 +33,25 @@
 	$sumSeconds = 0;
 	$sumPlay = 0;
 	$liveUrl = $liveData['url'];
+	$videoList = array();
 
 	$n = 1; //小破站起始页竟然是1不是0
 	do{
 		$videoData = json_decode(file_get_contents($videoApi.$uid.'&page='.$n), true)['data'];
-		foreach($videoData['vlist'] as $video){
-			$videoLength = explode(":", $video['length']);
-			$sumSeconds += $videoLength[0] * 60 + $videoLength[1];
-			$sumPlay += $video['play'];
-		}
+		foreach($videoData['vlist'] as $video)
+			$videoList[] = $video;
 		$pages = $videoData['pages'];
 		$n += 1;
 	}while($n <= $pages);
 
-	$sumtime = $sumSeconds?"看完".($sex == "女"?"她":"他")."的全部视频需要".intval($sumSeconds / 86400)."天".intval($sumSeconds % 86400 / 3600).
+	foreach($videoList as $video){
+		$videoLength = explode(":", $video['length']);
+		$sumSeconds += $videoLength[0] * 60 + $videoLength[1];
+		$sumPlay += $video['play'];
+	}
+
+	$days = ($sex == "女"?"她":"他").'做UP主已经 '.intval((time() - $videoList[count($videoList)-1]['created'])/60/60/24).' 天了';
+	$sumtime = $sumSeconds?"看完".($sex == "女"?"她":"他")."的全部视频需要 ".intval($sumSeconds / 86400)."天".intval($sumSeconds % 86400 / 3600).
 		"小时".intval($sumSeconds % 3600 / 60)."分钟".($sumSeconds % 60)."秒":($sex == "女"?"她":"他")."没有发过视频或访问被拒绝";
 
 	$msg = <<<EOT
@@ -58,6 +63,7 @@ https://space.bilibili.com/{$uid}
 {$sign}
 {$official}
 {$sumtime}
+{$days}
 
 {$level}级/{$following}关注/{$follower}粉丝
 {$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}专栏阅读
