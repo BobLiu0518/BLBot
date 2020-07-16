@@ -50,7 +50,7 @@
 		$sumPlay += $video['play'];
 	}
 
-	$days = ($sex == "女"?"她":"他").'做UP主已经 '.intval((time() - $videoList[count($videoList)-1]['created'])/60/60/24).' 天了';
+	$days = $videoList[count($videoList)-1]['created']?(($sex == "女"?"她":"他").'做UP主已经 '.intval((time() - $videoList[count($videoList)-1]['created'])/60/60/24 + 1)." 天了\n"):'';
 	$sumtime = $sumSeconds?"看完".($sex == "女"?"她":"他")."的全部视频需要 ".intval($sumSeconds / 86400)."天".intval($sumSeconds % 86400 / 3600).
 		"小时".intval($sumSeconds % 3600 / 60)."分钟".($sumSeconds % 60)."秒":($sex == "女"?"她":"他")."没有发过视频或访问被拒绝";
 
@@ -64,7 +64,6 @@ https://space.bilibili.com/{$uid}
 {$official}
 {$sumtime}
 {$days}
-
 {$level}级/{$following}关注/{$follower}粉丝
 {$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}专栏阅读
 EOT;
