@@ -29,7 +29,12 @@ switch(getStatus($Event['user_id'])){
 		}
 		$data['escape']['date'] = date('Ymd');
 		$data['escape']['times'] += 1;
-		if(rand(0, 100) <= $jrrp){
+		if(rand(0, 100) <= 10){
+			// 进医院
+			$message = '越狱时你感到一阵刺痛，等你醒来时已经元气大伤，躺在了手术台上。(支付 20000 金币手术费)';
+			$data['status'] = 'hospitalized';
+			decCredit($Event['user_id'], 20000, true);
+		}else if(rand(0, 100) <= $jrrp){
 			// 越狱成功
 			$message = '趁狱警不注意，你成功溜了出来。';
 			$data['status'] = 'free';
