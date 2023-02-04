@@ -192,7 +192,7 @@ function loadModule(string $module){
                 addCommandCount($Event['user_id'], $module);
             }
         }
-        require('../module/'.$moduleFile);
+        require_once('../module/'.$moduleFile);
     }else if(strlen($module) <= 15){
         replyAndLeave('没有该命令：#'.$module.'，请检查是否打错字了或漏掉了空格哦～如需帮助可以发送 #help 哦');
     }

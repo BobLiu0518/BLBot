@@ -5,6 +5,7 @@ requireLvl(0);
 loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
+loadModule('jrrp.tools');
 
 switch(getStatus($User_id)){
 	case 'imprisoned':
@@ -31,6 +32,8 @@ switch(getStatus($User_id)){
 		}else{
 			$income = rand(1000, 10000);
 		}
+
+		$income = intval($income * getRp($Event['user_id']) / 50);
 
 		$originLvl = getLvl($Event['user_id']);
 		if(10000==$income)
