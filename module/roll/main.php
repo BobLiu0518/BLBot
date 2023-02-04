@@ -17,11 +17,11 @@ switch($countArg){
 
 }
 
-if($min == $max || !is_numeric($min) || !is_numeric($max))leave('NM$L');
+if($min == $max || !is_numeric($min) || !is_numeric($max))replyAndLeave('参数错误');
 
 $min = intval($min);
 $max = intval($max);
 
-$Queue[]= sendBack(rand($min, $max));
+$Queue[]= replyMessage(rand($min, $max));
 
 ?>

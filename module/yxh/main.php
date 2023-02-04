@@ -32,6 +32,6 @@ EOT;
 	break;
 }
 
-$Queue[]= sendBack($message);
+$Queue[]= replyMessage($message);
 
 ?>

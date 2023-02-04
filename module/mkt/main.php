@@ -9,7 +9,7 @@ $route = nextArg();
 $upDown = nextArg();
 if($route && $upDown == '上行' || $upDown == '上' || $upDown == '0' || $upDown === NULL)$upDown = '0';
 else if($route && $upDown == '下行' || $upDown == '下' || $upDown == '1')$upDown = '1';
-else leave('参数错误！');
+else replyAndLeave('参数错误！');
 
 $dataA = json_decode(getData('mkt/a.json'),true);
 $dataB = json_decode(getData('mkt/'.$route.'b-'.$upDown.'.json'),true);
@@ -24,12 +24,12 @@ foreach($dataA as $line)
 		$startTime = $line[($upDown?'end':'start').'StationFirstTime'];
 		$endTime = $line[($upDown?'end':'start').'StationEndTime'];
 	}
-if(!$lineId)leave('查询A失败！');
+if(!$lineId)replyAndLeave('查询失败…(1/2)');
 if(!$dataB){
 	$dataB = json_decode(file_get_contents($apiB.$lineId), true);
 	setData('mkt/'.$route.'b-'.$upDown.'.json', json_encode($dataB));
 }
-if(!count($dataB['stations']))leave('查询B失败！');
+if(!count($dataB['stations']))replyAndLeave('查询失败…(2/2)');
 
 // 线路元信息
 $reply = <<<EOT
@@ -48,15 +48,11 @@ foreach($dataB['stations'][$upDown] as $n => $station){
 $reply .= <<<EOT
 
 
-如果需要切换上下行，
-请在命令最后加上上行或者下行！
-
-相关命令：
-上海交通 #shjt  久事公交 #jst
-松江公交 #sjwgj  浦东公交 #pjt
-嘉定公交 #jjt
+如果需要切换上下行
+请在命令最后加上上行或者下行哦
+记得先加个空格
 EOT;
 
-$Queue[]= sendBack($reply);
+$Queue[]= replyMessage($reply);
 
 ?>

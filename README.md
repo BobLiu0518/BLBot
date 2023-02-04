@@ -1,15 +1,13 @@
 # BL1040Bot
 [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
-[![CoolQ Pro](https://img.shields.io/badge/CoolQ-PRO-Orange.svg)](https://cqp.me)
 [![基于kjBot](https://img.shields.io/badge/%E5%9F%BA%E4%BA%8E-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
 [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
-[![Telegram](https://img.shields.io/badge/Telegram-BL1040Bot-blue.svg)](https://t.me/BL1040Bot)
 
-BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的酷Q机器人。
+BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的QQ机器人。
 
-## 请使用CoolQ Pro
+## 请使用 go-cqhttp
 
-本项目开发目标为CoolQ Pro。为获得最好的效果，请您使用CoolQ Pro运行。
+本项目开发目标为 go-cqhttp。为获得最好的效果，请您使用 ![go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 运行。
 
 ## 框架结构
 
@@ -41,18 +39,9 @@ BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个�
 
 ### 快速安装
 
-如果你安装有 composer
 ```sh
-mkdir kjBot/
-composer create-project kj415j45/kjbot ./kjBot
-cd kjBot/
-./build.sh
-```
-
-如果没有
-```sh
-git clone https://github.com/kj415j45/kjBot.git
-cd kjBot/
+git clone https://github.com/BobLiu0518/BL1040Bot.git
+cd BL1040Bot/
 ./build.sh
 ```
 
@@ -66,7 +55,7 @@ cd kjBot/
 
 ### 编写第一个模块
 
-假定该模块为 `hello/main.php` ，向 bot 发送 `!hello` 即可触发该模块。
+假定该模块为 `hello/main.php` ，向 bot 发送 `#hello` 即可触发该模块。
 
 ```php
 <?php

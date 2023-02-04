@@ -19,7 +19,7 @@ if($lineName == "松莘线B线")$lineName = "松莘B线";
 $upDown = nextArg();
 if($lineName && $upDown == '上行' || $upDown == '上' || $upDown == '0' || $upDown === NULL)$upDown = '0';
 else if($lineName && $upDown == '下行' || $upDown == '下' || $upDown == '1')$upDown = '1';
-else leave('参数错误！');
+else replyAndLeave('参数错误…');
 
 //先读取缓存，如果有就不重新获取了
 $data = json_decode(getData('sjwgj/'.$lineName.'-'.$upDown.'.json'),true);
@@ -30,8 +30,7 @@ if(!$data){
 		'"updown":"'.$upDown.'",'.
 		'"crdtype":"baidu"}';
 
-	$postData = 'uid='.$uid.'&appid='.$appid.'&pwd='.$pwd.'&param='.$requestData;
-
+	$postData = 'uid='.$uid.'&appid='.$appid.'&pwd='.$pwd.'&param='.urlencode($requestData);
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $roadLineDataUrl);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -43,7 +42,7 @@ if(!$data){
 	setData('sjwgj/'.$lineName.'-'.$upDown.'.json', json_encode($data));
 }
 
-if($data['code'] < 0)leave('查询失败['.$data['code'].']：'.$data['msg']);
+if($data['code'] < 0)replyAndLeave('查询失败['.$data['code'].']：'.$data['msg']);
 
 // 环线类型
 switch($data['data']['LineType']){
@@ -75,17 +74,14 @@ EOT;
 $reply .= <<<EOT
 
 
-如果需要切换上下行，
-请在命令最后加上“上行”或者“下行”！
-需要查询实时信息 请使用指令：
-#sjwgj.rti {$data['data']['LineCode']} $upDownPrompt 站级序号
+如果需要切换上下行
+请在命令最后加上“上行”或者“下行”哦
+记得先加个空格
 
-相关命令：
-上海交通 #shjt  久事公交 #jst
-浦东公交 #pjt  嘉定公交 #jjt
-闵行客运 #mkt
+如果需要查询实时信息 请使用指令：
+#sjwgj.rti {$data['data']['LineCode']} $upDownPrompt <站级序号>
 EOT;
 
-$Queue[]= sendBack($reply);
+$Queue[]= replyMessage($reply);
 
 ?>

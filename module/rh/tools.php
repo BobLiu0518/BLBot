@@ -4,34 +4,43 @@ class Horse{
 	private $distance;
 	private $maxDistance;
 	private $dead;
+	private $disappeared;
 	private $nb;
 //	private const normalHorse = "[CQ:emoji,id=128052]";
 //	private const nbHorse = "🦄"; //[CQ:emoji,id=129412]
-	private const deadHorse = "[CQ:emoji,id=128128]";
+//	private const deadHorse = "👻";
 	private $normalHorse;
 	private $nbHorse;
+	private $deadHorse;
 
-	function __construct($n = 10, $m = 13, $h = "[CQ:emoji,id=128052]", $nh = "🦄"){
+	function __construct($n = 10, $m = 13, $h = "🐴", $nh = "🦄", $dh = "👻"){
 		$this->maxDistance = $m;
 		$this->distance = $n;
 		$this->dead = false;
+		$this->disappeared = false;
 		$this->normalHorse = $h;
 		$this->nbHorse = $nh;
+		$this->deadHorse = $dh;
 	}
 	private function str_suffix($str, $n=1, $char=" "){
 		for ($x=0;$x<$n;$x++){$str = $str.$char;}
 		return $str;
 	}
+	public function getChar(){
+		if($this->dead && (!$this->disappeared))
+			return $this->deadHorse;
+		else if($this->dead && $this->disappeared)
+			return '　';
+		else if($this->nb)
+			return $this->nbHorse;
+		else
+			return $this->normalHorse;
+	}
 	public function display(){
 		$str = $this->str_suffix("", $this->distance);
-		if($this->dead)
-			$str .= self::deadHorse;
-		else if($this->nb)
-			$str .= $this->nbHorse;
-		else
-			$str .= $this->normalHorse;
+		$str .= $this->getChar();
 		$str = $this->str_suffix($str, $this->maxDistance - $this->distance);
-		return $str."\n";
+		return $str;
 	}
 	public function goAhead($n){
 		$this->distance -= $n;
@@ -45,12 +54,18 @@ class Horse{
 			$this->distance = $this->maxDistance;
 		return;
 	}
-	public function kill(){
+	public function goTo($n){
+		$this->distance = $n;
+		return;
+	}
+	public function kill($disappeared = false){
 		$this->dead = true;
+		$this->disappeared = $disappeared;
 		return;
 	}
 	public function makeAlive(){
 		$this->dead = false;
+		$this->disappeared = false;
 		return;
 	}
 	public function nbIfy(){
@@ -67,7 +82,13 @@ class Horse{
 	public function isDead(){
 		return $this->dead;
 	}
+	public function isDisappeared(){
+		return $this->disappeared;
+	}
 	public function isWin(){
+		return (!$this->dead)&&(!$this->distance);
+	}
+	public function isFinished(){
 		return !$this->distance;
 	}
 }

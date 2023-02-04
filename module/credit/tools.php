@@ -16,18 +16,18 @@ function addCredit($QQ, $income){
     return setCredit($QQ, getCredit($QQ)+(int)$income, true);
 }
 
-function decCredit($QQ, $pay){
+function decCredit($QQ, $pay, $force = false){
     $balance = getCredit($QQ);
-    if($balance >= $pay){
+    if($balance >= $pay || $force){
         setData('credit.history', "- {$QQ} {$pay}\n");
         return setCredit($QQ, (int)($balance-$pay), true);
     }else{
-        if($balance == 0)throw new \Exception('余额不足，可使用 #checkin 命令获得金币！');
-        throw new \Exception('余额不足，还需要 '.($pay-$balance).' 个金币！');
+        if($balance == 0)replyAndLeave('余额不足，签到即可获取金币哦！');
+        replyAndLeave('余额不足，还需要 '.($pay-$balance).' 个金币哦，多多签到获取金币吧！');
     }
 }
 
-function transferCredit($from, $to, $transfer, $fee = 1.05){
+function transferCredit($from, $to, $transfer, $fee = 1.01){
     decCredit($from, intval($transfer*$fee));
     addCredit($to, $transfer);
 }

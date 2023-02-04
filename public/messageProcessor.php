@@ -1,13 +1,15 @@
 <?php
 
-$message = trim(ltrim($Event['message'], '[CQ:at,qq='.config('bot').']'));
+$message = trim(str_replace('[CQ:at,qq='.config('bot').']', '', $Event['message']));
 //$message = $Event['message'];
-if(preg_match('/^('.config('prefix', '#').')/', $message, $prefix)
+if(fromGuild()){
+    require('./guildProcessor.php');
+}else if(preg_match('/^('.config('prefix', '#').')/', $message, $prefix)
     || preg_match('/^('.config('prefix2', '.').')/', $message, $prefix) && config('enablePrefix2', false)){
-    $length = strpos($message, "\r");
+    $length = strpos($message, "\n");
     if(false===$length)$length = strlen($message);
     $Command = parseCommand(substr($message, strlen($prefix[1])-1, $length));
-    $Text = substr($message, $length+2);
+    $Text = substr($message, $length+1);
     $module = substr(nextArg(), strlen($prefix[1]));
     try{
         if(config('alias',false) == true
