@@ -11,15 +11,17 @@
 
 	ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
 
-	$uid = ltrim(ltrim(nextArg(), 'uid'), 'UID');
+	$uid = ltrim(nextArg(), 'uidUID:');
 	if(parseQQ($uid))$uid = getData("bili/user/".parseQQ($uid));
 	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
 	if($uid == "")replyAndLeave("请提供uid哦～如果想查询自己，可以使用 #bili.bind <uid> 绑定自己的账号哦！(括号不填)");
 	else if(!is_numeric($uid))replyAndLeave('uid不合法…请填写纯数字uid哦');
-	$relationData = json_decode(file_get_contents($relationApi.$uid), true)['data'];
-	$liveData = json_decode(file_get_contents($liveApi.$uid), true)['data'];
-	$statData = json_decode(file_get_contents($statApi.$uid, false, stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]])), true)['data'];
-	$spaceData = json_decode(file_get_contents($spaceApi.$uid), true)['data'];
+
+	$context = stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]]);
+	$relationData = json_decode(file_get_contents($relationApi.$uid, false, $context), true)['data'];
+	$liveData = json_decode(file_get_contents($liveApi.$uid, false, $context), true)['data'];
+	$statData = json_decode(file_get_contents($statApi.$uid, false, $context), true)['data'];
+	$spaceData = json_decode(file_get_contents($spaceApi.$uid, false, $context), true)['data'];
 
 	$following = $relationData['following'];
 	$follower = $relationData['follower'];
@@ -39,7 +41,7 @@
 
 	$n = 1; //小破站起始页竟然是1不是0
 	do{
-		$videoData = json_decode(file_get_contents($videoApi.$uid.'&pn='.$n), true)['data'];
+		$videoData = json_decode(file_get_contents($videoApi.$uid.'&pn='.$n, false, $context), true)['data'];
 		foreach($videoData['list']['vlist'] as $video)
 			$videoList[] = $video;
 		$sumvideos = $videoData['page']['count'];
