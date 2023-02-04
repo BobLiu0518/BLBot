@@ -6,6 +6,7 @@ requireLvl(1);
 
 loadModule('credit.tools');
 loadModule('exp.tools');
+loadModule('jrrp.tools');
 loadModule('attack.tools');
 
 function randString(array $strArr){
@@ -76,12 +77,12 @@ switch($data['status']){
 		$prisonRate = pow(2, $data['count']['times']);
 		$success = rand(1, 100) <= $successRate;
 		$prison = rand(1, 100) <= $prisonRate;
-		$getMoney = intval((getLvl($from) - getLvl($target) + 10) * rand(100 * $magnification, 1000 * $magnification));
+		$getMoney = intval((getLvl($from) - getLvl($target) + 10) * (getRp($from, time()) - getRp($target, time()) + 100) * rand(100 * $magnification, 1000 * $magnification) / 200 + 1);
 		if(getCredit($target) - 10000 <= $getMoney) $getMoney = getCredit($target) - 9999;
 		if(getCredit($target) < 10000) $success = false;
 
 		if($success && $prison){
-			$fine = intval(sqrt($getMoney) * 10);
+			$fine = intval(sqrt($getMoney) * 10) + 500 * $magnification;
 			decCredit($from, $fine, true);
 			$data['status'] = 'imprisoned';
 			$data['end'] = date('Ymd', time() + 86400 * 2);
