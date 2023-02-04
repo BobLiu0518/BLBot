@@ -1,7 +1,6 @@
 <?php
 
 	requireLvl(2);
-	replyAndLeave('功能暂时关闭');
 
 	global $Queue, $Event;
 	$relationApi = "https://api.bilibili.com/x/relation/stat?vmid=";
@@ -10,6 +9,8 @@
 	$videoApi = "https://api.bilibili.com/x/space/arc/search?ps=50&order=pubdate&mid=";
 	$spaceApi = "https://api.bilibili.com/x/space/acc/info?mid=";
 
+	ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
+
 	$uid = ltrim(ltrim(nextArg(), 'uid'), 'UID');
 	if(parseQQ($uid))$uid = getData("bili/user/".parseQQ($uid));
 	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
@@ -17,7 +18,7 @@
 	else if(!is_numeric($uid))replyAndLeave('uid不合法…请填写纯数字uid哦');
 	$relationData = json_decode(file_get_contents($relationApi.$uid), true)['data'];
 	$liveData = json_decode(file_get_contents($liveApi.$uid), true)['data'];
-	// $statData = json_decode(file_get_contents($statApi.$uid), true)['data'];
+	$statData = json_decode(file_get_contents($statApi.$uid, false, stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]])), true)['data'];
 	$spaceData = json_decode(file_get_contents($spaceApi.$uid), true)['data'];
 
 	$following = $relationData['following'];
@@ -29,8 +30,8 @@
 	$official = $spaceData['official']['title'];
 	$sex = $spaceData['sex'];
 	$official = $official?"官方认证：".$official:"暂未进行个人认证";
-	$archiveViews = "未知"; // $statData['archive']['view'];
-	$articleViews = "未知"; // $statData['article']['view'];
+	$archiveViews = $statData['archive']['view'];
+	$articleViews = $statData['article']['view'];
 	$sumSeconds = 0;
 	$sumPlay = 0;
 	$liveUrl = $liveData['url'];
@@ -68,6 +69,7 @@ https://space.bilibili.com/{$uid}
 {$days}
 {$level}级/{$following}关注/{$follower}粉丝
 {$archiveViews}播放/{$sumPlay}真实播放/{$articleViews}专栏阅读
+• “真实播放”为将所有稿件的播放量累加得出
 EOT;
 	$Queue[]= replyMessage($msg);
 
