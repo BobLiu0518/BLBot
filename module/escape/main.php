@@ -1,0 +1,56 @@
+<?php
+
+global $Event;
+loadModule('jrrp.tools');
+loadModule('credit.tools');
+loadModule('attack.tools');
+
+requireLvl(1);
+if(!fromGroup()){
+	replyAndLeave('本指令只能在群聊中使用哦…');
+}
+
+$jrrp = getRp($Event['user_id'], time());
+switch(getStatus($Event['user_id'])){
+	case 'free':
+		replyAndLeave('你现在不在监狱哦…难道还想再进去一次？');
+		break;
+	case 'hospitalized':
+		replyAndLeave('住院的时候还是以身体为重吧。');
+		break;
+	case 'arknights':
+		replyAndLeave('你并不知道从哪里可以逃出去…');
+		break;
+	case 'imprisoned':
+	case 'confined':
+		$data = getAttackData($Event['user_id']);
+		if($data['escape']['date'] == date('Ymd') && $data['escape']['times'] > 0){
+			replyAndLeave('你今天喜提狱警特别关照，别试了，没用的，洗洗睡吧。');
+		}
+		$data['escape']['date'] = date('Ymd');
+		$data['escape']['times'] += 1;
+		if(rand(0, 100) <= $jrrp){
+			// 越狱成功
+			$message = '趁狱警不注意，你成功溜了出来。';
+			$data['status'] = 'free';
+			$data['end'] = '0';
+		}else{
+			// 越狱失败
+			$message = '越狱失败了，';
+			if(rand(0, 100) <= $jrrp){
+				// 罚款
+				$fine = rand(30000, 60000);
+				decCredit($Event['user_id'], $fine, true);
+				$message .= '你被罚款 '.$fine.' 金币';
+			}else{
+				// 加一天
+				$data['end'] = date('Ymd', strtotime(getStatusEndTime($Event['user_id'])) + 86400);
+				$message .= '你蹲监狱的时间延长了一天';
+			}
+			$message .= '，并被狱警特别关照…';
+		}
+		setAttackData($Event['user_id'], $data);
+		replyAndLeave($message);
+};
+
+?>
