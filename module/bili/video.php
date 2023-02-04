@@ -4,11 +4,14 @@
 
 	global $Queue;
 	$api = "http://api.bilibili.com/x/web-interface/view?";
+	ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
+	$context = stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]]);
+
 	$vid = nextArg();
 	if(strpos($vid, 'BV') === 0) $bvid = $vid;
 	else if(is_numeric($vid = ltrim(ltrim($vid, 'av'), 'AV'))) $avid = $vid;
 	else replyAndLeave('请输入av号或BV号哦');
-	if(!($data = json_decode(file_get_contents($api.'aid='.$avid.'&bvid='.$bvid),ture)['data']))replyAndLeave('查询失败…');
+	if(!($data = json_decode(file_get_contents($api.'aid='.$avid.'&bvid='.$bvid, false, $context), ture)['data']))replyAndLeave('查询失败…');
 
 	$avid = $data['aid'];
 	$bvid = $data['bvid'];

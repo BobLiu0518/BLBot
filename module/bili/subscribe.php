@@ -8,12 +8,15 @@ $spaceApi = "https://api.bilibili.com/x/space/acc/info?mid=";
 $dynamicApi = "https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/space?host_mid=";
 $file = json_decode(getData('bili/subscription/config/'.$Event['group_id']), true);
 
+$context = stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]]);
+ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
+
 if(!$uid){
 	if(!$file || !count($file['sub'])) replyAndLeave("群内没有订阅的up哦～");
 	else {
 		$reply = "群内订阅的up有：";
 		foreach($file['sub'] as $sub){
-			$name = json_decode(file_get_contents($spaceApi.$sub), true)['data']['name'];
+			$name = json_decode(file_get_contents($spaceApi.$sub, false, $context), true)['data']['name'];
 			$reply .= "\n".$name.' (uid'.$sub.')';
 		}
 		replyAndLeave($reply);
@@ -38,7 +41,7 @@ if(!$uid){
 	if(in_array($uid, $file['sub'])) replyAndLeave("已经订阅过这位up了～");
 	$file['sub'][] = $uid;
 	setData('bili/subscription/config/'.$Event['group_id'], json_encode($file));
-	$name = json_decode(file_get_contents($spaceApi.$uid), true)['data']['name'];
+	$name = json_decode(file_get_contents($spaceApi.$uid, false, $context), true)['data']['name'];
 	replyAndLeave('订阅 '.$name.' (uid'.$uid.') 成功！');
 }
 
