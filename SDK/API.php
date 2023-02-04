@@ -40,8 +40,11 @@ class API{
     const clean_data_dir = '/clean_data_dir';
     const clean_plugin_log = '/clean_plugin_log';
     const _get_friend_list = '/_get_friend_list';
-    const _get_group_info = '/_get_group_info';
+    const get_group_info = '/get_group_info';
     const _get_vip_info = '/_get_vip_info';
     const __check_update = '/.check_update';
     const __handle_quick_operation = '/.handle_quick_operation';
+    const send_guild_channel_msg = '/send_guild_channel_msg';
+    const get_guild_service_profile = '/get_guild_service_profile';
+    const get_guild_member_profile = '/get_guild_member_profile';
 }

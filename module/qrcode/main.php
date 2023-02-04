@@ -4,19 +4,19 @@ global $Queue, $Text, $User_id;
 loadModule('credit.tools');
 while($nextArg = nextArg())
     $Text = $nextArg." ".$Text;
-if($Text === "")leave("没有内容！");
-if(strlen($Text) > 271)leave("消息过长！");
-if(strpos($Text, "[CQ:") !== false)leave("非法内容！");
-$fee = intval(mb_strlen($Text, 'utf-8'));
+if($Text === "")replyAndLeave("没有填写要生成的内容呢OvO");
+if(strlen($Text) > 271)replyAndLeave("消息太长啦！QwQ");
+if(strpos($Text, "[CQ:") !== false)replyAndLeave("二维码生成只支持纯文本哦");
+$fee = intval(mb_strlen($Text, 'utf-8'))*100;
 
 decCredit($User_id, $fee);
 $link = "http://tool.oschina.net/action/qrcode/generate?output=image%2Fjpeg&error=L&type=0&margin=15&size=4&data=";
 $qr = file_get_contents($link.urlencode($Text));
 if(!$qr){
     addCredit($User_id, $fee);
-    leave("生成失败！");
+    replyAndLeave("生成失败呜呜呜");
 }
 $Queue[]= sendBack(sendImg($qr));
-$Queue[]= sendBack("共 ".strlen($Text)." 个字节，已收取 ".$fee." 个金币，你的余额为 ".getCredit($User_id));
+$Queue[]= replyMessage("共 ".strlen($Text)." 字节，已收取 ".$fee." 金币，你的余额为 ".getCredit($User_id));
 
 ?>

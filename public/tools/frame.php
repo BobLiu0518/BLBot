@@ -49,6 +49,15 @@ function sendBack(string $msg, bool $auto_escape = false, bool $async = false):M
     return new Message($msg, isset($Event['group_id'])?$Event['group_id']:$Event['user_id'], isset($Event['group_id']), $auto_escape, $async);
 }
 
+function replyMessage(string $msg, bool $auto_escape = false, bool $async = false):Message{
+    global $Event;
+    $msg = '[CQ:reply,id='.$Event['message_id'].']'.$msg;
+    if(!rand(0, 15)){
+        $msg = str_replace("哦～", "喵～", $msg);
+    }
+    return sendBack($msg, $auto_escape, $async);
+}
+
 /**
  * 发送给 Master
  * @param string $msg 消息内容
@@ -88,6 +97,11 @@ function getData(string $filePath){
     return file_get_contents('../storage/data/'.$filePath);
 }
 
+function getDataFolderContents(string $folderPath){
+    $contents = scandir('../storage/data/'.$folderPath);
+    return array_diff($contents, ['.', '..']);
+}
+
 /**
  * 缓存
  * @param string $cacheFileName 缓存文件名
@@ -96,6 +110,10 @@ function getData(string $filePath){
  */
 function setCache(string $cacheFileName, $cache){
     return file_put_contents('../storage/cache/'.$cacheFileName, $cache, LOCK_EX);
+}
+
+function delCache(string $filePath){
+	return unlink('../storage/cache/'.$filePath);
 }
 
 /**
@@ -147,17 +165,25 @@ function sendRec($str):string{
  * @param string $module 模块名
  */
 function loadModule(string $module){
-    if($Event['user_id'] == "80000000")
-        leave('请不要使用匿名！');
+    global $Event;
+    if($Event['user_id'] == "80000000"){
+        // $Queue[]= replyMessage('请不要使用匿名！');
+        leave();
+    }
     if('.' === $module[0]){
-        leave('非法命令！');
+        $Queue[]= replyMessage('非法命令！');
+        leave();
     }
     $moduleFile = str_replace('.', '/', $module, $count);
     if(0 === $count){
-        $moduleFile.='/main.php';
-    }else{
-        $moduleFile.='.php';
+        $moduleFile.='/main';
     }
+
+    // if(fromGuild()){
+    //    $moduleFile.='.guild.php';
+    // }else{
+        $moduleFile.='.php';
+    // }
 
     if(file_exists('../module/'.$moduleFile)){
         if(config('recordStat', 'true')){
@@ -167,9 +193,23 @@ function loadModule(string $module){
             }
         }
         require('../module/'.$moduleFile);
-    }else{
-        leave('没有该命令：#'.$module);
+    }else if(strlen($module) <= 15){
+        replyAndLeave('没有该命令：#'.$module.'，请检查是否打错字了或漏掉了空格哦～如需帮助可以发送 #help 哦');
     }
+}
+
+function checkModule(string $module){
+    global $Event;
+    if('.' === $module[0]){
+        $Queue[]= replyMessage('非法命令！');
+        leave();
+    }
+    $moduleFile = str_replace('.', '/', $module, $count);
+    if(0 === $count){
+        $moduleFile .= '/main';
+    }
+    $moduleFile .= '.php';
+    return file_exists('../module/'.$moduleFile);
 }
 
 /**
@@ -199,11 +239,11 @@ function pd(){
  * 继续执行脚本需要指定等级
  * 是就继续，不是就抛出异常，返回权限不足
  */
-function requireLvl($lvl = 0){
+function requireLvl($lvl = 0, $msg = '本指令', $resolve = null){
     global $Event;
     loadModule('exp.tools');
     if(intval(getLvl($Event['user_id'])) < $lvl){
-         throw new LvlLowException($lvl, getLvl($Event['user_id']));
+         throw new LvlLowException($lvl, getLvl($Event['user_id']), $msg, $resolve);
     }
 }
 
@@ -321,7 +361,7 @@ function requireInsider(){
 
 function nextArg(){
     global $Command;
-    static $index=0;
+    static $index = 0;
 
     return $Command[$index++];
 }
@@ -359,6 +399,11 @@ function fromGroup($group = NULL):bool{
     }
 }
 
+function fromGuild():bool{
+    global $Event;
+    return ($Event['post_type']=="message")&&($Event['message_type']=="guild");
+}
+
 /**
  * 退出模块
  * @param string $msg 返回信息
@@ -366,6 +411,14 @@ function fromGroup($group = NULL):bool{
  * @throws Exception 用于退出模块
  */
 function leave($msg = '', $code = 0){
+    throw new \Exception($msg, $code);
+}
+
+function replyAndLeave($msg = '', $code = 0){
+    global $Event;
+    if($msg){
+        $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;
+    }
     throw new \Exception($msg, $code);
 }
 

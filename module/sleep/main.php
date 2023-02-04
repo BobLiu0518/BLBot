@@ -18,6 +18,6 @@ while(true){
 
 try{
     $CQ->setGroupBan($Event['group_id'], $Event['user_id'], (strtotime($time)-time()));
-}catch(\Exception $e){leave();}
+}catch(\Exception $e){}
 
 ?>

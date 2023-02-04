@@ -6,25 +6,24 @@ prefix="#"
 prefix2=";"
 enablePrefix2=true
 ;依次填入你的Q号、你机器人的Q号和你的开发群
-master=2018962389
-bot=2094361499
-devgroup=789029454
+master=
+bot=
+devgroup=
 ;是否允许加好友和加群，可选 true false ignore
-allowFriends=true
+allowFriends=false
 allowGroups=ignore
 ;添加好友或新人进群时的默认提示语
-addFriendMsg="感谢您添加 BL1040Bot 为好友，发送 #help 查看帮助列表。"
-addGroupMsg="欢迎加入本群，我是 BL1040Bot，发送 #help 查看帮助列表。"
+addFriendMsg="BLBot 已经是你的好友啦，发送 #help 查看帮助～"
+addGroupMsg="欢迎加入本群，我是 BLBot，发送 #help 查看帮助～"
 ;调试选项
 DEBUG=false
-DebugListen=2018962389
-Listen=0
+DebugListen=
+Listen=-1
 ;是否开启一些功能
-recordStat=true
+recordStat=false
 alias=true
 ;这里往下是模块定义的 config，以后可能会改为使用 data
 ;填入cookie和一些key，看着填就可以了
-Pixiv_Session=
 osu_cookie=
 osu_api_key=
 baidumap_ak_key=
@@ -34,6 +33,3 @@ voice_api_key=
 voice_secret_key=
 translate_appkey=
 translate_secret_key=
-
-;浦交通API地址
-PJT_API=

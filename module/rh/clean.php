@@ -1,8 +1,8 @@
 <?php
 
-global $Event;
+global $Event, $Queue;
 requireAdmin();
 delData('rh/'.$Event['group_id']);
-leave('Done.');
+$Queue[]= replyMessage('Done.');
 
 ?>

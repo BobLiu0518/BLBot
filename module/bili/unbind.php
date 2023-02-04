@@ -3,6 +3,6 @@
 global $Event;
 
 delData("bili/user/".$Event['user_id']);
-leave("解绑成功！");
+replyAndLeave("解绑成功～可以绑定新的账号啦～");
 
 ?>

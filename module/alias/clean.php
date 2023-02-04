@@ -1,8 +1,11 @@
 <?php
 
 global $Event;
-if(!nextArg())leave('确认清空设置的别名吗？确定请发送 #alias.clean confirm');
+if(!nextArg()){
+    $Queue[]= replyMessage('确认清空设置的别名吗？确定请发送 #alias.clean confirm');
+    leave();
+}
 delData("alias/".$Event['user_id'].".json");
-leave('清空完毕！');
+$Queue[]= replyMessage('清空完毕～');
 
 ?>

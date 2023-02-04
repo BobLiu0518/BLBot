@@ -346,8 +346,8 @@ class CoolQ{
         return $this->query($api, $param);
     }
 
-    public function _getGroupInfo($group_id){
-        $api = API::_get_group_info;
+    public function getGroupInfo($group_id){
+        $api = API::get_group_info;
         $param = [
             'group_id' => $group_id,
         ];
@@ -375,6 +375,31 @@ class CoolQ{
         $param = [
             'context' => $context,
             'operation' => $operation,
+        ];
+        return $this->query($api, $param);
+    }
+
+    public function sendGuildChannelMsg($guildId, $channelId, $message){
+        $api = API::send_guild_channel_msg;
+        $param = [
+            'guild_id' => $guildId,
+            'channel_id' => $channelId,
+            'message' => $message,
+        ];
+        return $this->query($api, $param);
+    }
+
+    public function getGuildServiceProfile(){
+        $api = API::get_guild_service_profile;
+        $param = [];
+        return $this->query($api, $param);
+    }
+
+    public function getGuildMemberProfile($guildId, $userId){
+        $api = API::get_guild_member_profile;
+        $param = [
+            'guild_id' => $guildId,
+            'user_id' => $userId,
         ];
         return $this->query($api, $param);
     }

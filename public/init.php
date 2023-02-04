@@ -8,7 +8,6 @@ use kjBot\Frame\MessageSender;
 //全局变量区
 $Config = parse_ini_file('../config.ini', false);
 $Event = json_decode(file_get_contents('php://input'), true);
-if(!isset($Event))exit("Error! Only accept POST requests from CQHTTP!");
 $Event['message'] = trim(CQCode::DecodeCQCode($Event['message']));
 $User_id = $Event['user_id'];
 $CQ = new CoolQ(config('API', '127.0.0.1:5700'), config('token', ''));

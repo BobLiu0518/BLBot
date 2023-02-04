@@ -1,5 +1,5 @@
 {
-    "name": "BL1040Bot (Based on kj415j45/kjBot)",
+    "name": "bobliu0518/bl1040bot",
     "description": "NULL",
     "keywords": ["qqbot", "coolq-http-api"],
     "license": "(MIT and AGPL-3.0-or-later)",
@@ -24,9 +24,9 @@
         "php": "^7.2",
         "ext-SimpleXML": "^7.2",
         "ext-sqlite3": "^7.2",
-        "gentle/bitbucket-api": "^1.1",
         "intervention/image": "^2.4",
-        "kriswallsmith/buzz": "^0.17.2"
+        "kriswallsmith/buzz": "^0.17.2",
+        "rexxars/morse": "^1.0"
     },
     "suggest": {
         "intervention/image": "osu 模块绘图依赖",
@@ -49,7 +49,6 @@
         "optimize-autoloader": true
     },
     "require-dev": {
-        "ext-json": "^1.6",
         "knplabs/github-api": "^2.9",
         "lcobucci/jwt": "^3.2",
         "linfo/linfo": "^4.0",

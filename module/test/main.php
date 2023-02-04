@@ -1,6 +1,7 @@
 <?php
 
 	global $Queue, $CQ;
+	requireLvl(4);
 	requireSeniorAdmin();
 
 	$cqv = $CQ->getVersionInfo();
@@ -13,6 +14,6 @@
 	else
 		$reply = "酷Q ".$cqEdition." / CQHTTP ".$plgVersion." 运行异常！";
 
-	$Queue[]= sendBack($reply);
+	$Queue[]= replyMessage($reply);
 
 ?>

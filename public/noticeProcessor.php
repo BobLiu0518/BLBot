@@ -1,6 +1,6 @@
 <?php
 
-global $Event, $Queue;
+global $Event, $Queue, $CQ;
 use kjBot\SDK\CQCode;
 
 switch($Event['notice_type']){
@@ -8,11 +8,13 @@ switch($Event['notice_type']){
         if($Event['user_id'] != config('bot')){
             $addGroupMsg = getData('addGroupMsg/'.$Event['group_id']);
             if(!$addGroupMsg)
-                $Queue[]= sendBack(CQCode::At($Event['user_id']).config('addGroupMsg',' 欢迎加入本群，请阅读群公告~ 我是 BL1040Bot，发送 #help 查看 BL1040Bot 的帮助~'));
+                $Queue[]= sendBack(CQCode::At($Event['user_id']).config('addGroupMsg',' 欢迎加入本群，请阅读群公告~ 我是 BLBot，发送 #help 查看帮助~'));
             else
-                $Queue[]= sendBack(CQCode::At($Event['user_id']).$addGroupMsg);
+                $Queue[]= sendBack(CQCode::At($Event['user_id']).trim($addGroupMsg));
         }else{
-            $Queue[]= sendBack('BL1040Bot 已入驻本群，发送 #help 查看帮助，');
+            $CQ->setGroupLeave($Event['group_id']);
+            $Queue[]= sendMaster('Leaving group '.$Event['group_id']);
+            // $Queue[]= sendBack('BLBot 已加入本群，发送 #help 查看帮助哦～');
         }
         break;
     case 'group_decrease':
@@ -30,6 +32,15 @@ switch($Event['notice_type']){
             }
             $Queue[]= sendMaster($prefix.'admin in group '.$Event['group_id']);
             $Queue[]= sendDevGroup($prefix.'admin in group '.$Event['group_id']);
+        }
+        break;
+    case 'notify':
+        switch($Event['sub_type']){
+            case 'poke':
+                if($Event['group_id'] && $Event['user_id'] != config('bot') && $Event['target_id'] == config('bot'))
+                    $Queue[]= sendBack('[CQ:poke,qq='.$Event['user_id'].']');
+                break;
+            default:
         }
         break;
     default:
