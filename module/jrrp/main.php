@@ -1,14 +1,14 @@
 <?php
 
 global $Event, $Queue, $CQ;
-requireLvl(0);
+requireLvl(1);
+loadModule('jrrp.tools');
+
 function randString(array $strArr){
 	return $strArr[rand(0, sizeof($strArr)-1)];
 }
 
-$str = date("Ymd").$Event['user_id'];
-$hash = hexdec(crc32($str));
-$jrrp = ($hash % 150) + 1;
+$jrrp = getRp($Event['user_id'], time());
 
 if($jrrp > 100) $jrrp -= 50;
 if($jrrp >= 90) $reply = randString(array("* 你充满了决心。","你种了一整个花园的四叶草吗？你拥有了好运的精髓！"));
