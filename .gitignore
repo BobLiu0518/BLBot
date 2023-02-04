@@ -9,3 +9,4 @@ storage/data/
 config.ini
 .DS_Store
 module/bld/
+stat.sql
