@@ -16,7 +16,7 @@ if(!$uid) replyAndLeave("不知道你想取消订阅哪位up呢…");
 if(!$file || !in_array($uid, $file['sub'])) replyAndLeave("群里没有订阅这位up呢…");
 $file['sub'] = array_diff($file['sub'], [$uid]);
 setData('bili/subscription/config/'.$Event['group_id'], json_encode($file));
-$name = json_decode(file_get_contents($spaceApi.$uid, true, $context), true)['data']['name'];
+$name = json_decode(file_get_contents($spaceApi.$uid, false, $context), true)['data']['name'];
 replyAndLeave('取消订阅 '.$name.' (uid'.$uid.') 成功！');
 
 ?>
