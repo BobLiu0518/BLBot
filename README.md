@@ -1,9 +1,9 @@
-# BL1040Bot
+# BLBot
 [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
 [![基于kjBot](https://img.shields.io/badge/%E5%9F%BA%E4%BA%8E-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
 [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
 
-BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的QQ机器人。
+BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的QQ机器人。
 
 ## 请使用 go-cqhttp
 
@@ -40,8 +40,8 @@ BL1040Bot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个�
 ### 快速安装
 
 ```sh
-git clone https://github.com/BobLiu0518/BL1040Bot.git
-cd BL1040Bot/
+git clone https://github.com/BobLiu0518/BLBot.git
+cd BLBot/
 ./build.sh
 ```
 
@@ -80,9 +80,9 @@ if(!fromGroup()){ //如果消息不是来自群聊
 - [richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)
   - 酷Q 与许多 Bot 之间的桥梁
 - [kilingzhang/coolq-php-sdk](https://github.com/kilingzhang/coolq-php-sdk)
-  - 本项目的起源
+  - kjBot 的起源
 - [kj415j45/jkBot](https://github.com/kj415j45/jkBot)
-  - 本项目的零代
+  - kjBot 的零代
 - 框架作者
   - [kj415j45](https://github.com/kj415j45)
 - 贡献者
@@ -93,4 +93,4 @@ if(!fromGroup()){ //如果消息不是来自群聊
 
 ## LICENSE
 
-BL1040Bot 框架及 SDK 均为 MIT 协议。但是模块与中间件均为 AGPL 协议，如果您希望闭源开发，请不要使用该项目提供的模块和中间件。
+BLBot 框架及 SDK 均为 MIT 协议。但是模块与中间件均为 AGPL 协议，如果您希望闭源开发，请不要使用该项目提供的模块和中间件。
