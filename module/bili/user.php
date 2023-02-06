@@ -33,7 +33,9 @@
 	$sex = $spaceData['sex'];
 	$official = $official?"官方认证：".$official:"暂未进行个人认证";
 	$archiveViews = $statData['archive']['view'];
+	if(!$archiveViews) $archiveViews = '未知';
 	$articleViews = $statData['article']['view'];
+	if(!$articleViews) $articleViews = '未知';
 	$sumSeconds = 0;
 	$sumPlay = 0;
 	$liveUrl = $liveData['url'];
