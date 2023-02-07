@@ -128,7 +128,7 @@ function gacha($poolName, $times){
 		// 干员判定
 		if(!$operatorDecided){
 			$r = rand(1, 100);
-			if($pool['operators'][$star]['up'] && $r <= $pool['operators'][$star]['percentage']){
+			if($pool['operators'][$star]['up'] && ($r <= $pool['operators'][$star]['percentage'] || ($pool['type'] == 'special' && intval($star) >= 5))){
 				// 没歪
 				$operator = $pool['operators'][$star]['up'][array_rand($pool['operators'][$star]['up'], 1)];
 			}else{
