@@ -13,6 +13,8 @@ if(!$operator){
 	replyAndLeave('不知道你要查询谁的卡池呢…');
 }else if(!$operatorData[$operator]){
 	replyAndLeave('干员 '.$operator.' 不存在…');
+}else if($operatorData[$operator]['type'] == 'other'){
+	replyAndLeave('干员 '.$operator.' 无法通过寻访获取…');
 }
 
 $reply = '';
