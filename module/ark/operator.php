@@ -24,6 +24,10 @@ foreach($poolData as $pool){
 	}
 }
 
-replyAndLeave('干员 '.$operator.' 参与UP的卡池信息：'.$reply);
+if(!$reply){
+	replyAndLeave('干员 '.$operator.' 没有参与过卡池UP');
+}else{
+	replyAndLeave('干员 '.$operator.' 参与UP的卡池信息：'.$reply);
+}
 
 ?>
