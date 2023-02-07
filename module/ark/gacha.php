@@ -174,6 +174,9 @@ function gacha($poolName, $times){
 		}
 	}
 
+	// 次数提示
+	$reply .= '“'.$pool['name'].'”中已经招募了 '.$userData[$pool['name']]['counter'].' 次'."\n";
+
 	// 小保底提示
 	$reply .= (($pool['type'] == 'normal')?('标准寻访'):('“'.$pool['name'].'”')).'已连续 '.(($pool['type'] == 'normal') ? $userData['normal']['floor'] : $userData[$pool['name']]['floor']).' 次没有招募到 6★ 干员';
 	setData('ark/user/'.$Event['user_id'], json_encode($userData));
