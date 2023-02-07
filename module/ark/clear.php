@@ -2,12 +2,7 @@
 
 global $Event;
 
-$files = getDataFolderContents('ark/floor/');
-foreach($files as $file){
-	if(preg_match('/^'.$Event['user_id'].'.*$/', $file)){
-		delData('ark/floor/'.$file);
-	}
-}
+delData('ark/user/'.$Event['user_id']);
 
 replyAndLeave('已清除保底数据～');
 
