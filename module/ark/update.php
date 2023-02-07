@@ -176,6 +176,7 @@ foreach($poolData['results'] as $pool){
 	}else if(preg_match('/{{寻访模拟器\/自动设定\|(.+)}}/', str_replace("\n", ';', $poolDetail), $poolConfig)){
 		// 自动设定的卡池
 		$suffix = 'jpg';
+		$poolTime = $poolType = null;
 		foreach(explode('|', $poolConfig[1]) as $n => $item){
 			if($n == 0){
 				$fileName = $item;
@@ -217,7 +218,7 @@ foreach($poolData['results'] as $pool){
 			if(is_numeric($operator)){
 				$operator = $ids[$operator];
 			}
-			$pools[$poolName]['operators'][$operators[$operator]['star']][]= $operator;
+			$pools[$poolName]['operators'][$operators[$operator]['star']]['up'][]= $operator;
 		}
 	}else{
 		$Queue[]= replyMessage('无法解析卡池：'.$poolName);
