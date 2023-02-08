@@ -62,6 +62,7 @@ foreach($poolData['results'] as $pool){
 	echo 'Getting pool data '.$poolName."\n";
 	$pools[$poolName] = [
 		'name' => $poolName,
+		'type' => 'normal',
 		'bonus' => [['type' => 'star', 'star' => '5', 'counter' => 10]],
 		'operators' => [
 			'6' => ['percentage' => 50, 'up' => [], 'except' => [], 'other' => []],
