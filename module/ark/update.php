@@ -1,7 +1,18 @@
 <?php
 
-requireMaster();
 global $Queue;
+
+if(php_sapi_name() == "cli"){
+	function setData($route, $file){
+		file_put_contents("../../storage/data/".$route, $file);
+	}
+	function replyMessage($msg){
+		echo $msg."\n";
+		return null;
+	}
+}else{
+	requireMaster();
+}
 
 $operatorSearch = 'https://prts.wiki/w/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/-5B-5B%E5%88%86%E7%B1%BB:%E5%B9%B2%E5%91%98-5D-5D/mainlabel%3D/limit%3D500/offset%3D0/format%3Djson';
 $poolSearch = 'https://prts.wiki/w/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/-5B-5B%E5%88%86%E7%B1%BB:%E5%AF%BB%E8%AE%BF%E6%A8%A1%E6%8B%9F-5D-5D/mainlabel%3D/limit%3D500/offset%3D0/format%3Djson';
@@ -54,7 +65,6 @@ foreach($operatorData['results'] as $operator){
 	$ids[$operatorId[1]] = $operatorName[1];
 }
 setData('ark/operator.json', json_encode($operators));
-setData('ark/ids.json', json_encode($ids));
 $Queue[]= replyMessage('更新干员数据成功');
 
 foreach($poolData['results'] as $pool){
