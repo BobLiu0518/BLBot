@@ -83,8 +83,7 @@ function gacha($poolName, $times){
 	$reply .= $pool['name']." 寻访结果：\n";
 
 	for($gacha = 0; $gacha < $times; $gacha += 1){
-        	$star = '';
-		$operatorDecided = false;
+        	$star = $operator  = '';
 
 		// 计数
 		$userData[$pool['name']]['counter'] += 1;
@@ -104,7 +103,6 @@ function gacha($poolName, $times){
 					$operatorData = json_decode(getData('ark/operator.json'), true);
 					$operator = $bonus['operator'];
 					$star = $operatorData[$operator]['star'];
-					$operatorDecided = true;
 				}
 			}
 		}
@@ -126,7 +124,7 @@ function gacha($poolName, $times){
 		}
 
 		// 干员判定
-		if(!$operatorDecided){
+		if(!$operator){
 			$r = rand(1, 100);
 			if($pool['operators'][$star]['up'] && ($r <= $pool['operators'][$star]['percentage'] || ($pool['type'] == 'special' && intval($star) >= 5))){
 				// 没歪
