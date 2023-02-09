@@ -30,10 +30,8 @@
         "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "suggest": {
-        "intervention/image": "osu 模块绘图依赖",
         "ext-imagick": "image 库依赖",
         "linfo/linfo": "status 模块依赖",
-        "nelexa/zip": "osu.listen 模块依赖",
         "statickidz/php-google-translate-free": "translate 模块依赖",
         "pndurette/gTTS": "一个pip库，voice 模块依赖"
     },
