@@ -26,7 +26,8 @@
         "ext-sqlite3": "^7.2",
         "intervention/image": "^2.4",
         "kriswallsmith/buzz": "^0.17.2",
-        "rexxars/morse": "^1.0"
+        "rexxars/morse": "^1.0",
+        "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "suggest": {
         "intervention/image": "osu 模块绘图依赖",
