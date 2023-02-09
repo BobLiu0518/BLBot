@@ -94,7 +94,7 @@ EOT;
 						case "MAJOR_TYPE_LIVE_RCMD":
 							$liveData = json_decode($dynamic['modules']['module_dynamic']['major']['live_rcmd']['content'], true);
 							$msg .= $liveData['live_play_info']['title'];
-							$msg .= "\n".$liveData['live_play_info']['link'];
+							$msg .= "\nhttps:".$liveData['live_play_info']['link'];
 							$msg .= "\n[CQ:image,file=".$liveData['live_play_info']['cover']."]";
 							$msg .= "\n注：标注时间为B站发布直播推荐动态的时间，并非直播开始时间";
 							break;
