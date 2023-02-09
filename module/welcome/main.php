@@ -12,7 +12,14 @@ while($nextArg = nextArg()){
 $Text = trim($args."\n".$Text);
 
 if(!$Text){
-	replyAndLeave("当前入群欢迎：\n@新成员 ".trim(getData('addGroupMsg/'.$Event['group_id'])));
+	$welcome = trim(getData('addGroupMsg/'.$Event['group_id']));
+	if(!$welcome){
+		$welcome = config('addGroupMsg', '欢迎加入本群，我是 BLBot，发送 #help 查看帮助～');
+	}
+	if($CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->role != 'member'){
+		$welcome .= "\n\n如需更改入群欢迎，可以使用 #welcome <内容>";
+	}
+	replyAndLeave("当前入群欢迎：\n@新成员 ".$welcome);
 }else{
 	if($CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->role == 'member'){
 		replyAndLeave("只有管理员才能设置本群入群欢迎哦…");
