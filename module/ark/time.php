@@ -9,13 +9,14 @@ usort($poolData, 'poolSortByTime');
 
 $date = nextArg();
 if($date){
-	$timestamp = strtotime($date) + 86400 * 13;
+	$timestamp = strtotime($date);
 }else{
 	$timestamp = time();
 }
 
 $reply = '';
-$dateRange = date('Y/m/d', $timestamp - 86400 * 13).'~'.date('Y/m/d', $timestamp);
+$date = date('Y/m/d', $timestamp);
+
 foreach($poolData as $pool){
 	if($pool['time'] > strval(date('Ymd', $timestamp))){
 		break;
@@ -25,9 +26,9 @@ foreach($poolData as $pool){
 }
 
 if(!$reply){
-	replyAndLeave('在 '.$dateRange.' 没有找到卡池');
+	replyAndLeave('在 '.$date.' 没有找到卡池');
 }else{
-	replyAndLeave($dateRange.' 的卡池信息：'.$reply);
+	replyAndLeave($date.' 开放的卡池信息：'.$reply);
 }
 
 ?>
