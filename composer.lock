@@ -4,8 +4,99 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f9e450095fc1d0ca5cb292c0f95af0f",
+    "content-hash": "4a6657a9ddc1d94266503e78c120c90d",
     "packages": [
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.huaweicloud.com/repository/php/bacon/bacon-qr-code/2.0.8/bacon-bacon-qr-code-2.0.8.zip",
+                "reference": "8674e51bb65af933a5ffaf1c308a660387c35c22",
+                "shasum": ""
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^2.1",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "spatie/phpunit-snapshot-assertions": "^4.2.9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "suggest": {
+                "ext-imagick": "to generate QR code images"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BaconQrCode\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BaconQrCode is a QR code generator for PHP.",
+            "homepage": "https://github.com/Bacon/BaconQrCode",
+            "time": "2022-12-07T17:46:57+00:00"
+        },
+        {
+            "name": "dasprid/enum",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DASPRiD/Enum.git",
+                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.huaweicloud.com/repository/php/dasprid/enum/1.0.3/dasprid-enum-1.0.3.zip",
+                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DASPRiD\\Enum\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP 7.1 enum implementation",
+            "keywords": [
+                "enum",
+                "map"
+            ],
+            "time": "2020-10-02T16:03:48+00:00"
+        },
         {
             "name": "guzzlehttp/psr7",
             "version": "1.9.0",
@@ -16,7 +107,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
+                "url": "https://repo.huaweicloud.com/repository/php/guzzlehttp/psr7/1.9.0/guzzlehttp-psr7-1.9.0.zip",
                 "reference": "e98e3e6d4f86621a9b75f623996e6bbdeb4b9318",
                 "shasum": ""
             },
@@ -49,7 +140,6 @@
                     "GuzzleHttp\\Psr7\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -122,7 +212,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/744ebba495319501b873a4e48787759c72e3fb8c",
+                "url": "https://repo.huaweicloud.com/repository/php/intervention/image/2.7.1/intervention-image-2.7.1.zip",
                 "reference": "744ebba495319501b873a4e48787759c72e3fb8c",
                 "shasum": ""
             },
@@ -159,7 +249,6 @@
                     "Intervention\\Image\\": "src/Intervention/Image"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -202,7 +291,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/0d7e985003f074fca0ceb00bf2f650d749ae9710",
+                "url": "https://repo.huaweicloud.com/repository/php/kriswallsmith/buzz/0.17.2/kriswallsmith-buzz-0.17.2.zip",
                 "reference": "0d7e985003f074fca0ceb00bf2f650d749ae9710",
                 "shasum": ""
             },
@@ -237,7 +326,6 @@
                     "Buzz\\": "lib"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -271,7 +359,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/1461e07a0f2a975a52082ca3b769ca912b816226",
+                "url": "https://repo.huaweicloud.com/repository/php/nyholm/psr7/1.5.0/nyholm-psr7-1.5.0.zip",
                 "reference": "1461e07a0f2a975a52082ca3b769ca912b816226",
                 "shasum": ""
             },
@@ -302,7 +390,6 @@
                     "Nyholm\\Psr7\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -344,7 +431,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/1c6381726c18579c4ca2ef1ec1498fdae8bdf018",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/httplug/v1.1.0/php-http-httplug-v1.1.0.zip",
                 "reference": "1c6381726c18579c4ca2ef1ec1498fdae8bdf018",
                 "shasum": ""
             },
@@ -368,7 +455,6 @@
                     "Http\\Client\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -400,7 +486,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message-factory/zipball/a478cb11f66a6ac48d8954216cfed9aa06a501a1",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/message-factory/v1.0.2/php-http-message-factory-v1.0.2.zip",
                 "reference": "a478cb11f66a6ac48d8954216cfed9aa06a501a1",
                 "shasum": ""
             },
@@ -419,7 +505,6 @@
                     "Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -450,7 +535,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/promise/zipball/4c4c1f9b7289a2ec57cde7f1e9762a5789506f88",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/promise/1.1.0/php-http-promise-1.1.0.zip",
                 "reference": "4c4c1f9b7289a2ec57cde7f1e9762a5789506f88",
                 "shasum": ""
             },
@@ -472,7 +557,6 @@
                     "Http\\Promise\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -503,7 +587,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/d4d3ec04b034120b0591ad9722a4c2be33a7dfec",
+                "url": "https://repo.huaweicloud.com/repository/php/psr/http-client/0.1.0/psr-http-client-0.1.0.zip",
                 "reference": "d4d3ec04b034120b0591ad9722a4c2be33a7dfec",
                 "shasum": ""
             },
@@ -522,7 +606,6 @@
                     "Psr\\Http\\Client\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -552,7 +635,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "url": "https://repo.huaweicloud.com/repository/php/psr/http-factory/1.0.1/psr-http-factory-1.0.1.zip",
                 "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
                 "shasum": ""
             },
@@ -571,7 +654,6 @@
                     "Psr\\Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -604,7 +686,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "url": "https://repo.huaweicloud.com/repository/php/psr/http-message/1.0.1/psr-http-message-1.0.1.zip",
                 "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
                 "shasum": ""
             },
@@ -622,7 +704,6 @@
                     "Psr\\Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -654,7 +735,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "url": "https://repo.huaweicloud.com/repository/php/ralouphie/getallheaders/3.0.3/ralouphie-getallheaders-3.0.3.zip",
                 "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
@@ -671,7 +752,6 @@
                     "src/getallheaders.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -694,7 +774,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rexxars/morse-php/zipball/4f8b8fe15639ddd6f9f030c06e9ccce844142ac9",
+                "url": "https://repo.huaweicloud.com/repository/php/rexxars/morse/1.0.0/rexxars-morse-1.0.0.zip",
                 "reference": "4f8b8fe15639ddd6f9f030c06e9ccce844142ac9",
                 "shasum": ""
             },
@@ -710,7 +790,6 @@
                     "Morse\\": "library/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -724,6 +803,69 @@
             "time": "2015-11-04T22:20:15+00:00"
         },
         {
+            "name": "simplesoftwareio/simple-qrcode",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleSoftwareIO/simple-qrcode.git",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.huaweicloud.com/repository/php/simplesoftwareio/simple-qrcode/4.2.0/simplesoftwareio-simple-qrcode-4.2.0.zip",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^2.0",
+                "ext-gd": "*",
+                "php": ">=7.2|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1",
+                "phpunit/phpunit": "~9"
+            },
+            "suggest": {
+                "ext-imagick": "Allows the generation of PNG QrCodes.",
+                "illuminate/support": "Allows for use within Laravel."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider"
+                    ],
+                    "aliases": {
+                        "QrCode": "SimpleSoftwareIO\\QrCode\\Facades\\QrCode"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SimpleSoftwareIO\\QrCode\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simple Software LLC",
+                    "email": "support@simplesoftware.io"
+                }
+            ],
+            "description": "Simple QrCode is a QR code generator made for Laravel.",
+            "homepage": "https://www.simplesoftware.io/#/docs/simple-qrcode",
+            "keywords": [
+                "Simple",
+                "generator",
+                "laravel",
+                "qrcode",
+                "wrapper"
+            ],
+            "time": "2021-02-08T20:43:55+00:00"
+        },
+        {
             "name": "symfony/options-resolver",
             "version": "v4.4.37",
             "source": {
@@ -733,7 +875,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/41d1e741a292574887629369400820c9645e8a87",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/options-resolver/v4.4.37/symfony-options-resolver-v4.4.37.zip",
                 "reference": "41d1e741a292574887629369400820c9645e8a87",
                 "shasum": ""
             },
@@ -750,7 +892,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -797,7 +938,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/4407588e0d3f1f52efb65fbe92babe41f37fe50c",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/polyfill-php80/v1.25.0/symfony-polyfill-php80-v1.25.0.zip",
                 "reference": "4407588e0d3f1f52efb65fbe92babe41f37fe50c",
                 "shasum": ""
             },
@@ -825,7 +966,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -879,7 +1019,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/stream-filter/zipball/d6169430c7731d8509da7aecd0af756a5747b78e",
+                "url": "https://repo.huaweicloud.com/repository/php/clue/stream-filter/v1.6.0/clue-stream-filter-v1.6.0.zip",
                 "reference": "d6169430c7731d8509da7aecd0af756a5747b78e",
                 "shasum": ""
             },
@@ -898,7 +1038,6 @@
                     "Clue\\StreamFilter\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -941,7 +1080,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a52f0440530b54fa079ce76e8c5d196a42cad981",
+                "url": "https://repo.huaweicloud.com/repository/php/guzzlehttp/guzzle/6.5.8/guzzlehttp-guzzle-6.5.8.zip",
                 "reference": "a52f0440530b54fa079ce76e8c5d196a42cad981",
                 "shasum": ""
             },
@@ -974,7 +1113,6 @@
                     "GuzzleHttp\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1052,7 +1190,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/b94b2807d85443f9719887892882d0329d1e2598",
+                "url": "https://repo.huaweicloud.com/repository/php/guzzlehttp/promises/1.5.2/guzzlehttp-promises-1.5.2.zip",
                 "reference": "b94b2807d85443f9719887892882d0329d1e2598",
                 "shasum": ""
             },
@@ -1076,7 +1214,6 @@
                     "GuzzleHttp\\Promise\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1132,7 +1269,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/939869394c6414768547685945fdba4fe3f061b5",
+                "url": "https://repo.huaweicloud.com/repository/php/knplabs/github-api/v2.20.0/knplabs-github-api-v2.20.0.zip",
                 "reference": "939869394c6414768547685945fdba4fe3f061b5",
                 "shasum": ""
             },
@@ -1166,7 +1303,6 @@
                     "Github\\": "lib/Github/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1207,7 +1343,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/3ef8657a78278dfeae7707d51747251db4176240",
+                "url": "https://repo.huaweicloud.com/repository/php/lcobucci/jwt/3.4.6/lcobucci-jwt-3.4.6.zip",
                 "reference": "3ef8657a78278dfeae7707d51747251db4176240",
                 "shasum": ""
             },
@@ -1242,7 +1378,6 @@
                     "Lcobucci\\JWT\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1280,7 +1415,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jrgp/linfo/zipball/aea87565d4fd1124e637581b66a41c8b86ee22bb",
+                "url": "https://repo.huaweicloud.com/repository/php/linfo/linfo/v4.0.6/linfo-linfo-v4.0.6.zip",
                 "reference": "aea87565d4fd1124e637581b66a41c8b86ee22bb",
                 "shasum": ""
             },
@@ -1300,7 +1435,6 @@
                     "Linfo\\": "src/Linfo"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1333,7 +1467,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meyfa/php-svg/zipball/34401edef1f724898f468f71b85505fbcc8351bb",
+                "url": "https://repo.huaweicloud.com/repository/php/meyfa/php-svg/v0.9.1/meyfa-php-svg-v0.9.1.zip",
                 "reference": "34401edef1f724898f468f71b85505fbcc8351bb",
                 "shasum": ""
             },
@@ -1352,7 +1486,6 @@
                     "SVG\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1379,7 +1512,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ne-Lexa/php-zip/zipball/501b52f6fc393a599b44ff348a42740e1eaac7c6",
+                "url": "https://repo.huaweicloud.com/repository/php/nelexa/zip/3.3.3/nelexa-zip-3.3.3.zip",
                 "reference": "501b52f6fc393a599b44ff348a42740e1eaac7c6",
                 "shasum": ""
             },
@@ -1411,7 +1544,6 @@
                     "PhpZip\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1445,7 +1577,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "url": "https://repo.huaweicloud.com/repository/php/paragonie/random_compat/v9.99.100/paragonie-random_compat-v9.99.100.zip",
                 "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
                 "shasum": ""
             },
@@ -1460,7 +1592,6 @@
                 "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
             },
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1490,7 +1621,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/cache-plugin/zipball/63bc3f7242825c9a817db8f78e4c9703b0c471e2",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/cache-plugin/1.7.5/php-http-cache-plugin-1.7.5.zip",
                 "reference": "63bc3f7242825c9a817db8f78e4c9703b0c471e2",
                 "shasum": ""
             },
@@ -1515,7 +1646,6 @@
                     "Http\\Client\\Common\\Plugin\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1545,7 +1675,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/client-common/zipball/11d34cad40647848aa98536494f9da63571af9da",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/client-common/1.11.0/php-http-client-common-1.11.0.zip",
                 "reference": "11d34cad40647848aa98536494f9da63571af9da",
                 "shasum": ""
             },
@@ -1576,7 +1706,6 @@
                     "Http\\Client\\Common\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1606,7 +1735,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/de90ab2b41d7d61609f504e031339776bc8c7223",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/discovery/1.14.1/php-http-discovery-1.14.1.zip",
                 "reference": "de90ab2b41d7d61609f504e031339776bc8c7223",
                 "shasum": ""
             },
@@ -1637,7 +1766,6 @@
                     "Http\\Discovery\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1670,7 +1798,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/guzzle6-adapter/zipball/a56941f9dc6110409cfcddc91546ee97039277ab",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/guzzle6-adapter/v1.1.1/php-http-guzzle6-adapter-v1.1.1.zip",
                 "reference": "a56941f9dc6110409cfcddc91546ee97039277ab",
                 "shasum": ""
             },
@@ -1698,7 +1826,6 @@
                     "Http\\Adapter\\Guzzle6\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1730,7 +1857,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message/zipball/7886e647a30a966a1a8d1dad1845b71ca8678361",
+                "url": "https://repo.huaweicloud.com/repository/php/php-http/message/1.13.0/php-http-message-1.13.0.zip",
                 "reference": "7886e647a30a966a1a8d1dad1845b71ca8678361",
                 "shasum": ""
             },
@@ -1771,7 +1898,6 @@
                     "Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1800,7 +1926,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "url": "https://repo.huaweicloud.com/repository/php/psr/cache/1.0.1/psr-cache-1.0.1.zip",
                 "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
                 "shasum": ""
             },
@@ -1818,7 +1944,6 @@
                     "Psr\\Cache\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1846,7 +1971,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/statickidz/php-google-translate-free/zipball/29dc0b0110fcb78ba51fc2d983d638dbdd7fa439",
+                "url": "https://repo.huaweicloud.com/repository/php/statickidz/php-google-translate-free/1.2.1/statickidz-php-google-translate-free-1.2.1.zip",
                 "reference": "29dc0b0110fcb78ba51fc2d983d638dbdd7fa439",
                 "shasum": ""
             },
@@ -1864,7 +1989,6 @@
                     "Statickidz\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+"
             ],
@@ -1911,7 +2035,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/deprecation-contracts/v2.5.1/symfony-deprecation-contracts-v2.5.1.zip",
                 "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
                 "shasum": ""
             },
@@ -1933,7 +2057,6 @@
                     "function.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1975,7 +2098,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/9b630f3427f3ebe7cd346c277a1408b00249dad9",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/finder/v5.4.8/symfony-finder-v5.4.8.zip",
                 "reference": "9b630f3427f3ebe7cd346c277a1408b00249dad9",
                 "shasum": ""
             },
@@ -1993,7 +2116,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2035,7 +2157,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/639084e360537a19f9ee352433b84ce831f3d2da",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/polyfill-intl-idn/v1.27.0/symfony-polyfill-intl-idn-v1.27.0.zip",
                 "reference": "639084e360537a19f9ee352433b84ce831f3d2da",
                 "shasum": ""
             },
@@ -2065,7 +2187,6 @@
                     "Symfony\\Polyfill\\Intl\\Idn\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2119,7 +2240,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/19bd1e4fcd5b91116f14d8533c57831ed00571b6",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/polyfill-intl-normalizer/v1.27.0/symfony-polyfill-intl-normalizer-v1.27.0.zip",
                 "reference": "19bd1e4fcd5b91116f14d8533c57831ed00571b6",
                 "shasum": ""
             },
@@ -2150,7 +2271,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2200,7 +2320,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/869329b1e9894268a8a61dabb69153029b7a8c97",
+                "url": "https://repo.huaweicloud.com/repository/php/symfony/polyfill-php72/v1.27.0/symfony-polyfill-php72-v1.27.0.zip",
                 "reference": "869329b1e9894268a8a61dabb69153029b7a8c97",
                 "shasum": ""
             },
@@ -2225,7 +2345,6 @@
                     "Symfony\\Polyfill\\Php72\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
