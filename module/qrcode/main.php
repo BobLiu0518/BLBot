@@ -9,7 +9,7 @@ if(trim($text) === "")replyAndLeave("没有填写要生成的内容呢OvO");
 if(strlen($text) > 271)replyAndLeave("消息太长啦！QwQ");
 if(strpos($text, "[CQ:") !== false)replyAndLeave("二维码生成只支持纯文本哦");
 $fee = intval(mb_strlen($text, 'utf-8'))*100;
-// decCredit($User_id, $fee);
+decCredit($User_id, $fee);
 
 $qr = sendImg((new SimpleSoftwareIO\QrCode\Generator)->encoding('UTF-8')->format('png')->size(512)->margin(2)->style('round')->generate($text));
 
