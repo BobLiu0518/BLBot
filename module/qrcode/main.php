@@ -11,7 +11,7 @@ if(strpos($text, "[CQ:") !== false)replyAndLeave("二维码生成只支持纯文
 $fee = intval(mb_strlen($text, 'utf-8'))*100;
 decCredit($User_id, $fee);
 
-$qr = sendImg((new SimpleSoftwareIO\QrCode\Generator)->encoding('UTF-8')->format('png')->size(512)->margin(2)->style('round')->generate($text));
+$qr = sendImg((new SimpleSoftwareIO\QrCode\Generator)->encoding('UTF-8')->format('png')->size(1024)->margin(2)->style('round')->gradient(20, 125, 125, 75, 125, 175, 'vertical')->generate($text));
 
 $Queue[]= sendBack($qr);
 $Queue[]= replyMessage("共 ".mb_strlen($text, 'utf-8')." 字符，已收取 ".$fee." 金币，你的余额为 ".getCredit($User_id));
