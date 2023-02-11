@@ -153,7 +153,7 @@ function gacha($poolName, $times){
 		// 发消息
 		for($n = 6; $n > 0; $n --){
 			if(intval($star) >= $n){
-			$reply .= '★';
+				$reply .= '★';
 			}else{
 				$reply .= '　';
 			}
