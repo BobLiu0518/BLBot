@@ -1,5 +1,20 @@
 <?php
 
+function getImageCompressed($url, $cacheRoute){
+	$image = getCache($cacheRoute);
+	if(!$image){
+		$image = file_get_contents($url);
+		$Imagick = new Imagick();
+		$Imagick->readImageBlob($image);
+		$Imagick->setImageFormat('jpeg');
+		$Imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+		$Imagick->setImageCompressionQuality(80);
+		$image = $Imagick->getImageBlob();
+		setCache($cacheRoute, $image);
+	}
+	return $image;
+}
+
 function getPool($poolName){
 	// 获取卡池数据
 	$pools = json_decode(getData('ark/pool.json'), true);
@@ -64,26 +79,13 @@ function gacha($poolName, $times){
 	$pool = getPool($poolName);
 
 	$userData = json_decode(getData('ark/user/'.$Event['user_id']), true);
-	$image = getCache('ark/pool/'.$pool['name']);
-	if(!$image){
-		$image = file_get_contents($pool['image']);
-
-		// 压缩一下 太大的会发不出去
-		// 直接用 [CQ:image,url=×××] 也发不出
-		// 很玄学 只能退而求其次了
-		$Imagick = new Imagick();
-		$Imagick->readImageBlob($image);
-		$Imagick->setImageFormat('jpeg');
-		$Imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
-		$Imagick->setImageCompressionQuality(80);
-		$image = $Imagick->getImageBlob();
-		setCache('ark/pool/'.$pool['name'], $image);
-	}
+	$operatorData = json_decode(getData('ark/operator.json'), true);
+	$image = getImageCompressed($pool['image'], 'ark/pool/'.$pool['name']);
 	$reply = sendImg($image);
 	$reply .= $pool['name']." 寻访结果：\n";
 
 	for($gacha = 0; $gacha < $times; $gacha += 1){
-        	$star = $operator  = '';
+        $star = $operator = '';
 
 		// 计数
 		$userData[$pool['name']]['counter'] += 1;
@@ -100,7 +102,6 @@ function gacha($poolName, $times){
 				if($bonus['type'] == 'star'){
 					$star = $bonus['star'];
 				}else if($bonus['type'] == 'operator'){
-					$operatorData = json_decode(getData('ark/operator.json'), true);
 					$operator = $bonus['operator'];
 					$star = $operatorData[$operator]['star'];
 				}
@@ -136,6 +137,7 @@ function gacha($poolName, $times){
 		}
 
 		// 发消息
+		// $reply .= sendImg(getImageCompressed($operatorData[$operator]['avatar'], 'ark/avatar/'.$operator));
 		for($n = 6; $n > 0; $n --){
 			if(intval($star) >= $n){
 				$reply .= '★';
