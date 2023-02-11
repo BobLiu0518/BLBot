@@ -55,12 +55,14 @@ foreach($operatorData['results'] as $operator){
 				break;
 		}
 	}
+	$avatar = json_decode(file_get_contents($imageSearch.urlencode('头像_'.$operatorName[1].'.png')), true);
 	$operators[$operatorName[1]]= [
 		'name' => $operatorName[1],
 		'id' => intval($operatorId[1]),
 		'time' => intval($operatorTime[1].$operatorTime[2].$operatorTime[3]),
 		'star' => strval(intval($operatorStar[1]) + 1),
-		'type' => ($gachaable ? ($limited ? 'limited' : 'normal') : 'other')
+		'type' => ($gachaable ? ($limited ? 'limited' : 'normal') : 'other'),
+		'avatar' => $avatar['query']['allimages'][0]['url']
 	];
 	$ids[$operatorId[1]] = $operatorName[1];
 }
