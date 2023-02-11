@@ -31,6 +31,7 @@ foreach($operatorData['results'] as $operator){
 	preg_match('/\|上线时间=(\d+)-(\d+)-(\d+)/', $operatorDetail, $operatorTime);
 	preg_match('/\|稀有度=(\d+)/', $operatorDetail, $operatorStar);
 	preg_match('/\|获得方式=(.+)/', $operatorDetail, $operatorObtainMethods);
+	preg_match('/\|职业=(.+)/', $operatorDetail, $operatorProfession);
 	$limited = false;
 	$gachaable = false;
 	foreach(explode(' ', $operatorObtainMethods[1]) as $operatorObtainMethod){
@@ -56,13 +57,16 @@ foreach($operatorData['results'] as $operator){
 		}
 	}
 	$avatar = json_decode(file_get_contents($imageSearch.urlencode('头像_'.$operatorName[1].'.png')), true);
+	$portrait = json_decode(file_get_contents($imageSearch.urlencode('半身像_'.$operatorName[1].'_1.png')), true);
 	$operators[$operatorName[1]]= [
 		'name' => $operatorName[1],
 		'id' => intval($operatorId[1]),
 		'time' => intval($operatorTime[1].$operatorTime[2].$operatorTime[3]),
 		'star' => strval(intval($operatorStar[1]) + 1),
+		'profession' => $operatorProfession[1],
 		'type' => ($gachaable ? ($limited ? 'limited' : 'normal') : 'other'),
-		'avatar' => $avatar['query']['allimages'][0]['url']
+		'avatar' => $avatar['query']['allimages'][0]['url'],
+		'portrait' => $portrait['query']['allimages'][0]['url']
 	];
 	$ids[$operatorId[1]] = $operatorName[1];
 }

@@ -72,7 +72,6 @@ function getPool($poolName){
 
 function gacha($poolName, $times){
 	global $Event;
-
 	if($times > 10){
 		return "最多抽十连哦…";
 	}
@@ -81,8 +80,23 @@ function gacha($poolName, $times){
 	$userData = json_decode(getData('ark/user/'.$Event['user_id']), true);
 	$operatorData = json_decode(getData('ark/operator.json'), true);
 	$image = getImageCompressed($pool['image'], 'ark/pool/'.$pool['name']);
-	$reply = sendImg($image);
-	$reply .= $pool['name']." 寻访结果：\n";
+	$reply = '【'.$pool['name']."】\n";
+	$reply .= sendImg($image);
+	$reply .= "\n\n寻访 ".$times." 次结果：\n";
+
+	$result = new Imagick();
+	$resultXPos = 78;
+	$result->readImageBlob(getImg('ark/gacha/bg.png'));
+	$professionData = [
+		'先锋' => 'vanguard',
+		'近卫' => 'guard',
+		'重装' => 'defender',
+		'狙击' => 'sniper',
+		'术师' => 'caster',
+		'医疗' => 'medic',
+		'辅助' => 'supporter',
+		'特种' => 'specialist'
+	];
 
 	for($gacha = 0; $gacha < $times; $gacha += 1){
         $star = $operator = '';
@@ -137,15 +151,39 @@ function gacha($poolName, $times){
 		}
 
 		// 发消息
-		// $reply .= sendImg(getImageCompressed($operatorData[$operator]['avatar'], 'ark/avatar/'.$operator));
 		for($n = 6; $n > 0; $n --){
 			if(intval($star) >= $n){
-				$reply .= '★';
+			$reply .= '★';
 			}else{
 				$reply .= '　';
 			}
 		}
 		$reply .= ' '.$operator."\n";
+
+		// 生成十连图
+		if($times == 10){
+			$operatorBg = new Imagick();
+			$operatorBg->readImageBlob(getImg('ark/gacha/'.$star.'.png'));
+			$result->compositeImage($operatorBg, Imagick::COMPOSITE_OVER, $resultXPos, 0);
+
+			$operatorPortrait = new Imagick();
+			$portraitImage = getCache('ark/potrait/'.$operator);
+			if(!$portraitImage){
+				$portraitImage = file_get_contents($operatorData[$operator]['portrait']);
+				setCache('ark/potrait/'.$operator, $portraitImage);
+			}
+			$operatorPortrait->readImageBlob($portraitImage);
+			$radio = 252 / $operatorPortrait->getImageGeometry()['height'];
+			$height = intval($operatorPortrait->getImageGeometry()['height'] * $radio);
+			$operatorPortrait->cropThumbnailImage(82, $height);
+			$result->compositeImage($operatorPortrait, Imagick::COMPOSITE_OVER, $resultXPos, 112);
+
+			$operatorProfession = new Imagick();
+			$operatorProfession->readImageBlob(getImg('ark/profession/'.$professionData[$operatorData[$operator]['profession']].'.png'));
+			$operatorProfession->thumbnailImage(59, 59);
+			$result->compositeImage($operatorProfession, Imagick::COMPOSITE_OVER, $resultXPos + 12, 322);
+			$resultXPos += 82;
+		}
 
 		// 小保底检测
 		if($star == '6'){
@@ -164,6 +202,14 @@ function gacha($poolName, $times){
 				$userData[$pool['name']]['bonus'][$n] = true;
 			}
 		}
+	}
+
+	// 十连发图
+	if($times == 10){
+		$result->setImageFormat('jpeg');
+		$result->setImageCompression(Imagick::COMPRESSION_JPEG);
+		$result->setImageCompressionQuality(80);
+		$reply .= sendImg($result->getImageBlob())."\n";
 	}
 
 	// 大保底提示
