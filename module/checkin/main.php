@@ -42,7 +42,7 @@ switch(getStatus($User_id)){
 		}
 		clearstatcache();
 		$lastCheckinTime = filemtime('../storage/data/checkin/'.$Event['user_id']);
-		if(0 == (int)date('md')-(int)date('md', $lastCheckinTime)){
+		if(0 == (int)date('Ymd')-(int)date('Ymd', $lastCheckinTime)){
 			$reply = rand(1,16);
 
 			switch ($reply){
@@ -80,6 +80,13 @@ switch(getStatus($User_id)){
 					$reply = '你事整天签到的屑[CQ:emoji,id=128052]？';break;
 			};
 		}else{
+			$checkinData = json_decode(getData('checkin/stat'), true);
+			if((int)date('Ymd') > (int)$checkinData['date']){
+				$checkinData['date'] = date('Ymd');
+				$checkinData['checked'] = 0;
+			}
+			$checkinData['checked'] += 1;
+			setData('checkin/stat', json_encode($checkinData));
 			addCredit($Event['user_id'], $income);
 			addExp($Event['user_id'], 1);
 			$reply = "签到成功，获得 ".$income." 金币，1 经验～";
@@ -92,6 +99,7 @@ switch(getStatus($User_id)){
 					case 1: $reply .= "\n再签到".(7-$exp)."天即可升级 Lv2～"; break;
 				}
 			}
+			$reply .= "\n你是今天第 ".$checkinData['checked'].' 个签到的～';
 			delData('checkin/'.$Event['user_id']);
 			setData('checkin/'.$Event['user_id'], '');
 		}
