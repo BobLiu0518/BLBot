@@ -89,10 +89,10 @@ if(!$title){
     $title = array_rand($data['voice'], 1);
 }
 if(!$data['path'][$lang]){
-    replyAndLeave('没有找到干员'.$operator.'的 '.$lang.' 语音数据哦…');
+    replyAndLeave('没有找到干员'.$operator.'的 '.$lang.' 语音数据哦…'."\n".'可选语言：'.implode(array_keys($data['path']), ' '));
 }
 if(!$data['voice'][$title]){
-    replyAndLeave('没有找到干员'.$operator.'的 '.$title.' 语音哦…');
+    replyAndLeave('没有找到干员'.$operator.'的 '.$title.' 语音哦…'."\n".'可选语音：'.implode(array_keys($data['voice']), ' '));
 }
 
 $Queue[]= replyMessage('［'.$operator.' '.$title."］\n中文".$langSuffix.' - '.handleSpecialChar($data['voice'][$title]['中文'.$langSuffix].($lang == '中文'.$langSuffix ? '' : "\n".$lang.' - '.(($data['voice'][$title][$lang]) ? $data['voice'][$title][$lang] : '(暂无'.$lang.'文本)'))));
