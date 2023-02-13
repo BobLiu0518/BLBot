@@ -230,7 +230,7 @@ function gacha($poolName, $times){
 	return $reply;
 }
 
-requireLvl(2, '模拟抽卡');
+requireLvl(1, '模拟抽卡');
 
 $poolName = nextArg();
 $times = nextArg();
