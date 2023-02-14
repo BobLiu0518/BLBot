@@ -167,10 +167,10 @@ function gacha($poolName, $times){
 			$result->compositeImage($operatorBg, Imagick::COMPOSITE_OVER, $resultXPos, 0);
 
 			$operatorPortrait = new Imagick();
-			$portraitImage = getCache('ark/potrait/'.$operator);
+			$portraitImage = getCache('ark/portrait/'.$operator);
 			if(!$portraitImage){
 				$portraitImage = file_get_contents($operatorData[$operator]['portrait']);
-				setCache('ark/potrait/'.$operator, $portraitImage);
+				setCache('ark/portrait/'.$operator, $portraitImage);
 			}
 			$operatorPortrait->readImageBlob($portraitImage);
 			$radio = 252 / $operatorPortrait->getImageGeometry()['height'];
