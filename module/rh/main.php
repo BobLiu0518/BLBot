@@ -168,9 +168,9 @@ function countDownGame($time){
 
     // 倒计时一分钟
     sleep(30);
-    re('还有30秒赛'.$assets['h'].'开始～');
+    re('还有30秒开始赛'.$assets['h'].'～');
     sleep(20);
-    re('还有10秒赛'.$assets['h'].'开始～');
+    re('还有10秒开始赛'.$assets['h'].'～');
     sleep(10);
 
     // 看看人数够不够
