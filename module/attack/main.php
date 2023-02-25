@@ -70,6 +70,9 @@ switch($data['status']){
 	case 'arknights':
 		$message = "你刚想离开办公室看看能不能找到回原世界的路，但一推开门就看到".randString(['那位绿发猫耳女士用严厉的眼光看着你。', '一位兔耳少女对你投来了关切的眼神。'])."你不由自主回到了办公桌前。\n(理智 - 1)";
 		break;
+	case 'genshin':
+		$message = '你刚想推开门回到原来的世界，但一开门就看到了一个漂浮的白色小东西，并对你说“前面的区域，以后再来探索吧”';
+		break;
 	case 'free':
 		$data['count']['times'] += 1;
 
@@ -99,7 +102,7 @@ switch($data['status']){
 			$message = randString(["正在你向 {$atTarget} 喊出“打劫”的时候，一旁的警察瞥了你一眼。\n(被罚款 {$fine} 金币，入狱 1 天)"]);
 		}else if(!$success && !$prison){
 			if(rand(1, 100) <= 4){
-				$event = rand(1, 4);
+				$event = rand(1, 5);
 				switch($event){
 					case 1:
 						decCredit($from, 10000, true);
@@ -120,6 +123,11 @@ switch($data['status']){
 						$data['status'] = 'arknights';
 						$data['end'] = date('Ymd', time() + 86400);
 						$message = "你正在打劫 {$atTarget} 的路上，突然感觉到一阵晕眩。醒来时，你发现自己身处一艘陆上舰船，边上还有一位绿发猫耳女士催你去工作。";
+						break;
+					case 5:
+						$data['status'] = 'genshin';
+						$data['end'] = date('Ymd', time() + 86400);
+						$message = '你正在打劫 {$atTarget} 的路上，突然感觉到一阵晕眩。醒来时，你听见有人正在声称自己不是应急食品。';
 						break;
 				}
 			}else{

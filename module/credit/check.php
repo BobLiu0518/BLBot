@@ -42,7 +42,9 @@ if($Event['user_id'] == $QQ){
 switch($status) {
 	case 'imprisoned': $msg .= "\n当前身处监狱中，预计 ".$statusEnd." 出狱"; break;
 	case 'confined': $msg .= "\n当前身处监狱禁闭室中，预计 ".$statusEnd." 出狱"; break;
-	case 'arknights': $msg .= "\n当前身处异世界"; break;
+	case 'arknights':
+	case 'genshin':
+		$msg .= "\n当前身处异世界"; break;
 	case 'hospitalized': $msg .= "\n当前身处医院中，预计 ".$statusEnd." 出院"; break;
 	case 'free': default: break;
 }
