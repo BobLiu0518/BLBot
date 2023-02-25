@@ -17,6 +17,9 @@ function getAttackData($user_id){
 			case 'arknights':
 				$message = '睁开眼，你发现自己回到了熟悉的世界。';
 				break;
+			case 'genshin':
+				$message = '你推开门回到了原来的世界。';
+				break;
 		}
 		$Queue[]= replyMessage($message);
 		$data['status'] = 'free';
@@ -38,7 +41,7 @@ function setAttackData($user_id, $data){
 }
 
 function getStatus($user_id){
-	// free / imprisoned / confined / hospitalized / arknights
+	// free / imprisoned / confined / hospitalized / arknights / genshin
 	return getAttackData($user_id)['status'];
 }
 

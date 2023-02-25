@@ -17,6 +17,7 @@ switch(getStatus($User_id)){
 		break;
 
 	case 'arknights':
+	case 'genshin':
 		$reply = '身处异世界的你貌似找不到要去哪里签到…';
 		break;
 
