@@ -40,6 +40,7 @@ switch(getStatus($Event['user_id'])){
 			$message = '趁狱警不注意，你成功溜了出来。';
 			$data['status'] = 'free';
 			$data['end'] = '0';
+			$data['count']['times'] = intval($data['count']['times'] / 2 + 0.5);
 		}else{
 			// 越狱失败
 			$message = '越狱失败了，';
