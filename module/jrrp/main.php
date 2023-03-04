@@ -40,7 +40,7 @@ if($Event['user_id'] == $QQ){
 }else{
 	$targetInfo = $CQ->getGroupMemberInfo($Event['group_id'], $QQ);
 	if($jrrp <= 25) $reply = "看起来很适合打劫…（不是";
-	else if($jrrp >= 90) $reply = "Bot 先吸一口为敬（");
+	else if($jrrp >= 90) $reply = "Bot 先吸一口为敬（";
 	else if($jrrp == 100) $reply = "总感觉神明都站在".($targetInfo->sex == 'female' ? "她" : "他")."那边…？";
 	else $reply = "";
 	$Queue[]= replyMessage('@'.($targetInfo->card ? $targetInfo->card : $targetInfo->nickname)." 今天的人品是 ".$jrrp."。".$reply);
