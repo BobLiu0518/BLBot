@@ -5,14 +5,16 @@
 	requireSeniorAdmin();
 
 	$cqv = $CQ->getVersionInfo();
-	$cqEdition = ucfirst($cqv->coolq_edition);
-	$plgVersion = $cqv->plugin_version;
 	$stat = $CQ->getStatus();
+	$reply = <<<EOT
+{$cqv->app_name} {$cqv->app_version}
+(running on {$cqv->runtime_os}, protocol {$cqv->protocol_name})
 
-	if($stat->good && $stat->online)
-		$reply = "酷Q ".$cqEdition." / CQHTTP ".$plgVersion." 正常运行中！";
-	else
-		$reply = "酷Q ".$cqEdition." / CQHTTP ".$plgVersion." 运行异常！";
+Statistics since last reboot:
+- {$stat->stat->message_received} message(s) recieved
+- {$stat->stat->message_sent} message(s) sent
+- {$stat->stat->lost_times} disconnection(s)
+EOT;
 
 	$Queue[]= replyMessage($reply);
 
