@@ -113,6 +113,8 @@ switch($data['status']){
 					case 2:
 						decCredit($target, 10000, true);
 						addCredit($from, 10000);
+						$data['status'] = 'hospitalized';
+						$data['end'] = date('Ymd', time() + 86400);
 						$message = "你试图打劫 {$atTarget}，但反被 {$atTarget} 打伤。\n(住院 1 天，获赔精神损失费 10000 金币)";
 						break;
 					case 3:
