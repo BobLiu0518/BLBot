@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a6657a9ddc1d94266503e78c120c90d",
+    "content-hash": "213da653952ac5d251005c70d7e06527",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -348,6 +348,58 @@
                 "http client"
             ],
             "time": "2018-09-05T17:20:52+00:00"
+        },
+        {
+            "name": "nxp/math-executor",
+            "version": "v2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neonxp/MathExecutor.git",
+                "reference": "c59f4cd15317754d2b50bd4bff2243012e815790"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.huaweicloud.com/repository/php/nxp/math-executor/v2.3.2/nxp-math-executor-v2.3.2.zip",
+                "reference": "c59f4cd15317754d2b50bd4bff2243012e815790",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "phpunit/phpunit": ">=9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NXP\\": "src/NXP"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander 'NeonXP' Kiryukhin",
+                    "email": "a.kiryukhin@mail.ru"
+                },
+                {
+                    "name": "Bruce Wells",
+                    "email": "brucekwells@gmail.com"
+                }
+            ],
+            "description": "Simple math expressions calculator",
+            "homepage": "http://github.com/NeonXP/MathExecutor",
+            "keywords": [
+                "calculator",
+                "expression",
+                "formula",
+                "math",
+                "mathmatics",
+                "parser"
+            ],
+            "time": "2022-12-08T16:15:34+00:00"
         },
         {
             "name": "nyholm/psr7",
