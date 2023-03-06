@@ -2,8 +2,7 @@
 
 global $Message;
 
-if(strrchr($Message, "=") == "="){
-	$Message = trim(rtrim($Message, '='));
+if(strrchr($Message, "=") == "=" || strrchr($Message, "＝") == "＝"){
 	loadModule('calc');
 	leave();
 }

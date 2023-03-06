@@ -15,6 +15,23 @@ if(!$exp){
 	$exp = $Message;
 }
 
+$map = [
+	'（' => '(',
+	'）' => ')',
+	'＋' => '+',
+	'－' => '-',
+	'＊' => '*',
+	'×' => '*',
+	'／' => '/',
+	'％' => '%',
+	'＾' => '^',
+	'π' => '$pi',
+];
+foreach($map as $from => $to){
+	$exp = str_replace($from, $to, $exp);
+}
+$exp = rtrim($exp, '=＝');
+
 use NXP\MathExecutor;
 $executor = new MathExecutor();
 
