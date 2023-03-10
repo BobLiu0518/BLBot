@@ -40,7 +40,11 @@ if(!$targetInGroup){
 	replyAndLeave("你并不知道要去哪里打劫 {$target}。\n(打劫目标不在本群内)");
 }
 
-$atTarget = '@'.($CQ->getGroupMemberInfo($Event['group_id'], $target)->card ? $CQ->getGroupMemberInfo($Event['group_id'], $target)->card : $CQ->getGroupMemberInfo($Event['group_id'], $target)->nickname);
+$targetInfo = $CQ->getGroupMemberInfo($Event['group_id'], $target, true);
+$atTarget = '@'.($targetInfo->card ? $targetInfo->card : $targetInfo->nickname);
+if(time() - $targetInfo->last_sent_time >= 3 * 86400){
+	replyAndLeave("你并不知道要去哪里打劫 {$atTarget}。\n(打劫目标连续三天未在群内出现)");
+}
 
 if(!fromGroup() || $target == $from){
 	$money = getCredit($from);
