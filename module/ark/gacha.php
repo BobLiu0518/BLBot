@@ -104,9 +104,11 @@ function gacha($poolName, $times){
 		// 计数
 		$userData[$pool['name']]['counter'] += 1;
 		if($pool['type'] == 'normal'){
-			$userData['normal']['floor'] += 1;
+			$userData['normal']['floor6'] += 1;
+			$userData['normal']['floor5'] += 1;
 		}else{
-			$userData[$pool['name']]['floor'] += 1;
+			$userData[$pool['name']]['floor6'] += 1;
+			$userData[$pool['name']]['floor5'] += 1;
 		}
 
 		// 大保底判定
@@ -123,15 +125,26 @@ function gacha($poolName, $times){
 		}
 
 		// 星级判定
+		// b23.tv/cv20251111
 		if(!$star){
-			$r = rand(1, 100);
-			$floor = ($pool['type'] == 'normal') ? $userData['normal']['floor'] : $userData[$pool['name']]['floor'];
-			$fix = ($floor > 50) ? ($floor - 50) * 2 : 0;
-			if($r <= 2 + $fix){
+			$r = rand(1, 10000);
+			$floor6 = ($pool['type'] == 'normal') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6'];
+			$floor5 = ($pool['type'] == 'normal') ? $userData['normal']['floor5'] : $userData[$pool['name']]['floor5'];
+			$w6 = $floor6 <= 50 ?
+				200 :
+				200 + 200 * ($floor6 - 50);
+			$w5 = $floor5 <= 15 ?
+				800 : (
+					$floor5 <= 20 ?
+					800 + 200 * ($floor5 - 15) :
+					1800 + 400 * ($floor5 - 20)
+				);
+
+			if($r <= $w6){
 				$star = '6';
-			}else if($r <= 10){
+			}else if($r <= $w6 + $w5){
 				$star = '5';
-			}else if($r <= 60){
+			}else if($r <= $w6 + $w5 + 5000){
 				$star = '4';
 			}else{
 				$star = '3';
@@ -188,9 +201,17 @@ function gacha($poolName, $times){
 		// 小保底检测
 		if($star == '6'){
 			if($pool['type'] == 'normal'){
-				$userData['normal']['floor'] = 0;
+				$userData['normal']['floor6'] = 0;
+				$userData['normal']['floor5'] = 0;
 			}else{
-				$userData[$pool['name']]['floor'] = 0;
+				$userData[$pool['name']]['floor6'] = 0;
+				$userData[$pool['name']]['floor5'] = 0;
+			}
+		}else if($star == '5'){
+			if($pool['type'] == 'normal'){
+				$userData['normal']['floor5'] = 0;
+			}else{
+				$userData[$pool['name']]['floor5'] = 0;
 			}
 		}
 
@@ -238,7 +259,7 @@ function gacha($poolName, $times){
 	$reply .= '“'.$pool['name'].'”中已经招募了 '.$userData[$pool['name']]['counter'].' 次'."\n";
 
 	// 小保底提示
-	$reply .= (($pool['type'] == 'normal')?('标准寻访'):('“'.$pool['name'].'”')).'已连续 '.(($pool['type'] == 'normal') ? $userData['normal']['floor'] : $userData[$pool['name']]['floor']).' 次没有招募到 6★ 干员';
+	$reply .= (($pool['type'] == 'normal')?('标准寻访'):('“'.$pool['name'].'”')).'已连续 '.(($pool['type'] == 'normal') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6']).' 次没有招募到 6★ 干员';
 	setData('ark/user/'.$Event['user_id'], json_encode($userData));
 
 	return $reply;
