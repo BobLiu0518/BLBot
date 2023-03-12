@@ -80,9 +80,10 @@ function gacha($poolName, $times){
 	$userData = json_decode(getData('ark/user/'.$Event['user_id']), true);
 	$operatorData = json_decode(getData('ark/operator.json'), true);
 	$image = getImageCompressed($pool['image'], 'ark/pool/'.$pool['name']);
-	$reply = '【'.$pool['name']."】\n";
-	$reply .= sendImg($image);
-	$reply .= "\n\n寻访 ".$times." 次结果：\n";
+	$reply = '【'.$pool['name']."】寻访 ".$times." 次结果：\n\n";
+	// $reply = '【'.$pool['name']."】\n";
+	// $reply .= sendImg($image);
+	// $reply .= "\n\n寻访 ".$times." 次结果：\n";
 
 	$result = new Imagick();
 	$resultXPos = 78;
