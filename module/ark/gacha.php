@@ -71,6 +71,17 @@ function getPool($poolName){
 }
 
 function gacha($poolName, $times){
+	// 注：在本脚本注释中各个保底的含义：
+	//	（代码方便起见的非官方叫法，在玩家群体中也不通用）
+	// 小保底：多次寻访未出五/六星时，五/六星出率增加
+	// 	（六星出率增加为公示保底，五星出率增加为统计发现的隐藏保底）
+	// 中保底：多次寻访未获取UP干员时，下次对应星级必得对应UP
+	// 	（统计发现的隐藏保底，限普池，早期卡池无）
+	// 大保底：x次寻访必得xx干员/xx星级
+	// 	（公示，如10次内必得五星及以上、120次内必得麒麟X夜刀）
+	// 四星保底：十连至少得一名四星
+	// 	（统计发现的隐藏保底，限十连；有日服新手池十连全三星的特例，暂不列入考虑）
+
 	global $Event;
 	if($times > 10){
 		return "最多抽十连哦…";
@@ -99,6 +110,8 @@ function gacha($poolName, $times){
 		'特种' => 'specialist'
 	];
 
+	$floor4 = 0;
+
 	for($gacha = 0; $gacha < $times; $gacha += 1){
         $star = $operator = '';
 
@@ -111,6 +124,7 @@ function gacha($poolName, $times){
 			$userData[$pool['name']]['floor6'] += 1;
 			$userData[$pool['name']]['floor5'] += 1;
 		}
+		$floor4 += 1;
 
 		// 大保底判定
 		foreach($pool['bonus'] as $n => $bonus){
@@ -152,12 +166,44 @@ function gacha($poolName, $times){
 			}
 		}
 
+		// 四星保底判定
+		if($star != '3'){
+			$floor4 = 0;
+		}
+		if($floor4 == 10){
+			// TODO: insert randomly
+			$star = '4';
+		}
+
 		// 干员判定
 		if(!$operator){
 			$r = rand(1, 100);
-			if($pool['operators'][$star]['up'] && ($r <= $pool['operators'][$star]['percentage'] || ($pool['type'] == 'special' && intval($star) >= 5))){
-				// 没歪
+			if(!$userData[$pool['name']]['obtainedUps'][$star]){
+				$userData[$pool['name']]['obtainedUps'][$star] = [];
+			}
+
+			if($pool['type'] == 'normal' && (
+				(
+					$star == '5' && count($userData[$pool['name']]['obtainedUps'][$star]) < count($pool['operators'][$star]['up'])
+					&& $userData[$pool['name']]['counter'] > (count($userData[$pool['name']]['obtainedUps'][$star]) * 50 + 51)
+				) || (
+					$star == '6' && count($userData[$pool['name']]['obtainedUps'][$star]) < count($pool['operators'][$star]['up'])
+					&& $userData[$pool['name']]['counter'] > (count($userData[$pool['name']]['obtainedUps'][$star]) * 200 + 201)
+				)
+			)){
+				// 吃中保底
+				// b23.tv/av225820687
+				$remainOperators = array_diff($pool['operators'][$star]['up'], $userData[$pool['name']]['obtainedUps'][$star]);
+				$operator = $remainOperators[array_rand($remainOperators, 1)];
+				$userData[$pool['name']]['obtainedUps'][$star][] = $operator;
+			}else if($pool['operators'][$star]['up'] && ($r <= $pool['operators'][$star]['percentage'] || ($pool['type'] == 'special' && intval($star) >= 5))){
+				// 没吃中保底，而且没歪
 				$operator = $pool['operators'][$star]['up'][array_rand($pool['operators'][$star]['up'], 1)];
+
+				// 中保底记录
+				if(!in_array($operator, $userData[$pool['name']]['obtainedUps'][$star])){
+					$userData[$pool['name']]['obtainedUps'][$star][] = $operator;
+				}
 			}else{
 				// 歪了 / 没UP的
 				$operator = $pool['operators'][$star]['normal'][array_rand($pool['operators'][$star]['normal'], 1)];
