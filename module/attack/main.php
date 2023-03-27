@@ -133,7 +133,7 @@ switch($data['status']){
 					case 5:
 						$data['status'] = 'genshin';
 						$data['end'] = date('Ymd', time() + 86400);
-						$message = '你正在打劫 {$atTarget} 的路上，突然感觉到一阵晕眩。醒来时，你听见有人正在声称自己不是应急食品。';
+						$message = "你正在打劫 {$atTarget} 的路上，突然感觉到一阵晕眩。醒来时，你听见有人正在声称自己不是应急食品。";
 						break;
 				}
 			}else{
