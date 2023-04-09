@@ -1,7 +1,7 @@
 <?php
 
 function poolSortByTime($a, $b){
-	return $a['time'] - $b['time'];
+	return $a['opEndTime'] - $b['opEndTime'];
 }
 
 $poolData = json_decode(getData('ark/pool.json'), true);
@@ -18,9 +18,9 @@ $reply = '';
 $date = date('Y/m/d', $timestamp);
 
 foreach($poolData as $pool){
-	if($pool['time'] > strval(date('Ymd', $timestamp))){
+	if($pool['opEndTime'] > strval(date('Ymd', $timestamp))){
 		break;
-	}else if($pool['time'] >= strval(date('Ymd', $timestamp - 86400 * 13))){
+	}else if($pool['opEndTime'] >= strval(date('Ymd', $timestamp - 86400 * 13))){
 		$reply .= "\n".$pool['name'].'【'.implode($pool['operators']['6']['up'], ' ').'】';
 	}
 }
