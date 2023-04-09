@@ -85,7 +85,8 @@ foreach($poolData['results'] as $pool){
 			'5' => ['percentage' => 50, 'up' => [], 'except' => [], 'other' => []],
 			'4' => ['percentage' => 50, 'up' => [], 'except' => [], 'other' => []],
 			'3' => ['percentage' => 50, 'up' => [], 'except' => [], 'other' => []]
-		]
+		],
+		'opStartTime' => 19700101
 	];
 
 	$poolDetail = file_get_contents($detailSearch.urlencode($pool['fulltext']));
@@ -102,7 +103,10 @@ foreach($poolData['results'] as $pool){
 								$pools[$poolName]['type'] = $config[1];
 								break;
 							case 'operator_end_time':
-								$pools[$poolName]['time'] = intval($config[1]);
+								$pools[$poolName]['opEndTime'] = intval($config[1]);
+								break;
+							case 'operator_start_time':
+								$pools[$poolName]['opStartTime'] = intval($config[1]);
 								break;
 							case 'gacha_image':
 								$pools[$poolName]['image'] = str_replace('http://', 'https://', json_decode(file_get_contents($imageSearch.urlencode($config[1])), true)['query']['allimages'][0]['url']);
@@ -193,7 +197,7 @@ foreach($poolData['results'] as $pool){
 	}else if(preg_match('/{{寻访模拟器\/自动设定\|(.+)}}/', str_replace("\n", ';', $poolDetail), $poolConfig)){
 		// 自动设定的卡池
 		$suffix = 'jpg';
-		$poolTime = $poolType = null;
+		$poolOpStartTime = $poolOpEndTime = $poolType = null;
 		foreach(explode('|', $poolConfig[1]) as $n => $item){
 			if($n == 0){
 				$fileName = $item;
@@ -212,7 +216,10 @@ foreach($poolData['results'] as $pool){
 						$poolType = explode('=', $item);
 						break;
 					case 'operator_end_time':
-						$poolTime = explode('=', $item);
+						$poolOpEndTime = explode('=', $item);
+						break;
+					case 'operator_start_time':
+						$poolOpStartTime = explode('=', $item);
 						break;
 					default:
 						$Queue[]= replyMessage($poolName.'中非预期的卡池配置项：'.$item[0]);
@@ -221,14 +228,19 @@ foreach($poolData['results'] as $pool){
 			}
 		}
 		$poolDetail = file_get_contents($detailSearch.urlencode('文件:'.$fileName).'.'.$suffix);
-		if(!$poolTime){
-			preg_match('/\|寻访开启时间cn=(\d+)-(\d+)-(\d+)/', $poolDetail, $poolTime);
+		if(!$poolOpEndTime){
+			preg_match('/\|寻访开启时间cn=(\d+)-(\d+)-(\d+)/', $poolDetail, $poolOpEndTime);
+			$poolOpEndTime = $poolOpEndTime[1].$poolOpEndTime[2].$poolOpEndTime[3];
+		}
+		if(!$poolOpStartTime){
+			$poolOpStartTime = '19700101';
 		}
 		if(!$poolType){
 			preg_match('/\|寻访类型=(.+)/', $poolDetail, $poolType);
 		}
 		$pools[$poolName]['type'] = (($poolType[1] == '标准寻访' || $poolType[1] == '常驻标准寻访') ? 'normal' : 'limited');
-		$pools[$poolName]['time'] = intval($poolTime[1].$poolTime[2].$poolTime[3]);
+		$pools[$poolName]['opStartTime'] = intval($poolOpStartTime);
+		$pools[$poolName]['opEndTime'] = intval($poolOpEndTime);
 		$pools[$poolName]['image'] = str_replace('http://', 'https://', json_decode(file_get_contents($imageSearch.urlencode($fileName.'.'.$suffix)), true)['query']['allimages'][0]['url']);
 		preg_match('/\|出率提升干员=(.+)/', $poolDetail, $upOperators);
 		foreach(explode(',', $upOperators[1]) as $operator){

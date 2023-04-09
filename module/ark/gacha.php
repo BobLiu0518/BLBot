@@ -23,8 +23,8 @@ function getPool($poolName){
 	if(!$poolName){
 		$latest = 0;
 		foreach($pools as $pool){
-			if($pool['time'] > $latest){
-				$latest = $pool['time'];
+			if($pool['opEndTime'] > $latest){
+				$latest = $pool['opEndTime'];
 				$poolName = $pool['name'];
 			}
 		}
@@ -41,8 +41,11 @@ function getPool($poolName){
 		}else if($operator['type'] == 'limited' && $pool['type'] != 'limited'){
 			// 限定干员 普池
 			continue;
-		}else if($operator['time'] > $pool['time']){
+		}else if($operator['time'] > $pool['opEndTime']){
 			// 时空战士
+			continue;
+		}else if($operator['time'] < $pool['opStartTime'] && intval($operator['star']) >= 5){
+			// 被移入中坚池的五六星老干员
 			continue;
 		}else if($pool['type'] == 'special' && $operator['star'] >= 5){
 			// 联合行动 高星
@@ -117,7 +120,7 @@ function gacha($poolName, $times){
 
 		// 计数
 		$userData[$pool['name']]['counter'] += 1;
-		if($pool['type'] == 'normal'){
+		if($pool['type'] == 'normal' || $pool['type'] == 'normal2'){
 			$userData['normal']['floor6'] += 1;
 			$userData['normal']['floor5'] += 1;
 		}else{
@@ -125,6 +128,9 @@ function gacha($poolName, $times){
 			$userData[$pool['name']]['floor5'] += 1;
 		}
 		$floor4 += 1;
+		if($pool['type'] == 'normal2' && $userData[$pool['name']]['direct'] != -1){
+			$userData[$pool['name']]['direct'] += 1;
+		}
 
 		// 大保底判定
 		foreach($pool['bonus'] as $n => $bonus){
@@ -143,8 +149,8 @@ function gacha($poolName, $times){
 		// b23.tv/cv20251111
 		if(!$star){
 			$r = rand(1, 10000);
-			$floor6 = ($pool['type'] == 'normal') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6'];
-			$floor5 = ($pool['type'] == 'normal') ? $userData['normal']['floor5'] : $userData[$pool['name']]['floor5'];
+			$floor6 = ($pool['type'] == 'normal' || $pool['type'] == 'normal2') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6'];
+			$floor5 = ($pool['type'] == 'normal' || $pool['type'] == 'normal2') ? $userData['normal']['floor5'] : $userData[$pool['name']]['floor5'];
 			$w6 = $floor6 <= 50 ?
 				200 :
 				200 + 200 * ($floor6 - 50);
@@ -182,7 +188,11 @@ function gacha($poolName, $times){
 				$userData[$pool['name']]['obtainedUps'][$star] = [];
 			}
 
-			if($pool['type'] == 'normal' && (
+			if($pool['type'] == 'normal2' && $star == '6' && $userData[$pool['name']]['direct'] > 150){
+				// 吃定向选调
+				$operator = $pool['operators']['6']['up'][0];
+				$userData[$pool['name']]['direct'] = -1;
+			}else if($pool['type'] == 'normal' && $pool['opEndTime'] <= 20230330 && $pool['opEndTime'] >= 20220501 && (
 				(
 					$star == '5' && count($userData[$pool['name']]['obtainedUps'][$star]) < count($pool['operators'][$star]['up'])
 					&& $userData[$pool['name']]['counter'] > (count($userData[$pool['name']]['obtainedUps'][$star]) * 50 + 51)
@@ -247,7 +257,7 @@ function gacha($poolName, $times){
 
 		// 小保底检测
 		if($star == '6'){
-			if($pool['type'] == 'normal'){
+			if($pool['type'] == 'normal' || $pool['type'] == 'normal2'){
 				$userData['normal']['floor6'] = 0;
 				$userData['normal']['floor5'] = 0;
 			}else{
@@ -255,11 +265,16 @@ function gacha($poolName, $times){
 				$userData[$pool['name']]['floor5'] = 0;
 			}
 		}else if($star == '5'){
-			if($pool['type'] == 'normal'){
+			if($pool['type'] == 'normal' || $pool['type'] == 'normal2'){
 				$userData['normal']['floor5'] = 0;
 			}else{
 				$userData[$pool['name']]['floor5'] = 0;
 			}
+		}
+
+		// 定向选调检测
+		if($pool['type'] == 'normal2' && $operator == $pool['operators']['6']['up'][0]){
+			$userData[$pool['name']]['direct'] = 0;
 		}
 
 		// 大保底检测
@@ -302,11 +317,20 @@ function gacha($poolName, $times){
 		}
 	}
 
+	// 定向选调提示
+	if($pool['type'] == 'normal2' && $userData[$pool['name']]['direct'] != -1){
+		if($userData[$pool['name']]['direct'] <= 150){
+			$reply .= '定向选调累计次数 '.$userData[$pool['name']]['direct']."\n";
+		}else{
+			$reply .= '下次 6★ 干员必定为 '.$pool['operators']['6']['up'][0].' !!'."\n";
+		}
+	}
+
 	// 次数提示
-	$reply .= '“'.$pool['name'].'”中已经招募了 '.$userData[$pool['name']]['counter'].' 次'."\n";
+	$reply .= '“'.$pool['name'].'”中已经寻访了 '.$userData[$pool['name']]['counter'].' 次'."\n";
 
 	// 小保底提示
-	$reply .= (($pool['type'] == 'normal')?('标准寻访'):('“'.$pool['name'].'”')).'已连续 '.(($pool['type'] == 'normal') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6']).' 次没有招募到 6★ 干员';
+	$reply .= (($pool['type'] == 'normal' || $pool['type'] == 'normal2')?('标准寻访'):('“'.$pool['name'].'”')).'已连续 '.(($pool['type'] == 'normal' || $pool['type'] == 'normal2') ? $userData['normal']['floor6'] : $userData[$pool['name']]['floor6']).' 次没有招募到 6★ 干员';
 	setData('ark/user/'.$Event['user_id'], json_encode($userData));
 
 	return $reply;
