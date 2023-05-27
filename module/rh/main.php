@@ -126,7 +126,7 @@ function initGame(){
 
     setData('rh/'.$Event['group_id'], json_encode(['status' => 'starting', 'players' => [$Event['user_id']], 'horse' => $assets['h']]));
 
-    re('[CQ:reply,id='.$Event['message_id'].']已发起赛'.$assets['h']."，发送“赛马”即可加入～\n赛".$assets['h']."将于一分钟后开始哦～");
+    re('[CQ:reply,id='.$Event['message_id'].']已发起赛'.$assets['h'].'，发送“赛'.$assets['h']."”或指令 #rh 即可加入～\n赛".$assets['h']."将于一分钟后开始哦～");
     countDownGame(0);
 }
 
@@ -140,7 +140,7 @@ function joinGame(){
 
     // 检查赛马场
     $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
-	$horse = $rhData['horse'];
+    $horse = $rhData['horse'];
     if(in_array($Event['user_id'], $rhData['players'])){
         replyAndLeave('你的'.$horse.'已经加入赛场咯～', false);
     }
