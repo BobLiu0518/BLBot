@@ -183,6 +183,9 @@ function countDownGame($time){
     }else if($time !== 0 && count($rhData['players']) <= 1){
 		le('你'.$assets['h'].'的，场上还是只有一匹'.$assets['h'].'，没法赛'.$assets['h'].'了呢', false);
 	}else{
+		re('Bot 偷偷加入了赛'.$assets['h'].'～');
+		$rhData['players'][] = config('bot');
+		setData('rh/'.$Event['group_id'], json_encode($rhData));
 		startGame();
 	}
 }
