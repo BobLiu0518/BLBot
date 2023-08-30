@@ -29,7 +29,7 @@ function reEvent($target, $copywriting){
     }
     $reply .= (gettype($copywriting) == 'array') ? randomChoose($copywriting) : $copywriting;
     foreach($horses as $n => $horse){
-        $reply .= "\n".$assets['num'][$n + 1].'|'.$horse->display().'|';
+        $reply .= "\n".$assets['num'][$n + 1].'|'.$horse->display();
     }
     re($reply);
 }
