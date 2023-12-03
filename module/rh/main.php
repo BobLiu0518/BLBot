@@ -403,7 +403,7 @@ function startGame(){
                     reEvent(null, [
                         '赛'.$assets['h'].'场突然起火',
                         '龙卷风摧毁了赛'.$assets['h'].'场',
-                        '突然发生了大地震'
+                        '大地震わせ、命揺らせ',
                     ]);
                 }else{
                     // 时光倒流 60%
