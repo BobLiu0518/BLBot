@@ -175,7 +175,7 @@ function countDownGame($time){
 
     // 看看人数够不够
     $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
-    if($time === 0 && count($rhData['players']) <= 2){
+    if($time === 0 && count($rhData['players']) <= 3){
         // 延迟一分钟
         re('参与赛'.$assets['h'].'的人数太少了，本场赛'.$assets['h'].'延迟一分钟开始～还有60秒～');
         countDownGame(1);
@@ -183,22 +183,25 @@ function countDownGame($time){
     }else if($time !== 0 && count($rhData['players']) <= 1){
 		le('你'.$assets['h'].'的，场上还是只有一匹'.$assets['h'].'，没法赛'.$assets['h'].'了呢', false);
 	}else{
-		re('Bot 偷偷加入了赛'.$assets['h'].'～');
-		$rhData['players'][] = config('bot');
-		setData('rh/'.$Event['group_id'], json_encode($rhData));
-		startGame();
+		setData('rh/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
+		if(count($rhData['players']) <= 3 || !rand(0, 9)) {
+			re('Bot 偷偷加入了赛'.$assets['h'].'～');
+			$rhData['players'][] = config('bot');
+		}
+		// setData('rh/'.$Event['group_id'], json_encode($rhData));
+		startGame($rhData);
 	}
 }
 
 // 开始游戏
-function startGame(){
+function startGame($rhData){
     loadModule('rh.tools');
     loadModule('credit.tools');
 
     global $Event, $assets;
 
-    $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
-    setData('rh/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
+    // $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
+    // setData('rh/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
     coolDown("rh/user/".$Event['user_id'], 5*60);
 
     global $horses;
@@ -237,7 +240,7 @@ function startGame(){
                 ]);
             }else{
                 // 诈尸 50%（消失马 0%）
-                $horses[$target]->goAhead(1);
+                $horses[$target]->goAhead(rand(1, 8));
                 $corpseFraudulent = $target;
                 reEvent($target, getRandChar(rand(0, 2))."诈".getRandChar(rand(1, 2))."尸".getRandChar(rand(0, 2))."了");
             }
