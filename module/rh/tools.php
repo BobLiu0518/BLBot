@@ -43,12 +43,20 @@ class Horse{
 		return $str;
 	}
 	public function goAhead($n){
+		if($n < 0){
+			$this->goBack(-$n);
+			return;
+		}
 		$this->distance -= $n;
 		if($this->distance < 0)
 			$this->distance = 0;
 		return;
 	}
 	public function goBack($n){
+		if($n < 0){
+			$this->goAhead(-$n);
+			return;
+		}
 		$this->distance += $n;
 		if($this->distance > $this->maxDistance)
 			$this->distance = $this->maxDistance;
