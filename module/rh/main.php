@@ -3,7 +3,7 @@
 // 离开赛马
 function le(string $str, bool $cd = true, bool $reply = false){
 	global $Event;
-	delData('rh/'.$Event['group_id']);
+	delData('rh/group/'.$Event['group_id']);
 	if($cd){
 		coolDown("rh/group/".$Event['group_id'], 5*60);
 	}
@@ -39,11 +39,12 @@ function randomChoose($var){
 	return $var[array_rand($var, 1)];
 }
 
-// 随机乱码中文
+// 随机"乱码"
 function getRandChar(int $num){
 	$result = '';
 	for($n = 0; $n < $num; $n++){
-		$result .= iconv('UCS-2BE', 'UTF-8', pack('H4', dechex(rand(19968, 40896))));
+		// $result .= iconv('UCS-2BE', 'UTF-8', pack('H4', dechex(rand(19968, 40896))));
+		$result .= randomChoose(['▖', '▗', '▘', '▝', '▚', '▞', '▀', '▄', '▌', '▐', '▙', '▛', '▜', '▟', '█']);
 	}
 	return $result;
 }
@@ -58,7 +59,7 @@ function initGame(){
     global $Event;
 
     requireLvl(3, '发起赛马', '等待其他群成员发起赛马后加入');
-    setData('rh/'.$Event['group_id'], json_encode(['status' => 'initializing']));
+    setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'initializing']));
 
     global $assets;
     $assets['h'] = "🐴"; //[CQ:emoji,id=128052]
@@ -104,6 +105,7 @@ function initGame(){
 			['[CQ:face,id=63]', '[CQ:face,id=64]'], /* [玫瑰] [凋谢] */
 			['[CQ:face,id=277]', '[CQ:face,id=317]'], /* [汪汪] [菜汪] */
 			['[CQ:face,id=344]', '[CQ:face,id=277]'], /* [大怨种] [汪汪] */
+                        ['[CQ:face,id=74]', '[CQ:face,id=75]'], /* [太阳] [月亮] */
 		];
 		$randHorse = randomChoose($specialHorses);
 		$assets['h'] = $randHorse[0];
@@ -124,7 +126,7 @@ function initGame(){
         }
     }
 
-    setData('rh/'.$Event['group_id'], json_encode(['status' => 'starting', 'players' => [$Event['user_id']], 'horse' => $assets['h']]));
+    setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'starting', 'players' => [$Event['user_id']], 'horse' => $assets['h']]));
 
     re('[CQ:reply,id='.$Event['message_id'].']已发起赛'.$assets['h'].'，发送“赛'.$assets['h']."”或指令 #rh 即可加入～\n赛".$assets['h']."将于一分钟后开始哦～");
     countDownGame(0);
@@ -139,7 +141,7 @@ function joinGame(){
     requireLvl(1, '加入赛马');
 
     // 检查赛马场
-    $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
+    $rhData = json_decode(getData('rh/group/'.$Event['group_id']), true);
     $horse = $rhData['horse'];
     if(in_array($Event['user_id'], $rhData['players'])){
         replyAndLeave('你的'.$horse.'已经加入赛场咯～', false);
@@ -158,8 +160,8 @@ function joinGame(){
     coolDown("rh/user/".$Event['user_id'], 5*60);
 
     $rhData['players'][] = $Event['user_id'];
-    setData('rh/'.$Event['group_id'], json_encode($rhData));
-    replyAndLeave('加入赛'.$horse."成功，消耗了1000金币～\n现在赛".$horse."场有".count($rhData['players'])."匹".$horse."了～");
+    setData('rh/group/'.$Event['group_id'], json_encode($rhData));
+    replyAndLeave('加入赛'.$horse."成功，消耗了1000金币～\n现在赛".$horse.'场有'.count($rhData['players']).'匹'.$horse.'了～'.(json_decode(getData('rh/user/'.$Event['user_id']), true)['nickname']?'':"\n现在可以使用 #rh.nickname 设置昵称了，快试试吧~"));
 }
 
 // 开始前的倒计时
@@ -172,9 +174,10 @@ function countDownGame($time){
     sleep(20);
     re('还有10秒开始赛'.$assets['h'].'～');
     sleep(10);
+    sleep(5); // Fuck Tencent
 
     // 看看人数够不够
-    $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
+    $rhData = json_decode(getData('rh/group/'.$Event['group_id']), true);
     if($time === 0 && count($rhData['players']) <= 3){
         // 延迟一分钟
         re('参与赛'.$assets['h'].'的人数太少了，本场赛'.$assets['h'].'延迟一分钟开始～还有60秒～');
@@ -183,12 +186,12 @@ function countDownGame($time){
     }else if($time !== 0 && count($rhData['players']) <= 1){
 		le('你'.$assets['h'].'的，场上还是只有一匹'.$assets['h'].'，没法赛'.$assets['h'].'了呢', false);
 	}else{
-		setData('rh/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
+		setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
 		if(count($rhData['players']) <= 3 || !rand(0, 9)) {
 			re('Bot 偷偷加入了赛'.$assets['h'].'～');
 			$rhData['players'][] = config('bot');
 		}
-		// setData('rh/'.$Event['group_id'], json_encode($rhData));
+		// setData('rh/group/'.$Event['group_id'], json_encode($rhData));
 		startGame($rhData);
 	}
 }
@@ -200,8 +203,8 @@ function startGame($rhData){
 
     global $Event, $assets;
 
-    // $rhData = json_decode(getData('rh/'.$Event['group_id']), true);
-    // setData('rh/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
+    // $rhData = json_decode(getData('rh/group/'.$Event['group_id']), true);
+    // setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
     coolDown("rh/user/".$Event['user_id'], 5*60);
 
     global $horses;
@@ -213,8 +216,14 @@ function startGame($rhData){
     $reply = '';
 
     foreach($players as $n => $player){
-        $reply .= "[CQ:at,qq=".$player."]，你".$assets['h']."的编号为".($n + 1)."～\n";
+        $reply .= "[CQ:at,qq=".$player."]，你".$assets['h']."的编号为".($n + 1);
         $horses[] = new Horse(13, 16, $assets['h'], $assets['nh'], $assets['dh']);
+	$userData = json_decode(getData('rh/user/'.$player), true);
+	if($userData['nickname']){
+		$assets['num'][$n + 1] = $userData['nickname'];
+		$reply .= '「'.$userData['nickname'].'」';
+	}
+	$reply .= "~\n";
     }
     re(rtrim($reply));
 
@@ -233,16 +242,17 @@ function startGame($rhData){
                 unset($deadHorse[$target]);
                 $aliveHorse[$target] = $target;
                 reEvent($target, [
-                    "重生了",
-                    "被冥土追魂救活了",
-                    "被xxs气活了",
-					"使用不死图腾复活了"
+                    '重生了',
+                    '被冥土追魂救活了',
+                    '被xxs气活了',
+                    '使用不死图腾复活了',
+                    '睡醒了',
                 ]);
             }else{
                 // 诈尸 50%（消失马 0%）
-                $horses[$target]->goAhead(rand(1, 8));
+                $horses[$target]->goAhead(rand(0, 3) ? rand(1, 5) : rand(-5, -1));
                 $corpseFraudulent = $target;
-                reEvent($target, getRandChar(rand(0, 2))."诈".getRandChar(rand(1, 2))."尸".getRandChar(rand(0, 2))."了");
+                reEvent($target, getRandChar(rand(1, 3))."诈".getRandChar(rand(1, 2))."尸".getRandChar(rand(1, 3))."了");
             }
         }else{
             // 活马事件 90%
@@ -253,28 +263,26 @@ function startGame($rhData){
                 $horses[$target]->goAhead(rand(1, 2));
                 reEvent($target, [
                     '跨越了自己的一小步，'.$assets['h'].'类的一大步',
-                    '不情愿的挪了一下',
                     '正在冲灯，突然发现前面有个探头，急刹车了',
                     '装了25km/h的电子限速，跑不快',
                     '在路上慢慢摇，跑不快',
-                    '克服空气阻力做功，功率为μ𝑚𝑔𝑣',
-                    '围绕赛'.$assets['h'].'场作匀速圆周运动，摩擦力≈𝑚𝑣²/𝑟',
-                    '没开满核定，摇车了'
+                    '克服阻力做功，功率为μmgv',
+                    '围绕赛'.$assets['h'].'场作匀速圆周运动，摩擦力≈mv²/r',
+                    '没开满核定，摇车了',
                 ]);
             }else if($determination <= 700){
                 // 走一大步 30%
                 $horses[$target]->goAhead(rand(3, 5));
                 reEvent($target, [
-                    '跑了一大步',
                     '开挂了',
                     '说自己没有开挂',
-                    '吃了太多华莱士，喷射了一大步',
+                    '吃了太多华×士，喷射了一大步',
                     '卷起来了',
                     '在泥头车前斜穿猛跑',
                     '开了加速器',
                     '执行快'.$assets['h'].'交路，越行了中间的10个甚至9个站',
                     '千招百式在 CH₂=CH₂！',
-                    '劲发江潮落，骑手求好评！'
+                    '劲发江潮落，骑手求好评！',
                 ]);
             }else if($determination <= 800){
                 // 退一小步 10%
@@ -291,7 +299,9 @@ function startGame($rhData){
                     '冲灯失败开始倒车',
                     '停下来围观事故现场',
                     '为了避让大站快'.$assets['h'].'，停了一会儿',
-                    '形不成形，意不在意，再去练练吧。'
+                    '形不成形，意不在意，再去练练吧。',
+                    '去拍 999318 了',
+                    '吃机外了',
                 ]);
             }else if($determination <= 850){
                 // 变装 5%
@@ -300,14 +310,14 @@ function startGame($rhData){
                     reEvent($target, [
                         '限定皮肤到期了',
                         '正在随地大小变',
-                        '卸妆了'
+                        '卸妆了',
                     ]);
                 }else{
                     $horses[$target]->nbIfy();
                     reEvent($target, [
                         '穿上了女装',
                         '正在随地大小变',
-                        '变成了赛'.$assets['h'].'娘'
+                        '变成了赛'.$assets['h'].'娘',
                     ]);
                 }
             }else if($determination <= 925){
@@ -328,7 +338,7 @@ function startGame($rhData){
                         '想起来自己是陈睿的'.$assets['h'],
                         '被💰诱惑到了，它所热爱的就是它的生活',
                         '看到了赛'.$assets['h'].'娘，爽死了',
-                        '去吃烧烤，然后被烧死了'
+                        '去吃烧烤，然后被烧了',
                     ]);
                 }else if($determination <= 90){
                     // 消失了 45%
@@ -342,7 +352,8 @@ function startGame($rhData){
                         '的，你'.$assets['h'].'去哪了？',
                         '进入了异世界',
                         '发生事故被拖走了',
-						'被萨卡兹枯朽吞噬者吞噬了'
+                        '被萨卡兹枯朽吞噬者吞噬了',
+                        '拍 999318 被抓了',
                     ]);
                 }else{
                     // 自己作大死 10%
@@ -353,10 +364,11 @@ function startGame($rhData){
                     reEvent($target, [
                         '被泥头车撞飞到终点，但是寄了',
                         '开挂飞到终点然后被封号了',
-                        '被华法琳血怒了，浑身充满了力量，但是流血致死',
+                        '被血怒了，浑身充满了力量，但是流血致死',
                         '以100km/h的速度撞上了电线杆',
                         '失控冲出了赛'.$assets['h'].'场',
-                        '被先辈撅飞了十米甚至九米'
+                        '被先辈撅飞了十米甚至九米',
+                        '向恶魔许愿胜利，但是代价是自己的生命',
                     ]);
                 }
             }else if($determination <= 997 || $specialEventTriggered){
@@ -375,7 +387,7 @@ function startGame($rhData){
                     $aliveHorse[$murderer] = $murderer;
                     reEvent($target, [
                         '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'占据了身体',
-                        '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'夺舍了'
+                        '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'夺舍了',
                     ]);
                 }else{
                     // 被谋杀
@@ -387,7 +399,8 @@ function startGame($rhData){
                         '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'撅死力',
                         '试图撅'.($murderer + 1).'号'.$horses[$murderer]->getChar().'被一转攻势撅死力',
                         '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'超市了',
-                        '右转必停被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'追尾了'
+                        '右转必停被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'追尾了',
+                        '被'.($murderer + 1).'号'.$horses[$murderer]->getChar().'查了',
                     ]);
                 }
             }else{
@@ -407,6 +420,7 @@ function startGame($rhData){
                         '赛'.$assets['h'].'场突然起火',
                         '龙卷风摧毁了赛'.$assets['h'].'场',
                         '大地震わせ、命揺らせ',
+                        '围观群众使用了技能“严查”',
                     ]);
                 }else{
                     // 时光倒流 60%
@@ -435,6 +449,7 @@ function startGame($rhData){
             $money = rand($playersCount * 500, $playersCount * 2000);
             sleep(5);
             $determination = rand(1, 100);
+            $corpseFraudulent = $horses[$win]->isDead();
             if(!$corpseFraudulent && $determination <= 90){
                 // 获得金币 90%
                 addCredit($players[$win], $money);
@@ -458,7 +473,7 @@ if(!fromGroup()){
     replyAndLeave('打算单人赛马嘛？');
 }
 
-if($rhData = getData('rh/'.$Event['group_id'])){
+if($rhData = getData('rh/group/'.$Event['group_id'])){
     $rhData = json_decode($rhData, true);
     switch($rhData['status']){
         case 'banned':
