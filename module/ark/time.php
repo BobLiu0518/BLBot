@@ -21,7 +21,7 @@ foreach($poolData as $pool){
 	if($pool['opEndTime'] > strval(date('Ymd', $timestamp))){
 		break;
 	}else if($pool['opEndTime'] >= strval(date('Ymd', $timestamp - 86400 * 13))){
-		$reply .= "\n".$pool['name'].'【'.implode($pool['operators']['6']['up'], ' ').'】';
+		$reply .= "\n".$pool['name'].'【'.implode(' ', $pool['operators']['6']['up']).'】';
 	}
 }
 
