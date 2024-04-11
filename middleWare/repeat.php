@@ -3,7 +3,7 @@
 global $Event, $Message, $Queue;
 
 if(fromGroup() && !preg_match('/签到/', $Message) && !preg_match('/签出/', $Message)){
-if($Message == "此处消息的转义尚未被插件支持")leave();
+if(in_array($Message, ["此处消息的转义尚未被插件支持", '[该消息类型不支持查看，请使用QQ最新版本]']))leave();
 
 if(getData("repeat/{$Event['group_id']}-1")==''){
     $a = getData("repeat/{$Event['group_id']}-2");
