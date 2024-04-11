@@ -16,7 +16,7 @@ error_reporting(E_ALL ^ E_WARNING);
 function config(string $key, string $defaultValue = NULL):string{
     global $Config;
 
-    if(array_key_exists($key, $Config)){
+    if($Config && array_key_exists($key, $Config)){
         return $Config[$key];
     }else{
         return $defaultValue;
@@ -51,7 +51,8 @@ function sendBack(string $msg, bool $auto_escape = false, bool $async = false):M
 
 function replyMessage(string $msg, bool $auto_escape = false, bool $async = false):Message{
     global $Event;
-    $msg = '[CQ:reply,id='.$Event['message_id'].']'.$msg;
+    // $msg = '[CQ:reply,id='.$Event['message_id'].']'.$msg;
+    $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
     if(!rand(0, 15)){
         $msg = str_replace("哦～", "喵～", $msg);
     }
@@ -417,7 +418,8 @@ function leave($msg = '', $code = 0){
 function replyAndLeave($msg = '', $code = 0){
     global $Event;
     if($msg){
-        $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;
+        // $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;
+        $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
     }
     throw new \Exception($msg, $code);
 }
