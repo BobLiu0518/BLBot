@@ -67,7 +67,7 @@ if(!$operator){
         $lang = '日文';
     }
 }
-$lang = str_replace('语', '文', str_replace('汉语', '中文', $lang));
+// $lang = str_replace('语', '文', str_replace('汉语', '中文', $lang));
 $langSuffix = '';
 if(preg_match('/\(.*\)/', $lang, $matchResult)){
     $langSuffix = $matchResult[0];
@@ -89,13 +89,14 @@ if(!$title){
     $title = array_rand($data['voice'], 1);
 }
 if(!$data['path'][$lang]){
-    replyAndLeave('没有找到干员'.$operator.'的 '.$lang.' 语音数据哦…'."\n".'可选语言：'.implode(array_keys($data['path']), ' '));
+    replyAndLeave('没有找到干员'.$operator.'的 '.$lang.' 语音数据哦…'."\n".'可选语言：'.implode(' ', array_keys($data['path'])));
 }
 if(!$data['voice'][$title]){
-    replyAndLeave('没有找到干员'.$operator.'的 '.$title.' 语音哦…'."\n".'可选语音：'.implode(array_keys($data['voice']), ' '));
+    replyAndLeave('没有找到干员'.$operator.'的 '.$title.' 语音哦…'."\n".'可选语音：'.implode(' ', array_keys($data['voice'])));
 }
 
 $Queue[]= replyMessage('［'.$operator.' '.$title."］\n中文".$langSuffix.' - '.handleSpecialChar($data['voice'][$title]['中文'.$langSuffix].($lang == '中文'.$langSuffix ? '' : "\n".$lang.' - '.(($data['voice'][$title][$lang]) ? $data['voice'][$title][$lang] : '(暂无'.$lang.'文本)'))));
-$Queue[]= sendBack('[CQ:record,file='.'https://static.prts.wiki/'.$data['path'][$lang].'/'.$data['voice'][$title]['file'].']');
+// $Queue[]= sendBack('[CQ:record,file='.'https://static.prts.wiki/'.$data['path'][$lang].'/'.$data['voice'][$title]['file'].']');
+$Queue[]= sendBack('[CQ:record,file='.'https://torappu.prts.wiki/assets/audio/'.$data['path'][$lang].'/'.strtolower($data['voice'][$title]['file']).']');
 
 ?>
