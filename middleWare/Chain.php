@@ -2,6 +2,7 @@
 
 if(fromGuild())leave();
 
+require('redpack.php');
 require('autoBan.php');
 require('atBot.php');
 require('poke.php');
@@ -17,6 +18,7 @@ require('osu.php');
 require('ciya.php');
 require('checkin.php');
 require('rh.php');
+require('yancha.php');
 require('calc.php');
 require('choose.php');
 //require('zhiyin.php');
