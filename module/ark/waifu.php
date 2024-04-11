@@ -12,7 +12,7 @@ $lang = nextArg();
 if(!$lang){
     $lang = '日文';
 }
-$lang = str_replace('语', '文', str_replace('汉语', '中文', $lang));
+// $lang = str_replace('语', '文', str_replace('汉语', '中文', $lang));
 
 setData('ark/waifu/'.$Event['user_id'], json_encode(array(
     'operator' => $operator,

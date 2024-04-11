@@ -32,6 +32,7 @@ foreach($operatorData['results'] as $operator){
 	preg_match('/\|稀有度=(\d+)/', $operatorDetail, $operatorStar);
 	preg_match('/\|获得方式=(.+)/', $operatorDetail, $operatorObtainMethods);
 	preg_match('/\|职业=(.+)/', $operatorDetail, $operatorProfession);
+	preg_match('/\|分支=(.+)/', $operatorDetail, $operatorProfessionBranch);
 	$limited = false;
 	$gachaable = false;
 	foreach(explode(' ', $operatorObtainMethods[1]) as $operatorObtainMethod){
@@ -64,6 +65,7 @@ foreach($operatorData['results'] as $operator){
 		'time' => intval($operatorTime[1].$operatorTime[2].$operatorTime[3]),
 		'star' => strval(intval($operatorStar[1]) + 1),
 		'profession' => $operatorProfession[1],
+		'branch' => $operatorProfessionBranch[1],
 		'type' => ($gachaable ? ($limited ? 'limited' : 'normal') : 'other'),
 		'avatar' => $avatar['query']['allimages'][0]['url'],
 		'portrait' => $portrait['query']['allimages'][0]['url']
