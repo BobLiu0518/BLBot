@@ -11,3 +11,4 @@ config.ini
 .DS_Store
 module/bld/
 stat.sql
+public/php_errors.log
