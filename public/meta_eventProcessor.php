@@ -11,7 +11,8 @@ $updating = intval(trim(getCache("biliDynamicUpdating")));
 ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
 $context = stream_context_create(['http' => ['header' => 'Cookie: SESSDATA='.getData('bili/api/sessdata')]]);
 
-if($updating != 1 && (!$lastUpdated || ($now > $lastUpdated + $cd))) { // 过cd更新内容
+// 临时关闭功能
+if(false && $updating != 1 && (!$lastUpdated || ($now > $lastUpdated + $cd))) { // 过cd更新内容
 	// setCache("biliDynamicUpdating", 1);
 	setCache("biliDynamicLastUpdated", $now);
 
