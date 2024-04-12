@@ -61,7 +61,7 @@ function attack($from, $target, $atTarget, $dreaming = false){
 				addCredit($from, $getMoney);
 				$message = randString(["你成功从 {$atTarget} 手上夺走了 {$getMoney} 金币。", "你从 {$atTarget} 口袋里摸走了 {$getMoney} 金币。", "{$atTarget} 立刻投降，你顺走了 {$getMoney} 金币。"]);
 			}else if(!$success && $prison){
-				$fine = 500 * $magnification;
+				$fine = intval(500 * $magnification);
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400);

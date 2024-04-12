@@ -22,8 +22,10 @@ if(!is_numeric($target)){
 	replyAndLeave('倍率只能设置数值哦～');
 }
 $target = floatval($target);
-if($target > 100 || $target < 1){
-	replyAndLeave('倍率只能设置 [1, 100] 中的值哦～');
+if($target > 100 || $target < 0.1){
+	replyAndLeave('倍率只能设置 [0.1, 100] 中的值哦～');
+}else if($target > 10 && $CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->role != 'owner'){
+	replyAndLeave('高于 10 的抢劫倍率只能由群主设置哦~');
 }
 
 setData('attack/group/'.$Event['group_id'], $target);
