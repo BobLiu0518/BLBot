@@ -221,14 +221,16 @@ function gacha($poolName, $times){
 		}
 
 		// 发消息
-		for($n = 6; $n > 0; $n --){
-			if(intval($star) >= $n){
-				$reply .= '★';
-			}else{
-				$reply .= '　';
+		if($times != 10){
+			for($n = 6; $n > 0; $n --){
+				if(intval($star) >= $n){
+					$reply .= '★';
+				}else{
+					$reply .= '　';
+				}
 			}
+			$reply .= ' '.$operator."\n";
 		}
-		$reply .= ' '.$operator."\n";
 
 		// 生成十连图
 		if($times == 10){
