@@ -34,6 +34,7 @@ switch(getStatus($Event['user_id'])){
 			// 进医院
 			$message = '越狱时你感到一阵刺痛，等你醒来时已经元气大伤，躺在了手术台上。(支付 20000 金币手术费)';
 			$data['status'] = 'hospitalized';
+			$data['end'] = date('Ymd', time() + 86400);
 			decCredit($Event['user_id'], 20000, true);
 		}else if(rand(1, 100) <= 50 + 0.5 * $jrrp){
 			// 越狱成功
