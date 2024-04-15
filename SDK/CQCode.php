@@ -97,7 +97,7 @@ class CQCode{
     }
 
     public static function DecodeCQCode($str){
-        return str_replace([
+        return $str ? str_replace([
             '&amp;',
             '&#91;',
             '&#93;',
@@ -107,7 +107,7 @@ class CQCode{
             '[',
             ']',
             ',',
-        ], $str);
+        ], $str) : '';
     }
 
 }
