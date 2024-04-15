@@ -8,7 +8,7 @@ $groupName = $CQ->getGroupInfo($Event['group_id'])->group_name;
 $inmates = [];
 foreach($memberList as $member){
 	$status = getStatus($member->user_id);
-	if($status == 'imprisoned' || $status == ''){
+	if($status == 'imprisoned' || $status == 'confined'){
 		$inmates[] = '@'.($member->card ? $member->card : $member->nickname)."\n　刑期至".getStatusEndTime($member->user_id);
 	}
 }
