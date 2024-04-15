@@ -31,7 +31,7 @@ function attack($from, $target, $atTarget, $dreaming = false){
 			$message = "你成功抢劫了 {$atTarget}，但当你数钱时，突然发现自己在禁闭室里做白日梦。";
 			break;
 		case 'hospitalized':
-			$message = "在病床上，你没有力气活动身体。";
+			$message = '在病床上，你没有力气活动身体。';
 			break;
 		case 'arknights':
 			$message = "你刚想离开办公室看看能不能找到回原世界的路，但一推开门就看到".randString(['那位绿发猫耳女士用严厉的眼光看着你。', '一位兔耳少女对你投来了关切的眼神。'])."你不由自主回到了办公桌前。\n(理智 - 1)";
