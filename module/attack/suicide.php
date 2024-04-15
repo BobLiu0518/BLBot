@@ -12,11 +12,15 @@ switch($status){
 	case 'imprisoned':
 	case 'confined':
 		$currentEnd = getStatusEndTime($Event['user_id']);
-		$end = date('Ymd', strtotime($currentEnd) + 86400 * $duration);
+		if($currentEnd != '∞'){
+			$end = date('Ymd', strtotime($currentEnd) + 86400 * $duration);
+		}else{
+			$end = 99999999;
+		}
 	case 'free':
 		$data = getAttackData($Event['user_id']);
 		$data['status'] = 'imprisoned';
-		$data['end'] = $end;
+		$data['end'] = strval(min(intval($end), 99999999));
 		setAttackData($Event['user_id'], $data);
 		replyAndLeave('成功'.($status == 'free' ? '把自己送进监狱，刑期至 ' : '延长自己的刑期至 ').getStatusEndTime($Event['user_id']).' ~');
 		break;
