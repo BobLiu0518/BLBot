@@ -17,9 +17,7 @@ foreach($memberList as $member){
 }
 if(count($inmates)){
 	usort($inmates, function($a, $b){
-		if($a['end'] == '∞') return 1;
-		else if($b['end'] == '∞') return -1;
-		return $a['end'] - $b['end'];
+		return ($a['end'] == '∞' ? strtotime('2999/12/31') : strtotime($a['end'])) - ($b['end'] == '∞' ? strtotime('2999/12/31') : strtotime($b['end']));
 	});
 	$reply .= $groupName.' 狱友：';
 	foreach($inmates as $inmate){
