@@ -18,7 +18,7 @@ switch($status){
 		$data['status'] = 'imprisoned';
 		$data['end'] = $end;
 		setAttackData($Event['user_id'], $data);
-		replyAndLeave('成功'.($status == 'free' ? '把自己送进监狱' : '延长自己的刑期').'，刑期至 '.getStatusEndTime($Event['user_id']).' ~');
+		replyAndLeave('成功'.($status == 'free' ? '把自己送进监狱，刑期至 ' : '延长自己的刑期至 ').getStatusEndTime($Event['user_id']).' ~');
 		break;
 	case 'hospitalized':
 		replyAndLeave('住院的时候还是以身体为重吧。');
