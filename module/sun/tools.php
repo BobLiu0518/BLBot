@@ -9,7 +9,7 @@ function getRandGroupMember(){
 	$pool = [];
 
 	foreach($memberList as $member) {
-	    if($time - $member->last_sent_time <= 86400 * 3) {
+	    if($time - $CQ->getGroupMemberInfo($Event['group_id'], $member->user_id)->last_sent_time <= 86400 * 3) {
 	        $pool[] = $member;
 	    }
 	}
