@@ -155,6 +155,7 @@ function getStatus($user_id){
 
 function getStatusEndTime($user_id){
 	$time = getAttackData($user_id)['end'];
+	if($time > 29991231) return '∞';
 	return substr_replace(substr_replace($time, '/', 6, 0), '/', 4, 0);
 }
 
