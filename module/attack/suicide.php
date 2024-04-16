@@ -6,14 +6,15 @@ loadModule('attack.tools');
 
 $duration = abs(intval(nextArg()));
 if(!$duration) $duration = 1;
-$end = date('Ymd', time() + 86400 * $duration);
+$duration = min($duration, 1e6) * 86400;
+$end = date('Ymd', time() + $duration);
 $status = getStatus($Event['user_id']);
 switch($status){
 	case 'imprisoned':
 	case 'confined':
 		$currentEnd = getStatusEndTime($Event['user_id']);
 		if($currentEnd != '∞'){
-			$end = date('Ymd', strtotime($currentEnd) + 86400 * $duration);
+			$end = date('Ymd', strtotime($currentEnd) + $duration);
 		}else{
 			$end = 99999999;
 		}
