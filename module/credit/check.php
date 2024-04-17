@@ -6,11 +6,10 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
 
-$QQ = nextArg();
+$QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
     $QQ = parseQQ($QQ);
 }
-$QQ = $QQ??$Event['user_id'];
 
 if($Event['user_id'] != $QQ){
 	if(!fromGroup()){

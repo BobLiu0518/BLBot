@@ -46,12 +46,12 @@ function attack($from, $target, $atTarget, $dreaming = false){
 			$prisonRate = pow(2, $data['count']['times']);
 			$success = rand(1, 100) <= $successRate;
 			$prison = rand(1, 100) <= $prisonRate;
-			$getMoney = intval((getLvl($from) - getLvl($target) + 10) * (getRp($from, time()) - getRp($target, time()) + 100) * rand(100 * $magnification, 1000 * $magnification) / 200 + 1);
+			$getMoney = ceil((getLvl($from) - getLvl($target) + 10) * (getRp($from, time()) - getRp($target, time()) + 100) * rand(100 * $magnification, 1000 * $magnification) / 200 + 1);
 			if(getCredit($target) - 10000 <= $getMoney) $getMoney = getCredit($target) - 9999;
 			if(getCredit($target) < 10000) $success = false;
 
 			if($success && $prison){
-				$fine = intval(sqrt($getMoney) * 10) + 500 * $magnification;
+				$fine = ceil(sqrt($getMoney) * 10) + 500 * $magnification;
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400 * 2);
@@ -61,7 +61,7 @@ function attack($from, $target, $atTarget, $dreaming = false){
 				addCredit($from, $getMoney);
 				$message = randString(["你成功从 {$atTarget} 手上夺走了 {$getMoney} 金币。", "你从 {$atTarget} 口袋里摸走了 {$getMoney} 金币。", "{$atTarget} 立刻投降，你顺走了 {$getMoney} 金币。"]);
 			}else if(!$success && $prison){
-				$fine = intval(500 * $magnification);
+				$fine = ceil(500 * $magnification);
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400);
