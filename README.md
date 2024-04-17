@@ -5,9 +5,9 @@
 
 BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的QQ机器人。
 
-## 请使用 go-cqhttp
+## 请使用 Lagrange
 
-本项目开发目标为 go-cqhttp。为获得最好的效果，请您使用 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 运行。
+本项目开发目标为 Lagrange。为获得最好的效果，请您使用 [Lagrange.OneBot](https://github.com/KonataDev/Lagrange.Core) 运行。
 
 ## 框架结构
 
