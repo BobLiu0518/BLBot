@@ -303,6 +303,7 @@ function startGame($rhData){
                     '去拍 999318 了',
                     '吃机外了',
                     '在莘庄立交堵车了',
+                    '在学院路堵车了',
                 ]);
             }else if($determination <= 850){
                 // 变装 5%
