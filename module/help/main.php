@@ -1,6 +1,7 @@
 <?php
 
+global $Queue;
 $img = trim(sendImg(getImg('help.png')));
-replyAndLeave($img);
+$Queue[]= sendBack($img);
 
 ?>
