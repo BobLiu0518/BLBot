@@ -59,6 +59,17 @@ function replyMessage(string $msg, bool $auto_escape = false, bool $async = fals
     return sendBack($msg, $auto_escape, $async);
 }
 
+function pokeBack(int $user_id = 0){
+    global $Event, $CQ;
+    if(!$user_id) $user_id = $Event['user_id'];
+    if(fromGroup()){
+        $CQ->groupPoke($Event['group_id'], $user_id);
+    }else{
+        $CQ->friendPoke($user_id);
+    }
+    return;
+}
+
 /**
  * 发送给 Master
  * @param string $msg 消息内容
@@ -393,11 +404,6 @@ function fromGroup($group = NULL):bool{
     }else{
         return ($Event['group_id'] == $group);
     }
-}
-
-function fromGuild():bool{
-    global $Event;
-    return ($Event['post_type']=="message")&&($Event['message_type']=="guild");
 }
 
 /**

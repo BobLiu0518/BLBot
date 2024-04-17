@@ -25,6 +25,5 @@ if($target['user_id'] == $from){
 
 $message = attack($from, $target['user_id'], $atTarget);
 $Queue[]= replyMessage($message);
-$Queue[]= sendBack('[CQ:poke,qq='.$target['user_id'].']');
 
 ?>
