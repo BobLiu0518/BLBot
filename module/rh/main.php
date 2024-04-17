@@ -302,6 +302,7 @@ function startGame($rhData){
                     '形不成形，意不在意，再去练练吧。',
                     '去拍 999318 了',
                     '吃机外了',
+                    '在莘庄立交堵车了',
                 ]);
             }else if($determination <= 850){
                 // 变装 5%
