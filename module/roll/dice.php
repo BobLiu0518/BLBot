@@ -1,0 +1,5 @@
+<?php
+
+leave('[CQ:dice]');
+
+?>
