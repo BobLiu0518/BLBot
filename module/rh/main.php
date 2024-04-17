@@ -174,7 +174,6 @@ function countDownGame($time){
     sleep(20);
     re('还有10秒开始赛'.$assets['h'].'～');
     sleep(10);
-    sleep(5); // Fuck Tencent
 
     // 看看人数够不够
     $rhData = json_decode(getData('rh/group/'.$Event['group_id']), true);
