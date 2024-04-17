@@ -1,7 +1,7 @@
 <?php
 
 $message = trim(str_replace('[CQ:at,qq='.config('bot').']', '', $Event['message']));
-$length = strpos($message, "\n");
+$length = strpos($message, PHP_EOL);
 if(false===$length){
     $length = strlen($message);
 }
