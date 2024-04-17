@@ -4,16 +4,19 @@
 	requireLvl(4);
 	requireSeniorAdmin();
 
-	$cqv = $CQ->getVersionInfo();
-	$stat = $CQ->getStatus();
+	$version = $CQ->getVersionInfo();
+	$login = $CQ->getLoginInfo();
+	$status = $CQ->getStatus();
+	$status = var_export($status, true);
 	$reply = <<<EOT
-{$cqv->app_name} {$cqv->app_version}
-(running on {$cqv->runtime_os}, protocol {$cqv->protocol_name})
+{$version->app_name} {$version->app_version}
+Protocol {$version->protocol_version}
+QQ NT Protocol {$version->nt_protocol}
 
-Statistics since last reboot:
-- {$stat->stat->message_received} message(s) recieved
-- {$stat->stat->message_sent} message(s) sent
-- {$stat->stat->lost_times} disconnection(s)
+Logged in as {$login->nickname} ({$login->user_id})
+
+Status:
+{$status}
 EOT;
 
 	$Queue[]= replyMessage($reply);
