@@ -408,7 +408,7 @@ class CoolQ{
         $queryStr = '?';
         $param['access_token'] = $this->token; //追加access_token到参数表
         foreach($param as $key => $value){
-            $queryStr.= ($key.'='.urlencode(is_bool($value)?($value?'true':'false'):$value).'&');
+            $queryStr.= ($key.'='.urlencode((is_bool($value)?($value?'true':'false'):$value)??'').'&');
         }
         $result = json_decode(file_get_contents('http://'.$this->host.$api.$queryStr));
 
