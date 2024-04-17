@@ -10,8 +10,8 @@
 	$status = var_export($status, true);
 	$reply = <<<EOT
 {$version->app_name} {$version->app_version}
-Protocol {$version->protocol_version}
-QQ NT Protocol {$version->nt_protocol}
+OneBot Protocol {$version->protocol_version}
+QQ NT {$version->nt_protocol}
 
 Logged in as {$login->nickname} ({$login->user_id})
 
