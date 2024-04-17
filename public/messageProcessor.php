@@ -27,7 +27,7 @@ if(fromGuild()){
     $Message = $message;
     $length = strpos($message, "\r");
     if(false===$length)$length = strlen($message);
-    $Command = parseCommand(substr($message, strlen($prefix[1])-1, $length));
+    $Command = parseCommand(substr($message, strlen(Config('prefix', '#'))-1, $length));
     $Text = substr($message, $length+2);
     require('../middleWare/Chain.php');
 }
