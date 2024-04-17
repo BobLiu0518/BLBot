@@ -422,12 +422,16 @@ class CoolQ{
     }
 
     private function query($api, $param){
-        $queryStr = '?';
-        $param['access_token'] = $this->token; //追加access_token到参数表
-        foreach($param as $key => $value){
-            $queryStr.= ($key.'='.urlencode((is_bool($value)?($value?'true':'false'):$value)??'').'&');
-        }
-        $result = json_decode(file_get_contents('http://'.$this->host.$api.$queryStr));
+        $param['access_token'] = $this->token;
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/json',
+                'content' => json_encode($param),
+            ],
+        ];
+        $context = stream_context_create($options);
+        $result = json_decode(file_get_contents('http://'.$this->host.$api, false, $context));
 
         switch($result->retcode){
             case 0:
@@ -435,7 +439,6 @@ class CoolQ{
             case 1:
                 return NULL;
             default:
-                //throw new \Exception("执行失败！", $result->retcode);
         }
     }
 
