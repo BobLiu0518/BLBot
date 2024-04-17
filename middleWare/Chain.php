@@ -6,7 +6,6 @@ require('atBot.php');
 require('alias.php');
 require('creeper.php');
 require('trash.php');
-require('666.php');
 require('checkin.php');
 require('rh.php');
 require('yancha.php');
