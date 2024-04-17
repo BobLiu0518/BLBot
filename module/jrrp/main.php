@@ -8,11 +8,10 @@ function randString(array $strArr){
 	return $strArr[rand(0, sizeof($strArr)-1)];
 }
 
-$QQ = nextArg();
+$QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
     $QQ = parseQQ($QQ);
 }
-$QQ = $QQ??$Event['user_id'];
 
 if($Event['user_id'] != $QQ){
 	if(!fromGroup()){
