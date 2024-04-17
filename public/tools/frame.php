@@ -51,8 +51,8 @@ function sendBack(string $msg, bool $auto_escape = false, bool $async = false):M
 
 function replyMessage(string $msg, bool $auto_escape = false, bool $async = false):Message{
     global $Event;
-    // $msg = '[CQ:reply,id='.$Event['message_id'].']'.$msg;
-    $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
+    $msg = '[CQ:reply,id='.$Event['message_id'].']'.$msg;
+    // $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
     if(!rand(0, 15)){
         $msg = str_replace("哦～", "喵～", $msg);
     }
@@ -179,12 +179,7 @@ function loadModule(string $module){
     if(0 === $count){
         $moduleFile.='/main';
     }
-
-    // if(fromGuild()){
-    //    $moduleFile.='.guild.php';
-    // }else{
-        $moduleFile.='.php';
-    // }
+    $moduleFile.='.php';
 
     if(file_exists('../module/'.$moduleFile)){
         if(config('recordStat', 'true')){
@@ -418,8 +413,8 @@ function leave($msg = '', $code = 0){
 function replyAndLeave($msg = '', $code = 0){
     global $Event;
     if($msg){
-        // $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;
-        $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
+        $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;
+        // $msg = '[CQ:at,qq='.$Event['user_id']."]\n".$msg;
     }
     throw new \Exception($msg, $code);
 }
