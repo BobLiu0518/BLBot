@@ -11,6 +11,23 @@ class CoolQ{
         $this->token = $token;
     }
 
+    public function friendPoke($user_id){
+        $api = API::friend_poke;
+        $param = [
+            'user_id' => $user_id,
+        ];
+        return $this->query($api, $param);
+    }
+
+    public function groupPoke($group_id, $user_id){
+        $api = API::group_poke;
+        $param = [
+            'group_id' => $group_id,
+            'user_id' => $user_id,
+        ];
+        return $this->query($api, $param);
+    }
+
     public function sendPrivateMsg($user_id, $message, $auto_escape = false){
         $api = API::send_private_msg;
         $param = [

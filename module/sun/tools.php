@@ -18,6 +18,7 @@ function getRandGroupMember(){
 	}
 	$member = $pool[rand(0, count($pool)-1)];
 
+	pokeBack($member->user_id);
 	return [
 		'nickname' => $member->card ? $member->card : $member->nickname,
 		'user_id' => $member->user_id,

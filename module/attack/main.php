@@ -42,6 +42,5 @@ if(!fromGroup() || $target == $from){
 
 $message = attack($from, $target, $atTarget);
 $Queue[]= replyMessage($message);
-$Queue[]= sendBack('[CQ:poke,qq='.$target.']');
 
 ?>

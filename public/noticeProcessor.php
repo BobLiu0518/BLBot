@@ -36,10 +36,6 @@ switch($Event['notice_type']){
         break;
     case 'notify':
         switch($Event['sub_type']){
-            case 'poke':
-                if($Event['group_id'] && $Event['user_id'] != config('bot') && $Event['target_id'] == config('bot'))
-                    $Queue[]= sendBack('[CQ:poke,qq='.$Event['user_id'].']');
-                break;
             default:
         }
         break;

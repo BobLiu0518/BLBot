@@ -2,6 +2,8 @@
 namespace kjBot\SDK;
 
 class API{
+    const friend_poke = '/friend_poke';
+    const group_poke = '/group_poke';
     const send_private_msg = '/send_private_msg';
     // const send_private_msg_async = '/send_private_msg_async';
     const send_private_msg_async = '/send_private_msg';
