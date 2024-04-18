@@ -55,6 +55,10 @@ $redpacks[] = [
 	'avg' => $amount / $count,
 	'code' => $code,
 	'got' => [],
+	'kingOfLuck' => [
+		'user_id' => 0,
+		'amount' => -1,
+	],
 ];
 
 setData('redpack/'.$Event['group_id'], json_encode($redpacks));

@@ -33,7 +33,7 @@ if(fromGroup()){
 				if($redpack['count'] == 1){
 					$get = $redpack['remain'];
 				}else{
-					$get = rand(max(intval($redpack['avg'] * 0.01), 1), min($redpack['remain'] - $redpack['count'] + 1, $redpack['avg']*2));
+					$get = rand(ceil($redpack['avg'] * 0.01), min($redpack['remain'] - $redpack['count'] + 1, $redpack['avg'] * 2));
 				}
 				$redpacks[$n]['count'] --;
 				$redpacks[$n]['remain'] -= $get;
@@ -41,8 +41,12 @@ if(fromGroup()){
 				$empty = -1;
 				addCredit($Event['user_id'], $get);
 				$Queue[]= replyMessage('恭喜抢到 '.$get.' 金币~	');
+				if($get > $redpacks[$n]['kingOfLuck']['amount']){
+					$redpacks[$n]['kingOfLuck']['amount'] = $get;
+					$redpacks[$n]['kingOfLuck']['user_id'] = $Event['user_id'];
+				}
 				if(!$redpacks[$n]['count']){
-					$Queue[]= sendBack('红包抢完啦~');
+					$Queue[]= sendBack('红包抢完啦，[CQ:at,qq='.$redpacks[$n]['kingOfLuck']['user_id'].'] 是运气王~');
 					$redpacks[$n]['endTime'] = $time;
 				}
 			}
