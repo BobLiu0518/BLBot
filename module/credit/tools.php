@@ -28,7 +28,7 @@ function decCredit($QQ, $pay, $force = false){
 }
 
 function transferCredit($from, $to, $transfer, $fee = 1.01){
-    decCredit($from, intval($transfer*$fee));
+    decCredit($from, ceil($transfer * $fee));
     addCredit($to, $transfer);
 }
 
