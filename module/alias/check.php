@@ -1,10 +1,18 @@
 <?php
 
-	global $Event;
+	global $Event, $CQ;
 	loadModule('alias.tools');
-	$list = chkAlias($Event['user_id']);
+
+	$target = nextArg() ?? $Event['user_id'];
+	if(!is_numeric($target)){
+		$target = parseQQ($target);
+	}
+	$targetInfo = $CQ->getGroupMemberInfo($Event['group_id'], $target);
+	$atTarget = ($target == $Event['user_id']) ? '你' : '@'.($targetInfo->card ?? $targetInfo->nickname).' ';
+
+	$list = chkAlias($target);
 	if(count($list)){
-		$reply = '你设置的别名：';
+		$reply = $atTarget.'设置的别名：';
 		$aliases = [];
 		foreach($list as $alias => $command){
 			$aliases[] = [
@@ -22,7 +30,7 @@
 		replyAndLeave($reply);
 	}
 	else{
-		replyAndLeave('你还没有设置别名哦～');
+		replyAndLeave($atTarget.'还没有设置别名哦～');
 	}
 
 ?>
