@@ -1,6 +1,6 @@
 <?php
 
-$message = trim(str_replace('[CQ:at,qq='.config('bot').']', '', $Event['message']));
+$message = trim(preg_replace('/(\[CQ:at,qq='.config('bot').'\]|\[CQ:reply,id=\d+\])/', '', $Event['message']));
 $length = strpos($message, PHP_EOL);
 if(false===$length){
     $length = strlen($message);
