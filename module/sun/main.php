@@ -10,6 +10,5 @@ if(!fromGroup()){
 
 $member = getRandGroupMember();
 $Queue[]= replyMessage('抽到了 '.'@'.$member['nickname'].' ('.$member['user_id'].')');
-$CQ->groupPoke($Event['group_id'], $Event['user_id']);
 
 ?>
