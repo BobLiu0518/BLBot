@@ -5,7 +5,7 @@ function le(string $str, bool $cd = true, bool $reply = false){
 	global $Event;
 	delData('rh/group/'.$Event['group_id']);
 	if($cd){
-		coolDown("rh/group/".$Event['group_id'], 5*60);
+		coolDown("rh/group/".$Event['group_id'], 7.5*60);
 	}
     if($reply){
         replyAndLeave($str);
@@ -72,9 +72,9 @@ function initGame(){
     if(date('H') < 5 || date('H') > 22){
         le('赛马场不在营业时间，关门休息啦…', false, true);
     }
-    if(date('w') != '3' && date('w') != '6' && date('w') != '0'){
-        le('新赛马场逢周三、周六日运营哦～', false, true);
-    }
+    // if(date('w') != '3' && date('w') != '6' && date('w') != '0'){
+    //     le('新赛马场逢周三、周六日运营哦～', false, true);
+    // }
 
     // 检查cd
     if(coolDown("rh/group/".$Event['group_id']) < 0){
@@ -157,7 +157,7 @@ function joinGame(){
     }
 
     decCredit($Event['user_id'], 1000);
-    coolDown("rh/user/".$Event['user_id'], 5*60);
+    coolDown("rh/user/".$Event['user_id'], 7.5*60);
 
     $rhData['players'][] = $Event['user_id'];
     setData('rh/group/'.$Event['group_id'], json_encode($rhData));
@@ -204,7 +204,7 @@ function startGame($rhData){
 
     // $rhData = json_decode(getData('rh/group/'.$Event['group_id']), true);
     // setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'started', 'time' => time()]));
-    coolDown("rh/user/".$Event['user_id'], 5*60);
+    coolDown("rh/user/".$Event['user_id'], 7.5*60);
 
     global $horses;
     $players = $rhData['players'];
