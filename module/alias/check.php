@@ -25,7 +25,7 @@
 			return strcmp($a['alias'], $b['alias']);
 		});
 		foreach($aliases as $alias){
-			$reply .= "\n#".$alias['alias'].' => #'.$alias['command'];
+			$reply .= "\n#".$alias['alias'].' ➪ #'.$alias['command'];
 		}
 		replyAndLeave($reply);
 	}
