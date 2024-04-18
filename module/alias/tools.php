@@ -22,7 +22,7 @@ function delAlias($qq,$alias){
 }
 
 function chkAlias($qq){
-	$list = json_decode(getData("alias/".$qq.".json"),true);
+	$list = json_decode(getData("alias/".$qq.".json"),true) ?? [];
 	return $list;
 }
 

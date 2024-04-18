@@ -29,12 +29,12 @@ switch(getStatus($User_id)){
 		if($credit < 1000000){
 			$income = rand(10000, 100000);
 		}else if($credit < 10000000){
-			$income = intval(rand(10000 - ($credit-1000000) * 0.001, 100000 - ($credit-1000000) * 0.001));
+			$income = ceil(rand(10000 - ($credit-1000000) * 0.001, 100000 - ($credit-1000000) * 0.001));
 		}else{
 			$income = rand(1000, 10000);
 		}
 
-		$income = intval($income * getRp($Event['user_id']) / 50);
+		$income = ceil($income * getRp($Event['user_id']) / 50);
 
 		$originLvl = getLvl($Event['user_id']);
 		if(10000==$income)

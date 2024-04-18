@@ -11,7 +11,7 @@
 
 	ini_set('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36');
 
-	$uid = ltrim(nextArg(), 'uidUID:');
+	$uid = ltrim(nextArg()??'', 'uidUID:');
 	if(parseQQ($uid))$uid = getData("bili/user/".parseQQ($uid));
 	if(!$uid)$uid = getData("bili/user/".$Event['user_id']);
 	if($uid == "")replyAndLeave("请提供uid哦～如果想查询自己，可以使用 #bili.bind <uid> 绑定自己的账号哦！(括号不填)");
