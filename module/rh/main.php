@@ -456,7 +456,7 @@ function startGame($rhData){
             sleep(5);
             $determination = rand(1, 100);
             $corpseFraudulent = $horses[$win]->isDead();
-            if(!$corpseFraudulent && $determination <= 90){
+            if($players[$win] != config('bot') && !$corpseFraudulent && $determination <= 90){
                 // 获得金币 90%
                 addCredit($players[$win], $money);
                 le(($win + 1).'号'.$horses[$win]->getChar().'成功抵达终点，[CQ:at,qq='.$players[$win].'] 获胜，获得'.$money.'金币哦～🏆');
