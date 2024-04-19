@@ -6,14 +6,14 @@ requireLvl(1);
 loadModule('attack.tools');
 
 $from = $Event['user_id'];
-$target = nextArg();
+$target = nextArg() ?? '';
 if(!(preg_match('/\d+/', $target, $match) && $match[0] == $target)){
         $target = parseQQ($target);
 }
 $target = intval($target);
 if($target == config('bot')){
         replyAndLeave('你竟然想抢劫 Bot？！');
-}else if($target === 0){
+}else if(!$target){
         replyAndLeave("要抢劫谁呢？\n(注：复制含有“@”的消息，@ 会失效。可以手动重新 @ 或者直接输入 QQ 号。)");
 }
 $groupMemberList = $CQ->getGroupMemberList($Event['group_id']);
