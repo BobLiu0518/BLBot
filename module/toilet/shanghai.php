@@ -1,5 +1,7 @@
 <?php
 
+requireLvl(6);
+
 $stations = json_decode(file_get_contents('https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx?act=getAllStations'), true);
 $stationInfoApi = 'https://m.shmetro.com/interface/metromap/metromap.aspx?func=stationInfo&stat_id=';
 $data = json_decode(getData('toilet/data.json'), true);
