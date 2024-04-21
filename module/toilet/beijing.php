@@ -1,5 +1,7 @@
 <?php
 
+requireLvl(6);
+
 // 该 API 需要验证 sign，尚不清楚计算机制
 // $lines = json_decode(file_get_contents('https://96123.bmncc.com.cn/bjtt-subway-app/api/baseline/queryAllLinesChildStations'), true)['r'];
 $lines = json_decode(getCache('toilet/beijingStations.json'), true)['r'];
@@ -12,6 +14,7 @@ $data['北京轨道交通'] = [];
 foreach($lines as $line){
 	foreach($line['listStations'] as $station){
 		if($data['北京轨道交通'][$station['stationNameCn']]) continue;
+		$data['北京轨道交通'][$station['stationNameCn']] = [];
 		$options = [
 			'http' => [
 				'method' => 'POST',
@@ -24,13 +27,13 @@ foreach($lines as $line){
 		$stationInfo = json_decode(base64_decode($stationInfo), true)['result'];
 		foreach($stationInfo['insideInfoList'] as $insideInfo){
 			if($insideInfo['insideCode'] == 'SF_TOILET'){
-				$data['北京轨道交通'][$station['stationNameCn']] = [];
 				foreach($insideInfo['insideInfoDesc'] as $insideInfoDesc){
-					$data['北京轨道交通'][$station['stationNameCn']][] = '【'.$insideInfoDesc['lineName'].'】'.$insideInfoDesc['insideDesc'];
+					$data['北京轨道交通'][$station['stationNameCn']][] = '【'.$insideInfoDesc['lineName'].'】'.preg_replace('/\n+/', '；', trim($insideInfoDesc['insideDesc']));
 				}
-				$data['北京轨道交通'][$station['stationNameCn']] = implode("\n", $data['北京轨道交通'][$station['stationNameCn']]);
 			}
 		}
+		if(!count($data['北京轨道交通'][$station['stationNameCn']])) $data['北京轨道交通'][$station['stationNameCn']] = '无数据，该站可能无卫生间';
+		else $data['北京轨道交通'][$station['stationNameCn']] = implode("\n", $data['北京轨道交通'][$station['stationNameCn']]);
 	}
 }
 
