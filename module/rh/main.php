@@ -95,6 +95,7 @@ function initGame(){
 	$determination = rand(1, 100);
 	if($determination <= 50){
 		$specialHorses = [
+			['♞', '♘'],
 			['🐥', '🐣'],
 			['🚶', '🏃'],
 			['🧑‍🦽', '🧑‍🦼'],
