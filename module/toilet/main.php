@@ -37,7 +37,12 @@ if(!strlen($reply)){
 	foreach($data as $companyName => $company){
 		foreach($company as $stationName => $stationInfo){
 			$strDistance = levenshtein_utf8($station, $stationName);
-			if($strDistance <= min(4, mb_strlen($station, 'UTF-8') / 2)){
+			if(mb_strlen($station) >= 2 && mb_strpos($stationName, $station, 0, 'UTF-8') !== false){
+				$similarNames[] = [
+					'name' => $stationName,
+					'distance' => 0,
+				];
+			}else if($strDistance <= min(4, mb_strlen($station, 'UTF-8') / 2)){
 				$similarNames[] = [
 					'name' => $stationName,
 					'distance' => $strDistance,
