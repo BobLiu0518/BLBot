@@ -19,7 +19,7 @@ while($row = $toiletData->fetchArray(SQLITE3_ASSOC)){
     if(!$toilets[$row['station_id']]){
         $toilets[$row['station_id']] = [];
     }
-    $toilets[$row['station_id']][] = '［'.$row['name_cn'].'］'.$row['location_cn'];
+    $toilets[$row['station_id']][] = '［'.trim($row['name_cn']).'］'.$row['location_cn'];
 }
 
 $stationData = $db->query(<<<EOT
