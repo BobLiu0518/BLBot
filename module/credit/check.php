@@ -45,7 +45,12 @@ switch($status) {
 	case 'genshin':
 		$msg .= "\n当前身处异世界"; break;
 	case 'hospitalized': $msg .= "\n当前身处医院中，预计 ".$statusEnd." 出院"; break;
-	case 'free': default: break;
+	case 'free':
+		$lastCheckinTime = filemtime('../storage/data/checkin/'.$Event['user_id']);
+                if(intval(date('Ymd')) - intval(date('Ymd', $lastCheckinTime)) > 0){
+			$msg .= "\n今天还没有签到哦～";
+		}
+	 default: break;
 }
 
 if($Event['user_id'] != $QQ){
