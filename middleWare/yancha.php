@@ -13,7 +13,7 @@ if($Message == '严查' || Pinyin::fullSentence($Message, 'none')->join(' ') == 
 			return $var[array_rand($var, 1)];
 		}
 	}
-	replyAndLeave(str_replace('查', mb_substr($Message, 1, 1), randomChoose(['不许查！', '查查你的！', '查死你！'])));
+	replyAndLeave(str_replace('查', mb_substr($Message, 1, 1), randomChoose(['不许查！', '查查你的！', '查死你！', '你就会查吗？'])));
 }
 
 ?>
