@@ -1,6 +1,6 @@
 <?php
 
-global $Message;
+global $Message, $Command;
 
 function utf8_to_extended_ascii($str, &$map){
 	$matches = array();
@@ -22,8 +22,11 @@ function levenshtein_utf8($s1, $s2){
 	return levenshtein($s1, $s2);
 }
 
-$station = nextArg();
-if(!$station) $station = $Message;
+if($Command[0] == 'middleWare/toilet'){
+	$station = $Message;
+}else{
+	$station = implode(' ', array_splice($Command, 1));
+}
 if(!$station) replyAndLeave('要查询什么车站呢？');
 $data = json_decode(getData('toilet/data.json'), true);
 $reply = '';
@@ -59,6 +62,8 @@ if(!strlen($reply)){
 		foreach($similarNames as $name){
 			$reply .= $name['name'].' ';
 		}
+	}else if($Command[0] == 'middleWare/toilet'){
+		leave();
 	}
 }
 
