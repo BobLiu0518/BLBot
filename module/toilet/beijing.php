@@ -28,7 +28,7 @@ foreach($lines as $line){
 		foreach($stationInfo['insideInfoList'] as $insideInfo){
 			if($insideInfo['insideCode'] == 'SF_TOILET'){
 				foreach($insideInfo['insideInfoDesc'] as $insideInfoDesc){
-					$data['北京轨道交通'][$station['stationNameCn']][] = '［'.$insideInfoDesc['lineName'].'］'.preg_replace('/(\n|\r)+/', '；', trim($insideInfoDesc['insideDesc']));
+					$data['北京轨道交通'][$station['stationNameCn']][] = '［'.preg_replace('/^(\d+)-(.+线)$/', '$1号线·$2', $insideInfoDesc['lineName']).'］'.preg_replace('/(\n|\r)+/', '；', trim($insideInfoDesc['insideDesc']));
 				}
 			}
 		}
