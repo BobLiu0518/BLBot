@@ -32,7 +32,7 @@ $data = json_decode(getData('toilet/data.json'), true);
 $reply = '';
 $companies = [];
 foreach($data as $companyName => $company){
-	if($company[$station]) $reply .= "\n\n".$companyName.' '.$station." 站：\n".$company[$station];
+	if($company[$station]) $reply .= "\n\n".$companyName.' '.$station."站卫生间：\n".$company[$station];
 	$companies[] = $companyName;
 }
 if(!strlen($reply)){
@@ -53,7 +53,7 @@ if(!strlen($reply)){
 			}
 		}
 	}
-	$reply = '没有查询到名为 '.$station." 的车站哦…\n目前仅支持".implode('、', $companies).'的车站洗手间查询哦（更多城市接入中…）';
+	$reply = '没有查询到名为 '.$station." 的车站哦…";
 	if(count($similarNames)){
 		usort($similarNames, function($a, $b){
 			return $a['distance'] - $b['distance'];
@@ -65,6 +65,7 @@ if(!strlen($reply)){
 	}else if($Command[0] == 'middleWare/toilet'){
 		leave();
 	}
+	$reply .= "\n使用指令 #toilet.cities 可以查询支持的城市～";
 }
 
 replyAndLeave(trim($reply));
