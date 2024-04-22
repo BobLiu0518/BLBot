@@ -14,7 +14,7 @@ setCache('toilet/'.time().'.bak', json_encode($data));
 $data['常州地铁'] = [];
 foreach($lines as $line){
 	foreach($line['station_data'] as $station){
-		if(!in_array($station['name'], ['常州火车站', '常州北站'])){
+		if(!in_array($station['name'], ['常州火车站', '常州北站', '常州南站'])){
 			$station['name'] = preg_replace('/站$/', '', $station['name']);
 		}
 		$stationInfo = json_decode(file_get_contents($stationInfoApi.$station['id'], false, $context), true)['data'];
