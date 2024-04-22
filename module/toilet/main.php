@@ -25,7 +25,7 @@ function levenshtein_utf8($s1, $s2){
 if($Command[0] == 'middleWare/toilet'){
 	$station = $Message;
 }else{
-	$station = implode(' ', array_splice($Command, 1));
+	$station = trim(implode(' ', array_splice($Command, 1)));
 }
 if(!$station) replyAndLeave('要查询什么车站呢？');
 $data = json_decode(getData('toilet/data.json'), true);
