@@ -15,7 +15,7 @@ foreach($lines['list'] as $line){
 			$stationInfo = json_decode(file_get_contents($stationInfoApi.$station['stationNo']), true)['data'];
 			foreach($stationInfo['facilities']['stationFacilities'] as $facility){
 				if($facility['type'] == 'TOILET'){
-					$data['成都轨道'][$station['stationName']] = str_replace('；', "\n", $facility['description']);
+					$data['成都轨道'][$station['stationName']] = preg_replace('/^\s*$\r?\n/m', '', preg_replace('/(\S+)\：(\S+)/m', '［$1］$2', str_replace('；', "\n", $facility['description'])));
 				}
 			}
 			if(!$data['成都轨道'][$station['stationName']]){
