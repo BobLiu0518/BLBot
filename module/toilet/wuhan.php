@@ -28,11 +28,12 @@ foreach($lines as $line){
 			}
 		}
 		if(count($data['武汉地铁'][$station['siteName']])){
+			$data['武汉地铁'][$station['siteName']] = array_unique($data['武汉地铁'][$station['siteName']]);
 			sort($data['武汉地铁'][$station['siteName']]);
-			foreach($data['武汉地铁'][$station['siteName']] as $toilet){
+			foreach($data['武汉地铁'][$station['siteName']] as $id => $toilet){
 				$data['武汉地铁'][$station['siteName']][$id] = '［卫生间］'.$toilet;
 			}
-			$data['武汉地铁'][$station['siteName']] = implode("\n", array_unique($data['武汉地铁'][$station['siteName']]));
+			$data['武汉地铁'][$station['siteName']] = implode("\n", $data['武汉地铁'][$station['siteName']]);
 		}else{
 			$data['武汉地铁'][$station['siteName']] = '无数据，该站可能无卫生间';
 		}
