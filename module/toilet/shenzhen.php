@@ -13,7 +13,7 @@ foreach($lineInfo as $line){
 		if($data['深圳地铁'][$station['stationName']]) continue;;
 		foreach($station['facilityCol'] as $facility){
 			if($facility['facilityCategoryId'] == '0'){
-				$data['深圳地铁'][$station['stationName']] = $facility['location'];
+				$data['深圳地铁'][$station['stationName']] = '［洗手间］'.$facility['location'];
 			}
 		}
 		if(!$data['深圳地铁'][$station['stationName']]){
