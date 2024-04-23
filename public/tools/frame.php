@@ -137,6 +137,11 @@ function getCache($cacheFileName){
     return file_get_contents('../storage/cache/'.$cacheFileName);
 }
 
+function getCacheFolderContents(string $folderPath){
+    $contents = scandir('../storage/cache/'.$folderPath);
+    return array_diff($contents, ['.', '..']);
+}
+
 function getImg(string $filePath){
     return file_get_contents('../storage/img/'.$filePath);
 }
