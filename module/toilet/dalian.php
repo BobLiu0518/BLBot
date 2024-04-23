@@ -12,7 +12,7 @@ foreach($lines->l as $line){
 	foreach($line->p as $node){
 		if(!$node['lb'] || $data['大连地铁'][strval($node['lb'])]) continue;
 		$stationInfo = json_decode(file_get_contents($stationInfoApi.strval($node['acc'])), true)['result'];
-		$data['大连地铁'][strval($node['lb'])] = $stationInfo['siteInfo']['toilet'] ?? '无数据，该站可能无卫生间';
+		$data['大连地铁'][strval($node['lb'])] = $stationInfo['siteInfo']['toilet'] ? '［卫生间］'.$stationInfo['siteInfo']['toilet'] : '无数据，该站可能无卫生间';
 	}
 }
 
