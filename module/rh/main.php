@@ -325,6 +325,7 @@ function startGame($rhData){
                         '穿上了女装',
                         '正在随地大小变',
                         '变成了赛'.$assets['h'].'娘',
+                        '变成了阳光彩虹小白'.$assets['h'],
                     ]);
                 }
             }else if($determination <= 925){
