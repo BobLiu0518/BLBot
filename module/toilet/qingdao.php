@@ -15,11 +15,8 @@ $data['青岛地铁'] = [];
 
 foreach($lines as $line){
 	foreach($line['stationData'] as $station){
-		if($data['青岛地铁'][$station['name']]){
-			$data['青岛地铁'][$station['name']] = [$data['青岛地铁'][$station['name']]];
-		}else{
-			$data['青岛地铁'][$station['name']] = [];
-		}
+		if($data['青岛地铁'][$station['name']]) continue;
+		$toilets = [];
 		$context = stream_context_create([
 			'http' => [
 				'method' => 'POST',
@@ -29,13 +26,13 @@ foreach($lines as $line){
 		$stationData = json_decode(file_get_contents($stationDataApi, false, $context), true)['data'];
 		foreach($stationData['installation'] as $facility){
 			if(preg_match('/卫生间/', $facility['name'])){
-				array_splice($data['青岛地铁'][$station['name']], 0, 0, explode('、', $facility['address']));
+				array_splice($toilets, 0, 0, explode('；', str_replace("\n", '；', $facility['address'])));
 			}
 		}
-		foreach($data['青岛地铁'][$station['name']] as $id => $toilet){
-			$data['青岛地铁'][$station['name']][$id] = '［'.$line['lineName'].'］'.$toilet;
+		foreach($toilets as $id => $toilet){
+			$toilets[$id] = '［卫生间］'.$toilet;
 		}
-		$data['青岛地铁'][$station['name']] = implode("\n", $data['青岛地铁'][$station['name']]);
+		$data['青岛地铁'][$station['name']] = implode("\n", $toilets);
 	}
 }
 foreach($data['青岛地铁'] as $stationName => $toilet){
