@@ -27,7 +27,10 @@ if($Command[0] == 'middleWare/toilet'){
 }else{
 	$station = implode(' ', array_splice($Command, 1));
 }
-if(!$station) replyAndLeave('要查询什么车站呢？');
+if(!$station){
+	if($Command[0] == 'middleWare/toilet') leave();
+	else replyAndLeave('要查询什么车站呢？');
+}
 $data = json_decode(getData('toilet/data.json'), true);
 $reply = '';
 $companies = [];
