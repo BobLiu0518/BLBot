@@ -16,6 +16,9 @@ $data['金华轨道交通'] = [];
 
 foreach($lines as $line){
 	foreach($line['stations'] as $station){
+		if(!preg_match('/^(金华|义乌|横店)(东|南|西|北|高铁)?站$/', $station['stationName'])){
+			$station['stationName'] = preg_replace('/站$/', '', $station['stationName']);
+		}
 		if($data['金华轨道交通'][$station['stationName']]) continue;
 		$toilets = [];
 		$context = stream_context_create([
