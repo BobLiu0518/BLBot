@@ -42,7 +42,7 @@ foreach($data as $companyName => $company){
 		$stationName = $match[1];
 		$toilet = $company[$stationName];
 	}
-	$reply .= "\n\n".$companyName.' '.$stationName.'站'.($companyName == '香港鐵路' ? '衛生間' : '卫生间')."：\n".$toilet;
+	$reply .= "\n\n".$companyName.' '.$stationName.'站'.(in_array($companyName, ['香港鐵路', '臺北捷運']) ? '衛生間' : '卫生间')."：\n".$toilet;
 }
 if(!strlen($reply)){
 	$similarNames = [];
