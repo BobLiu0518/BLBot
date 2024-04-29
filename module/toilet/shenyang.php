@@ -22,7 +22,7 @@ foreach($lines as $line){
 			}
 		}
 		foreach($toilets as $id => $toilet){
-			$toilets[$id] = '［'.$line['lineName'].'］'.$toilet;
+			$toilets[$id] = '［'.preg_replace('/^地铁/', '', $line['lineName']).'］'.$toilet;
 		}
 		array_splice($data['沈阳地铁'][$station['stationName']], -1, 0, $toilets);
 	}
