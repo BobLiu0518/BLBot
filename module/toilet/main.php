@@ -33,10 +33,16 @@ if(!$station){
 }
 $data = json_decode(getData('toilet/data.json'), true);
 $reply = '';
-$companies = [];
 foreach($data as $companyName => $company){
-	if($company[$station]) $reply .= "\n\n".$companyName.' '.$station."站卫生间：\n".$company[$station];
-	$companies[] = $companyName;
+	$stationName = $station;
+	$toilet = $company[$stationName];
+	if(!$toilet){
+		continue;
+	}else if(preg_match('/^StationName=(.+)$/', $toilet, $match)){
+		$stationName = $match[1];
+		$toilet = $company[$stationName];
+	}
+	$reply .= "\n\n".$companyName.' '.$stationName.'站'.($companyName == '香港鐵路' ? '衛生間' : '卫生间')."：\n".$toilet;
 }
 if(!strlen($reply)){
 	$similarNames = [];
