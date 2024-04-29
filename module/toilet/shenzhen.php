@@ -10,10 +10,16 @@ $data['深圳地铁'] = [];
 
 foreach($lineInfo as $line){
 	foreach($line['stationVoCol'] as $station){
-		if($data['深圳地铁'][$station['stationName']]) continue;;
+		if($data['深圳地铁'][$station['stationName']]) continue;
 		foreach($station['facilityCol'] as $facility){
 			if($facility['facilityCategoryId'] == '0'){
-				$data['深圳地铁'][$station['stationName']] = '［洗手间］'.$facility['location'];
+				$data['深圳地铁'][$station['stationName']] = [];
+				foreach(explode("\n", preg_replace('/(。|；)/', "\n", $facility['location'])) as $toilet){
+					if($toilet){
+						$data['深圳地铁'][$station['stationName']][] = '［洗手间］'.preg_replace('/^\d+(\.|:|：)/', '', $toilet);
+					}
+				}
+				$data['深圳地铁'][$station['stationName']] = implode("\n", $data['深圳地铁'][$station['stationName']]);
 			}
 		}
 		if(!$data['深圳地铁'][$station['stationName']]){
