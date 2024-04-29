@@ -29,7 +29,9 @@ ORDER BY CAST(STATION_ID as INT) ASC;
 EOT);
 while($row = $stationData->fetchArray(SQLITE3_ASSOC)){
 	$data['香港鐵路'][$row['CHI_LONG_NAME']] = $toilets[$row['STATION_ID']] ?? '［洗手間］無';
-	$data['香港鐵路'][OpenCC::hk2s($row['CHI_LONG_NAME'])] = $data['香港鐵路'][$row['CHI_LONG_NAME']];
+	if(OpenCC::hk2s($row['CHI_LONG_NAME']) != $row['CHI_LONG_NAME']){
+		$data['香港鐵路'][OpenCC::hk2s($row['CHI_LONG_NAME'])] = 'StationName='.$row['CHI_LONG_NAME'];
+	}
 }
 
 setData('toilet/data.json', json_encode($data));
