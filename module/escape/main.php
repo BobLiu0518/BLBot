@@ -52,7 +52,9 @@ switch(getStatus($Event['user_id'])){
 				$message .= '你被罚款 '.$fine.' 金币';
 			}else{
 				// 加一天
-				$data['end'] = date('Ymd', strtotime(getStatusEndTime($Event['user_id'])) + 86400);
+				if(getStatusEndTime($Event['user_id']) != '∞'){
+					$data['end'] = date('Ymd', strtotime(getStatusEndTime($Event['user_id'])) + 86400);
+				}
 				$message .= '你蹲监狱的时间延长了一天';
 			}
 			$message .= '，并被狱警特别关照…';
