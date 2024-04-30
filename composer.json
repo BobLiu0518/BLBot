@@ -27,6 +27,7 @@
         "intervention/image": ">=2.4",
         "kriswallsmith/buzz": ">=0.17.2",
         "nxp/math-executor": ">=2.3",
+        "overtrue/php-opencc": "^1.0",
         "overtrue/pinyin": ">=5.0",
         "rexxars/morse": ">=1.0",
         "simplesoftwareio/simple-qrcode": ">=4.2"
