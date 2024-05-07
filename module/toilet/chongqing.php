@@ -12,7 +12,7 @@ $dataOld = [];
 
 foreach($stations as $station){
 	if(!in_array($station['station_name'], ['重庆西站'])){
-		preg_replace('/站$/', '', $station['station_name']);
+		$station['station_name'] = preg_replace('/站$/', '', $station['station_name']);
 	}
 	$toilets = [];
 	$stationInfo = json_decode(request($cityId, 'bas/dict/v1/get-station', ['station_id' => $station['station_id']]), true)['result'];
