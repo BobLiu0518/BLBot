@@ -19,7 +19,7 @@ foreach($stations as $station){
 	foreach($stationInfo['device_list'] as $facility){
 		if($facility['device_name'] == '卫生间'){
 			foreach(explode('；', $facility['description']) as $toilet){
-				$toilets[] .= '［卫生间］'.trim($toilet);
+				$toilets[] .= '［卫生间］'.trim(str_replace("\n", '', $toilet));
 			}
 		}
 	}
