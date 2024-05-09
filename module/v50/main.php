@@ -8,7 +8,7 @@ if(date('N') != 4){
 	replyAndLeave('今天不是周四哦？');
 }else if($data['date'] != date('Ymd')){
 	$data['date'] = date('Ymd');
-	$date['times'] = 0;
+	$data['times'] = 0;
 }
 
 if($data['times'] >= 10){
