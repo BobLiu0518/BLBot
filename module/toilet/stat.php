@@ -14,6 +14,7 @@ arsort($count);
 $reply = [];
 foreach($count as $station => $times){
 	if($times >= $threshold) $reply[] = '['.$times.'] '.$station;
+	else break;
 }
 replyAndLeave(implode("\n", count($reply) ? $reply : ['无']));
 
