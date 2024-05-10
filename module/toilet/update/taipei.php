@@ -34,8 +34,16 @@ foreach($lines as $line){
 		]);
 		$stationData = json_decode(file_get_contents($stationDataApi, false, $context), true);
 		$toilets = [];
+		$belongingLine = null;
 		foreach(explode('<br>', $stationData['stationInfo']['Restroom']) as $toilet){
-			$toilets[] = '［廁所］'.$toilet;
+			$toilet = trim($toilet);
+			if($toilet){
+				if(preg_match('/^(.+線)：$/', $toilet, $match)){
+					$belongingLine = $match[1];
+				}else{
+					$toilets[] = '［'.($belongingLine ?? '廁所').'］'.$toilet;
+				}
+			}
 		}
 		$data['臺北捷運'][$station['StationName']] = implode("\n", $toilets);
 		if(OpenCC::tw2s($station['StationName']) != $station['StationName']){

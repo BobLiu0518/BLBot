@@ -13,7 +13,15 @@ foreach($stations as $station){
 		$station['stationName'] = preg_replace('/站$/', '', $station['stationName']);
 	}
 	$stationInfo = json_decode(file_get_contents($stationDataApi.$station['stationNo']), true)['data'];
-	$data['太原地铁'][$station['stationName']] = $stationInfo['toilet'] ? '［卫生间］'.$stationInfo['toilet'] : '无数据，该站可能无卫生间';
+	if($stationInfo['toilet']){
+		$toilets = [];
+		foreach(explode(' ', $stationInfo['toilet']) as $toilet){
+			$toilets[] = '［卫生间］'.$toilet;
+		}
+		$data['太原地铁'][$station['stationName']] = implode("\n", $toilets);
+	}else{
+		$data['太原地铁'][$station['stationName']] = '无数据，该站可能无卫生间';
+	}
 }
 
 setData('toilet/data.json', json_encode($data));
