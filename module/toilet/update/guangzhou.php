@@ -6,7 +6,7 @@ requireLvl(6);
 $db = new SQLite3('../storage/cache/toilet/guangzhou.sqlite');
 $data = json_decode(getData('toilet/data.json'), true);
 setCache('toilet/'.time().'.bak', json_encode($data));
-$data['广州地铁'] = [];
+$data['广州/佛山地铁/广东城际'] = [];
 
 $toiletData = $db->query(<<<EOT
 SELECT station_id, location_cn, name_cn
@@ -28,15 +28,15 @@ FROM station;
 EOT);
 while($row = $stationData->fetchArray(SQLITE3_ASSOC)){
     $toilet = $toilets[$row['station_id']];
-    $data['广州地铁'][$row['name_cn']] = implode("\n", $toilet ?? ['无数据，该站可能无卫生间']);
+    $data['广州/佛山地铁/广东城际'][$row['name_cn']] = implode("\n", $toilet ?? ['无数据，该站可能无卫生间']);
 }
 
-$data['广州地铁']['𧒽岗'] = $data['广州地铁']['虫雷 岗'];
-$data['广州地铁']['𧒽岗（有轨）'] = $data['广州地铁']['虫雷 岗（有轨）'];
-$data['广州地铁']['虫雷 岗'] = $data['广州地铁']['虫雷岗'] = 'StationName=𧒽岗';
-$data['广州地铁']['虫雷 岗（有轨）'] = $data['广州地铁']['虫雷岗（有轨）'] = 'StationName=𧒽岗（有轨）';
+$data['广州/佛山地铁/广东城际']['𧒽岗'] = $data['广州/佛山地铁/广东城际']['虫雷 岗'];
+$data['广州/佛山地铁/广东城际']['𧒽岗（有轨）'] = $data['广州/佛山地铁/广东城际']['虫雷 岗（有轨）'];
+$data['广州/佛山地铁/广东城际']['虫雷 岗'] = $data['广州/佛山地铁/广东城际']['虫雷岗'] = 'StationName=𧒽岗';
+$data['广州/佛山地铁/广东城际']['虫雷 岗（有轨）'] = $data['广州/佛山地铁/广东城际']['虫雷岗（有轨）'] = 'StationName=𧒽岗（有轨）';
 
 setData('toilet/data.json', json_encode($data));
-replyAndLeave('更新数据成功，共 '.count($data['广州地铁']).' 条数据');
+replyAndLeave('更新数据成功，共 '.count($data['广州/佛山地铁/广东城际']).' 条数据');
 
 ?>

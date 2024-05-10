@@ -16,23 +16,36 @@ foreach($lines['stations'] as $lineId => $stations){
 		if(!in_array($station, ['郑州火车站', '郑州东站', '郑州西站', '许昌东站', '郑州航空港站'])){
 			$station = preg_replace('/站$/', '', $station);
 		}
-		if(!$data['郑州地铁'][$station]) $data['郑州地铁'][$station] = '';
+		if(!$data['郑州地铁'][$station]) $data['郑州地铁'][$station] = [];
 		$html = file_get_contents($stationPage.$stationId);
 		if(preg_match('/<span class="pad03 w170">卫生间<\/span> <p>所在位置：<em>((.|\n)*?)<\/em><\/p>/', $html, $match) && $match[1]){
-			$toilets = [];
-			foreach(explode(',', str_replace("\n", ',', $match[1])) as $toilet){
-				$toilets[] = '［'.$lineName.'］'.$toilet;
+			foreach(explode(',', str_replace("\n", ',', $match[1])) as $position){
+				$exist = false;
+				foreach($data['郑州地铁'][$station] as $id => $toilet){
+					if($toilet['position'] == $position){
+						$data['郑州地铁'][$station][$id]['prefix'] = '卫生间';
+						$exist = true;
+						break;
+					}
+				}
+				if(!$exist){
+					$data['郑州地铁'][$station][] = [
+						'prefix' => $lineName,
+						'position' => $position,
+					];
+				}
 			}
-			if($data['郑州地铁'][$station]){
-				array_splice($toilets, 0, 0, $data['郑州地铁'][$station]);
-			}
-			$data['郑州地铁'][$station] = implode("\n", $toilets);
 		}
 	}
 }
 foreach($data['郑州地铁'] as $stationName => $toilets){
-	if(!$toilets){
+	if(!count($toilets)){
 		$data['郑州地铁'][$stationName] = '无数据，该站可能无卫生间';
+	}else{
+		foreach($toilets as $id => $toilet){
+			$toilets[$id] = '［'.$toilet['prefix'].'］'.$toilet['position'];
+		}
+		$data['郑州地铁'][$stationName] = implode("\n", $toilets);
 	}
 }
 
