@@ -13,6 +13,7 @@ foreach($stations as $station){
 	$toiletInfo = json_decode($stationInfo['toilet_position'], true)['toilet'];
 	if($station['value'] == '浦电路') $station['value'] = '浦电路（4号线）';
 	else if($station['value'] == '浦电路 ') $station['value'] = '浦电路（6号线）';
+	else if(preg_match('/^外高桥保税区(南|北)站$/', $station['value'])) $station['value'] = preg_replace('/站$/', '', $station['value']);
 	$data['上海地铁'][$station['value']] = [];
 	foreach($toiletInfo as $toiletInfoDetail){
 		if($toiletInfoDetail['lineno'] == 41) $toiletInfoDetail['lineno'] = '浦江线';

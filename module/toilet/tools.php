@@ -21,7 +21,7 @@ function levenshtein_utf8($s1, $s2){
 }
 
 function getReplyMsg($company, $station, $toilet){
-	return $company.(mb_strlen($company.$station, 'UTF-8') >= 14 ? "\n" : ' ').$station.'站'
+	return $company.(mb_strlen($company.$station, 'UTF-8') >= 12 ? "\n" : ' ').$station.'站'
 		.(in_array($company, ['香港鐵路', '臺北捷運']) ? '衛生間' : '卫生间')."：\n".$toilet;
 }
 
