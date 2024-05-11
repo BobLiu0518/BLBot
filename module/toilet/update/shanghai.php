@@ -21,6 +21,8 @@ foreach($stations as $station){
 	$data['上海地铁'][$station['value']] = implode("\n", $data['上海地铁'][$station['value']]);
 }
 $data['上海地铁']['浦电路'] = $data['上海地铁']['浦电路（4号线）']."\n".$data['上海地铁']['浦电路（6号线）'];
+$data['上海地铁']['黄陂南路'] = 'StationName=一大会址·黄陂南路';
+$data['上海地铁']['新天地'] = 'StationName=一大会址·新天地';
 
 setData('toilet/data.json', json_encode($data));
 replyAndLeave('更新数据成功，共 '.count($data['上海地铁']).' 条数据');
