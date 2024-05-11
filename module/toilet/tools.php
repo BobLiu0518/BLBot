@@ -20,20 +20,28 @@ function levenshtein_utf8($s1, $s2){
 	return levenshtein($s1, $s2);
 }
 
+function getReplyMsg($company, $station, $toilet){
+	return $company.(mb_strlen($company.$station, 'UTF-8') >= 14 ? "\n" : ' ').$station.'站'
+		.(in_array($company, ['香港鐵路', '臺北捷運']) ? '衛生間' : '卫生间')."：\n".$toilet;
+}
+
 function getExactStationData($station){
 	$data = json_decode(getData('toilet/data.json'), true);
 	$result = [];
 	foreach($data as $companyName => $company){
-		$stationName = $station;
-		$toilet = $company[$stationName];
-		if(!$toilet){
+		$stationNames = [$station];
+		$toiletInfo = $company[$stationNames[0]];
+		if(!$toiletInfo){
 			continue;
-		}else if(preg_match('/^StationName=(.+)$/', $toilet, $match)){
-			$stationName = $match[1];
-			$toilet = $company[$stationName];
+		}else if(preg_match('/^StationName=(.+)$/', $toiletInfo, $match)){
+			$stationNames = [$match[1]];
+		}else if(preg_match('/^Redirect=(.+)$/', $toiletInfo, $match)){
+			$stationNames = explode('&', $match[1]);
 		}
-		$result[] = $companyName.' '.$stationName.'站'
-			.(in_array($companyName, ['香港鐵路', '臺北捷運']) ? '衛生間' : '卫生间')."：\n".$toilet;
+
+		foreach($stationNames as $stationName){
+			$result[] = getReplyMsg($companyName, $stationName, $company[$stationName]);
+		}
 	}
 	return implode("\n\n", $result);
 }
