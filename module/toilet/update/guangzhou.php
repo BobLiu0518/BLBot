@@ -33,8 +33,14 @@ while($row = $stationData->fetchArray(SQLITE3_ASSOC)){
 
 $data['广州/佛山地铁/广东城际']['𧒽岗'] = $data['广州/佛山地铁/广东城际']['虫雷 岗'];
 $data['广州/佛山地铁/广东城际']['𧒽岗（有轨）'] = $data['广州/佛山地铁/广东城际']['虫雷 岗（有轨）'];
-$data['广州/佛山地铁/广东城际']['虫雷 岗'] = $data['广州/佛山地铁/广东城际']['虫雷岗'] = 'StationName=𧒽岗';
-$data['广州/佛山地铁/广东城际']['虫雷 岗（有轨）'] = $data['广州/佛山地铁/广东城际']['虫雷岗（有轨）'] = 'StationName=𧒽岗（有轨）';
+
+$redirects = ['𧒽岗', '虫雷 岗', '广州塔', '林岳东'];
+foreach($redirects as $station){
+	$data['广州/佛山地铁/广东城际'][$station.'（地铁）'] = $data['广州/佛山地铁/广东城际'][$station];
+	$data['广州/佛山地铁/广东城际'][$station] = 'Redirect='.$station.'（地铁）&'.$station.'（有轨）';
+}
+
+$data['广州/佛山地铁/广东城际']['虫雷 岗'] = $data['广州/佛山地铁/广东城际']['𧒽岗'];
 
 setData('toilet/data.json', json_encode($data));
 replyAndLeave('更新数据成功，共 '.count($data['广州/佛山地铁/广东城际']).' 条数据');
