@@ -8,7 +8,7 @@ loadModule('checkin');
 loadModule('mrrp');
 
 $reply = [];
-$messages = array_splice($Queue, -3, 3);
+$messages = array_splice($Queue, 0);
 foreach($messages as $message){
 	$reply[] = '‣ '.preg_replace('/\[CQ:reply,id=.+?\]/', '', $message->msg);
 }
