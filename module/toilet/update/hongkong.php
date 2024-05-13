@@ -30,7 +30,7 @@ EOT);
 while($row = $stationData->fetchArray(SQLITE3_ASSOC)){
 	$data['香港鐵路'][$row['CHI_LONG_NAME']] = $toilets[$row['STATION_ID']] ?? '［洗手間］無';
 	if(OpenCC::hk2s($row['CHI_LONG_NAME']) != $row['CHI_LONG_NAME']){
-		$data['香港鐵路'][OpenCC::hk2s($row['CHI_LONG_NAME'])] = 'StationName='.$row['CHI_LONG_NAME'];
+		$data['香港鐵路'][OpenCC::hk2s($row['CHI_LONG_NAME'])] = 'Redirect='.$row['CHI_LONG_NAME'];
 	}
 }
 

@@ -47,7 +47,7 @@ foreach($lines as $line){
 		}
 		$data['臺北捷運'][$station['StationName']] = implode("\n", $toilets);
 		if(OpenCC::tw2s($station['StationName']) != $station['StationName']){
-			$data['臺北捷運'][OpenCC::tw2s($station['StationName'])] = 'StationName='.$station['StationName'];
+			$data['臺北捷運'][OpenCC::tw2s($station['StationName'])] = 'Redirect='.$station['StationName'];
 		}
 	}
 }

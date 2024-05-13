@@ -33,8 +33,6 @@ function getExactStationData($station){
 		$toiletInfo = $company[$stationNames[0]];
 		if(!$toiletInfo){
 			continue;
-		}else if(preg_match('/^StationName=(.+)$/', $toiletInfo, $match)){
-			$stationNames = [$match[1]];
 		}else if(preg_match('/^Redirect=(.+)$/', $toiletInfo, $match)){
 			$stationNames = explode('&', $match[1]);
 		}

@@ -39,6 +39,9 @@ foreach($data['青岛地铁'] as $stationName => $toilet){
 	if(!$toilet){
 		$data['青岛地铁'][$stationName] = '无数据，该站可能无卫生间';
 	}
+	if(preg_match('/^(.+)\(.+\)$/', $stationName, $match)){
+		$data['青岛地铁'][$match[1]] = 'Redirect='.$stationName;
+	}
 }
 
 setData('toilet/data.json', json_encode($data));
