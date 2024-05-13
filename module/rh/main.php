@@ -23,7 +23,7 @@ function re(string $str){
 // 触发事件后的回复
 function reEvent($target, $copywriting){
     global $assets, $horses;
-    $reply = '';
+    $reply = '‣ ';
     if($target !== null){
         $reply .= ($target + 1).'号'.$horses[$target]->getChar();
     }
