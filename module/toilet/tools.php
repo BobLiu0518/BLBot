@@ -28,17 +28,20 @@ function getReplyMsg($company, $station, $toilet){
 function getExactStationData($station){
 	$data = json_decode(getData('toilet/data.json'), true);
 	$result = [];
+	$stations = array_unique([$station, preg_replace('/站$/', '', $station), $station.'站']);
 	foreach($data as $companyName => $company){
-		$stationNames = [$station];
-		$toiletInfo = $company[$stationNames[0]];
-		if(!$toiletInfo){
-			continue;
-		}else if(preg_match('/^Redirect=(.+)$/', $toiletInfo, $match)){
-			$stationNames = explode('&', $match[1]);
-		}
+		foreach($stations as $station){
+			$stationNames = [$station];
+			$toiletInfo = $company[$stationNames[0]];
+			if(!$toiletInfo){
+				continue;
+			}else if(preg_match('/^Redirect=(.+)$/', $toiletInfo, $match)){
+				$stationNames = explode('&', $match[1]);
+			}
 
-		foreach($stationNames as $stationName){
-			$result[] = getReplyMsg($companyName, $stationName, $company[$stationName]);
+			foreach($stationNames as $stationName){
+				$result[] = getReplyMsg($companyName, $stationName, $company[$stationName]);
+			}
 		}
 	}
 	return implode("\n\n", $result);
