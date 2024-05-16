@@ -8,12 +8,8 @@ use kjBot\Frame\Message;
 
 try{
     $listen = config('Listen');
-    if($listen !== NULL && ($Event['group_id'] == $listen || $listen == $Event['user_id'])){
-        $Queue[]= sendMaster('['.date('Y-m-d H:i:s', $Event['time']-86400)."] {$Event['user_id']} say:\n{$Event['message']}", false, true);
-    }
-
     $whiteList = json_decode(getData('whitelist.json'), true)['groups'];
-    if(!in_array($Event['group_id'], $whiteList) && $Event['group_id'] != NULL){
+    if($whiteList && !in_array($Event['group_id'], $whiteList) && $Event['group_id'] != NULL){
         $Queue[]= sendMaster('No access at '.$Event['group_id']);
         $Queue[]= sendDevGroup('No access at '.$Event['group_id']);
         $CQ->setGroupLeave($Event['group_id']);

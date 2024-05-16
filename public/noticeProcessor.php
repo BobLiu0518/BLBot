@@ -12,9 +12,7 @@ switch($Event['notice_type']){
             else
                 $Queue[]= sendBack(CQCode::At($Event['user_id']).trim($addGroupMsg));
         }else{
-            $CQ->setGroupLeave($Event['group_id']);
-            $Queue[]= sendMaster('Leaving group '.$Event['group_id']);
-            // $Queue[]= sendBack('BLBot 已加入本群，发送 #help 查看帮助哦～');
+            $Queue[]= sendBack('BLBot 已加入本群，发送 #help 查看指令列表～');
         }
         break;
     case 'group_decrease':
