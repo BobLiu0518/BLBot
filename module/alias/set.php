@@ -12,6 +12,9 @@
 		if(strpos(preg_replace('/\\[CQ:(?:emoji|face),id=\\d*?\\]/', '啊', $alias), '[CQ:') !== false){
 			replyAndLeave('别名含有不合规内容…');
 		}
+		if(preg_match('/^alias(\.(check|clear|delete|del|set))?$/', $alias)){
+			replyAndLeave('不允许设置别名相关指令为别名哦~');
+		}
 		if(!checkModule($command)){
 			replyAndLeave('原名指令 #'.$command.' 不存在…');
 		}
