@@ -206,7 +206,7 @@ function loadModule(string $module){
         }
         require_once('../module/'.$moduleFile);
     }else if(strlen($module) <= 15){
-        replyAndLeave('没有该命令：#'.$module.'，请检查是否打错字了或漏掉了空格哦～如需帮助可以发送 #help 哦');
+        replyAndLeave('指令 #'.$module." 不存在哦，可能是拼写错误，或是他人设置的别名？\n发送 #help 查看指令列表～");
     }
 }
 
