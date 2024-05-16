@@ -11,5 +11,4 @@ config.ini
 .DS_Store
 module/bld/
 module/toilet/update/request.php
-stat.sql
 public/php_errors.log
