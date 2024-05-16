@@ -38,6 +38,26 @@ foreach($lines['stations'] as $lineId => $stations){
 		}
 	}
 }
+
+$lines = json_decode(file_get_contents('https://zzp.cnzhiyuanhui.com/api/v2/stations'), true)['content']['list'];
+$stationApi = 'https://zzp.cnzhiyuanhui.com/api/stations/';
+
+foreach($lines as $line){
+	foreach($line['stations'] as $station){
+		if(!in_array($station['stationName'], ['郑州火车站', '郑州东站', '郑州西站', '许昌东站', '郑州航空港站'])){
+			$station['stationName'] = preg_replace('/站$/', '', $station['stationName']);
+		}
+		if(!$data['郑州地铁'][$station['stationName']]) $data['郑州地铁'][$station['stationName']] = [];
+		$stationData = json_decode(file_get_contents($stationApi.$station['id'].'/profile'), true)['content']['station'];
+		foreach(array_unique(explode('、', $stationData['toilet'] ?? '')) as $toilet){
+			$data['郑州地铁'][$station['stationName']][] = [
+				'prefix' => $stationData['lineName'],
+				'position' => $toilet,
+			];
+		}
+	}
+}
+
 foreach($data['郑州地铁'] as $stationName => $toilets){
 	if(!count($toilets)){
 		$data['郑州地铁'][$stationName] = '无数据，该站可能无卫生间';
