@@ -2,9 +2,9 @@
 namespace kjBot\Frame;
 
 class MessageSender{
-    
+
     public $CQ;
-    
+
     /**
      * @param kjBot\SDK\CoolQ $CoolQ 一个酷Q实例
      */

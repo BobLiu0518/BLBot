@@ -198,12 +198,6 @@ function loadModule(string $module){
     $moduleFile.='.php';
 
     if(file_exists('../module/'.$moduleFile)){
-        if(config('recordStat', 'true')){
-            if(strpos($module, '.tools')===false && strpos($module, 'recordStat')===false){ //防止记录工具类模块
-                global $Event;
-                addCommandCount($Event['user_id'], $module);
-            }
-        }
         require_once('../module/'.$moduleFile);
     }else if(strlen($module) <= 15){
         replyAndLeave('指令 #'.$module." 不存在哦，可能是拼写错误，或是他人设置的别名？\n发送 #help 查看指令列表～");

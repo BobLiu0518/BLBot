@@ -20,16 +20,4 @@ DEBUG=false
 DebugListen=
 Listen=-1
 ;是否开启一些功能
-recordStat=false
 alias=true
-;这里往下是模块定义的 config，以后可能会改为使用 data
-;填入cookie和一些key，看着填就可以了
-osu_cookie=
-osu_api_key=
-baidumap_ak_key=
-amap_api_key=
-voice_app_id=
-voice_api_key=
-voice_secret_key=
-translate_appkey=
-translate_secret_key=
