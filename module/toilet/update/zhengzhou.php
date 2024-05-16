@@ -63,7 +63,11 @@ foreach($data['郑州地铁'] as $stationName => $toilets){
 		$data['郑州地铁'][$stationName] = '无数据，该站可能无卫生间';
 	}else{
 		foreach($toilets as $id => $toilet){
-			$toilets[$id] = '［'.$toilet['prefix'].'］'.$toilet['position'];
+			if($toilet['prefix'] && $toilet['position']){
+				$toilets[$id] = '［'.$toilet['prefix'].'］'.$toilet['position'];
+			}else{
+				unset($toilets[$id]);
+			}
 		}
 		$data['郑州地铁'][$stationName] = implode("\n", $toilets);
 	}
