@@ -1,7 +1,7 @@
 <?php
 
 global $Command;
-requireLvl(6);
+requireLvl(1);
 
 if(count($Command) == 1){
 	replyAndLeave('不知道你想查询什么呢…');
