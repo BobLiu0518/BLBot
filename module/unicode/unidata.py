@@ -4,7 +4,7 @@ import sys, re
 import unicodedata as ucd
 
 char = sys.argv[1]
-match = re.match(r'^(?:U\+|\\\\u)([0-9A-F]+)$', char, re.I)
+match = re.match(r'^(?:U\+|\\u)([0-9A-F]+)$', char, re.I)
 if match:
 	char = chr(int(match.group()[2:], 16))
 else:
