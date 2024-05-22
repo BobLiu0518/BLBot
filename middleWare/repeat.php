@@ -2,64 +2,35 @@
 
 global $Event, $Message, $Queue;
 
-if(!preg_match('/^\[.+\]$/', preg_replace('/\[CQ:.+?\]/', '', $Message)) && !preg_match('/\//', $Message)){
+if(!preg_match('/^\[.+\]$/', preg_replace('/\[CQ:.+?\]/', '', $Message)) && !preg_match('/^\//', $Message)){
+    function parsePicId($str){
+        return preg_replace('/\[CQ:image,file=.+?fileid=(.+?)_.+?\]/', '$1', $str);
+    }
 
-if(getData("repeat/{$Event['group_id']}-1")==''){
-    $a = getData("repeat/{$Event['group_id']}-2");
-    $b = getData("repeat/{$Event['group_id']}-3");
-    $c = getData("repeat/{$Event['group_id']}-4");
-    if($a == $Message && $b == $Message && $c != $Message){
-        if(coolDown('repeat/'.$Event['group_id'])>0){
-            coolDown('repeat/'.$Event['group_id'], 60);
-            $Queue[]= sendBack($a);
+    $recent = [];
+    $current = -1;
+    foreach(range(1, 4) as $i){
+        $msg = getData('repeat/'.$Event['group_id'].'-'.$i);
+        if(!$msg && $current == -1 && $i != 4){
+            $current = $i;
+        }else{
+            $recent[] = parsePicId($msg);
         }
-        setData("repeat/{$Event['group_id']}-1", $Message, true);
-        setData("repeat/{$Event['group_id']}-2", '');
-        setData("repeat/{$Event['group_id']}-4", $Message, true);
-        leave();
-    }else{
-        setData("repeat/{$Event['group_id']}-1", $Message, true);
-        setData("repeat/{$Event['group_id']}-2", '');
-        setData("repeat/{$Event['group_id']}-4", '');
     }
-}else if(getData("repeat/{$Event['group_id']}-2")==''){
-    $a = getData("repeat/{$Event['group_id']}-1");
-    $b = getData("repeat/{$Event['group_id']}-3");
-    $c = getData("repeat/{$Event['group_id']}-4");
-    if($a == $Message && $b == $Message && $c != $Message){
-        if(coolDown('repeat/'.$Event['group_id'])>0){
-            coolDown('repeat/'.$Event['group_id'], 60);
-            $Queue[]= sendBack($a);
-        }
-        setData("repeat/{$Event['group_id']}-2", $Message, true);
-        setData("repeat/{$Event['group_id']}-3", '');
-        setData("repeat/{$Event['group_id']}-4", $Message, true);
-        leave();
-    }else{
-        setData("repeat/{$Event['group_id']}-2", $Message, true);
-        setData("repeat/{$Event['group_id']}-3", '');
-        setData("repeat/{$Event['group_id']}-4", '');
-    }
-}else if(getData("repeat/{$Event['group_id']}-3")==''){
-    $a = getData("repeat/{$Event['group_id']}-1");
-    $b = getData("repeat/{$Event['group_id']}-2");
-    $c = getData("repeat/{$Event['group_id']}-4");
-    if($a == $Message && $b == $Message && $c != $Message){
-        if(coolDown('repeat/'.$Event['group_id'])>0){
-            coolDown('repeat/'.$Event['group_id'], 60);
-            $Queue[]= sendBack($a);
-        }
-        setData("repeat/{$Event['group_id']}-3", $Message, true);
-        setData("repeat/{$Event['group_id']}-1", '');
-        setData("repeat/{$Event['group_id']}-4", $Message, true);
-        leave();
-    }else{
-        setData("repeat/{$Event['group_id']}-3", $Message, true);
-        setData("repeat/{$Event['group_id']}-1", '');
-        setData("repeat/{$Event['group_id']}-4", '');
-    }
-}
+    if($current != -1){
+        setData('repeat/'.$Event['group_id'].'-'.$current, $Message, true);
+        setData('repeat/'.$Event['group_id'].'-'.($current % 3 + 1), '');
+        setData('repeat/'.$Event['group_id'].'-4', '');
 
+        if(parsePicId($Message) == $recent[0] && parsePicId($Message) == $recent[1] && parsePicId($Message) != $recent[2]){
+            if(coolDown('repeat/'.$Event['group_id']) > 0){
+                coolDown('repeat/'.$Event['group_id'], 60);
+                $Queue[]= sendBack($Message);
+            }
+            setData('repeat/'.$Event['group_id'].'-4', $Message, true);
+            leave();
+        }
+    }
 }
 
 ?>
