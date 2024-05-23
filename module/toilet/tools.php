@@ -70,13 +70,18 @@ function getFuzzyStationNames($station, $unique = true){
 		return $a['distance'] - $b['distance'];
 	});
 
-	$result = [];
-	foreach($similarNames as $stationName){
-		$result[] = $stationName['name'];
-	}
-	if($unique){
-		$result = array_unique($result);
-	}
+	$distanceLimit = $similarNames[count($similarNames) - 1]['distance'];
+	do{
+		$result = [];
+		foreach($similarNames as $stationName){
+			if($stationName['distance'] > $distanceLimit) break;
+			$result[] = $stationName['name'];
+		}
+		if($unique){
+			$result = array_unique($result);
+		}
+		$distanceLimit --;
+	}while(count($result) > 10 && $distanceLimit >= 0);
 
 	return $result;
 }
