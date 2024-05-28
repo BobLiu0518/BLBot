@@ -2,7 +2,7 @@
 
 global $Event, $Message, $Queue;
 
-if(!preg_match('/^\[.+\]$/', preg_replace('/\[CQ:.+?\]/', '', $Message)) && !preg_match('/^\//', $Message)){
+if(!preg_match('/^\[.+\]$/', preg_replace('/\[CQ:.+?\]/', '', $Message)) && !preg_match('/^(\[.+\])?\//', $Message)){
     function parsePicId($str){
         return preg_replace('/\[CQ:image,file=.+?fileid=(.+?)_.+?\]/', '$1', $str);
     }
