@@ -15,7 +15,6 @@ $data['长沙地铁'] = [];
 
 foreach($lines as $line){
 	foreach($line['stations'] as $station){
-		$station['stationName'] = preg_replace('/^磁浮/', '', $station['stationName']);
 		$data['长沙地铁'][$station['stationName']] = "暂不支持长沙地铁车站查询\n（未找到官方卫生间位置数据）";
 	}
 }
