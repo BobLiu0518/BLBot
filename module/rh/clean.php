@@ -2,7 +2,7 @@
 
 global $Event, $Queue;
 requireAdmin();
-delData('rh/'.$Event['group_id']);
+delData('rh/group/'.$Event['group_id']);
 $Queue[]= replyMessage('Done.');
 
 ?>
