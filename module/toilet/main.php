@@ -23,7 +23,6 @@ if(!$reply){
 	}else if($Command[0] == 'middleWare/toilet'){
 		leave();
 	}
-	$reply .= "\n使用 #toilet.cities 可以查看城市支持情况～";
 }
 
 replyAndLeave($reply);
