@@ -191,7 +191,7 @@ function loadModule(string $module){
         $Queue[]= replyMessage('非法命令！');
         leave();
     }
-    $moduleFile = str_replace('.', '/', $module, $count);
+    $moduleFile = str_replace('.', '/', strtolower($module), $count);
     if(0 === $count){
         $moduleFile.='/main';
     }
