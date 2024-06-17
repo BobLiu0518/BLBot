@@ -18,7 +18,7 @@ foreach($match[1] as $station){
 	if(!preg_match('/(客运|火车)(东|南|西|北)?站$/', $station)){
 		$station = preg_replace('/站$/', '', $station);
 	}
-	$data['南宁轨道交通'][$station] = "暂不支持南宁轨道交通车站查询\n（未找到官方卫生间位置数据）";
+	$data['南宁轨道交通'][trim($station)] = "暂不支持南宁轨道交通车站查询\n（未找到官方卫生间位置数据）";
 }
 
 setData('toilet/data.json', json_encode($data));
