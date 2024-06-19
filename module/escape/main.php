@@ -11,9 +11,18 @@ if(!fromGroup()){
 }
 
 $jrrp = getRp($Event['user_id'], time());
+$data = getAttackData($Event['user_id']);
+
 switch(getStatus($Event['user_id'])){
 	case 'free':
-		replyAndLeave('你现在不在监狱哦…难道还想再进去一次？');
+		if(rand(1, 100) <= 85){
+			replyAndLeave('你现在不在监狱哦…难道还想再进去一次？');
+		}else{
+			$data['status'] = 'universe';
+			$data['end'] = date('Ymd', time() + 86400);
+			setAttackData($Event['user_id'], $data);
+			replyAndLeave('你已成功逃离地球。');
+		}
 		break;
 	case 'hospitalized':
 		replyAndLeave('住院的时候还是以身体为重吧。');
@@ -22,9 +31,11 @@ switch(getStatus($Event['user_id'])){
 	case 'genshin':
 		replyAndLeave('你并不知道从哪里可以逃出去…');
 		break;
+	case 'universe':
+		replyAndLeave('你已经身处宇宙中了…还能逃向何方呢？');
+		break;
 	case 'imprisoned':
 	case 'confined':
-		$data = getAttackData($Event['user_id']);
 		if($data['escape']['date'] == date('Ymd') && $data['escape']['times'] > 0){
 			replyAndLeave('你今天喜提狱警特别关照，别试了，没用的，洗洗睡吧。');
 		}
@@ -41,7 +52,7 @@ switch(getStatus($Event['user_id'])){
 			$message = '趁狱警不注意，你成功溜了出来。';
 			$data['status'] = 'free';
 			$data['end'] = '0';
-			$data['count']['times'] = intval($data['count']['times'] / 2 + 0.5);
+			$data['count']['times'] = ceil($data['count']['times'] / 2 + 0.5);
 		}else{
 			// 越狱失败
 			$message = '越狱失败了，';

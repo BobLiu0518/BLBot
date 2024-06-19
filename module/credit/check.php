@@ -44,6 +44,7 @@ switch($status) {
 	case 'arknights':
 	case 'genshin':
 		$msg .= "\n当前身处异世界"; break;
+	case 'universe': $msg .= "\n当前身处宇宙中"; break;
 	case 'hospitalized': $msg .= "\n当前身处医院中，预计 ".$statusEnd." 出院"; break;
 	case 'free':
 		$lastCheckinTime = filemtime('../storage/data/checkin/'.$QQ);
