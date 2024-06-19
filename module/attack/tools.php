@@ -5,9 +5,9 @@ loadModule('exp.tools');
 loadModule('jrrp.tools');
 
 if(!function_exists('randString')){
-function randString(array $strArr){
-    return $strArr[rand(0, sizeof($strArr)-1)];
-}
+	function randString(array $strArr){
+		return $strArr[rand(0, sizeof($strArr)-1)];
+	}
 }
 
 function attack($from, $target, $atTarget, $dreaming = false){
@@ -38,6 +38,9 @@ function attack($from, $target, $atTarget, $dreaming = false){
 			break;
 		case 'genshin':
 			$message = '你刚想推开门回到原来的世界，但一开门就看到了一个漂浮的白色小东西，并对你说“前面的区域，以后再来探索吧”';
+			break;
+		case 'universe':
+			$message = '你已经不在地球上了…';
 			break;
 		case 'free':
 			$data['count']['times'] += 1;
@@ -128,6 +131,9 @@ function getAttackData($user_id){
 			case 'genshin':
 				$message = '你推开门回到了原来的世界。';
 				break;
+			case 'universe':
+				$messgae = '睁开眼，你发现自己被引力吸引，回到了地球上。';
+				break;
 		}
 		$Queue[]= replyMessage($message);
 		$data['status'] = 'free';
@@ -149,7 +155,7 @@ function setAttackData($user_id, $data){
 }
 
 function getStatus($user_id){
-	// free / imprisoned / confined / hospitalized / arknights / genshin
+	// free / imprisoned / confined / hospitalized / arknights / genshin / universe
 	return getAttackData($user_id)['status'];
 }
 

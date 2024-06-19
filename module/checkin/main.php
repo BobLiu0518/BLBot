@@ -21,6 +21,10 @@ switch(getStatus($User_id)){
 		$reply = '身处异世界的你貌似找不到要去哪里签到…';
 		break;
 
+	case 'universe':
+		$reply = '你已经不在地球上了…';
+		break;
+
 	case 'hospitalized':
 	case 'free':
 	default:
