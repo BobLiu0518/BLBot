@@ -132,7 +132,7 @@ function getAttackData($user_id){
 				$message = '你推开门回到了原来的世界。';
 				break;
 			case 'universe':
-				$messgae = '睁开眼，你发现自己被引力吸引，回到了地球上。';
+				$message = '睁开眼，你发现自己被引力吸引，回到了地球上。';
 				break;
 		}
 		$Queue[]= replyMessage($message);
