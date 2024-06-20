@@ -32,6 +32,9 @@ switch($status){
 	case 'genshin':
 		replyAndLeave('你并不知道如何回到原来的世界…');
 		break;
+	case 'universe':
+		replyAndLeave('你已经不在地球上了…');
+		break;
 }
 
 ?>
