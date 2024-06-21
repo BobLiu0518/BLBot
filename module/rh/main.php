@@ -279,6 +279,7 @@ function startGame($rhData){
             }else if($determination <= 700){
                 // 走一大步 30%
                 $horses[$target]->goAhead(rand(3, 5));
+		$horses[$target]->setSuffix('💨');
                 reEvent($target, [
                     '开挂了',
                     '说自己没有开挂',
