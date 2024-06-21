@@ -12,6 +12,7 @@ class Horse{
 	private $normalHorse;
 	private $nbHorse;
 	private $deadHorse;
+	private $suffix;
 
 	function __construct($n = 10, $m = 13, $h = "🐴", $nh = "🦄", $dh = "👻"){
 		$this->maxDistance = $m;
@@ -21,6 +22,7 @@ class Horse{
 		$this->normalHorse = $h;
 		$this->nbHorse = $nh;
 		$this->deadHorse = $dh;
+		$this->suffix = '';
 	}
 	private function str_suffix($str, $n=1, $char=" "){
 		for ($x=0;$x<$n;$x++){$str = $str.$char;}
@@ -39,7 +41,9 @@ class Horse{
 	public function display(){
 		$str = $this->str_suffix("", $this->distance);
 		$str .= $this->getChar();
-		$str = $this->str_suffix($str, $this->maxDistance - $this->distance);
+		$str .= $this->suffix;
+		$str = $this->str_suffix($str, $this->maxDistance - $this->distance - strlen($this->suffix));
+		$this->suffix = '';
 		return $str;
 	}
 	public function goAhead($n){
@@ -82,6 +86,10 @@ class Horse{
 	}
 	public function sbIfy(){
 		$this->nb = false;
+		return;
+	}
+	public function setSuffix($suffix){
+		$this->suffix = $suffix;
 		return;
 	}
 	public function isNb(){
