@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "612688bdd22c623db16f68898d257353",
+    "content-hash": "0faf5ebf669618542aacd0bc0d39fc18",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1735,6 +1735,63 @@
                 }
             ],
             "time": "2024-02-01T13:16:41+00:00"
+        },
+        {
+            "name": "zjkal/time-helper",
+            "version": "v1.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zjkal/time-helper.git",
+                "reference": "03ccc659df24fa9884b7a27afe401fc6abef5b25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zjkal/time-helper/zipball/03ccc659df24fa9884b7a27afe401fc6abef5b25",
+                "reference": "03ccc659df24fa9884b7a27afe401fc6abef5b25",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "zjkal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zjkal",
+                    "email": "zjkal@qq.com"
+                }
+            ],
+            "description": "一个简单快捷的PHP日期时间助手类库。 a smart PHP datetime helper library.",
+            "keywords": [
+                "date",
+                "datetime",
+                "helper",
+                "php",
+                "time",
+                "zjkal"
+            ],
+            "support": {
+                "issues": "https://github.com/zjkal/time-helper/issues",
+                "source": "https://github.com/zjkal/time-helper/tree/v1.1.8"
+            },
+            "time": "2024-06-06T09:18:29+00:00"
         }
     ],
     "packages-dev": [

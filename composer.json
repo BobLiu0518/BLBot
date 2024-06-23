@@ -30,7 +30,8 @@
         "overtrue/php-opencc": "^1.0",
         "overtrue/pinyin": ">=5.0",
         "rexxars/morse": ">=1.0",
-        "simplesoftwareio/simple-qrcode": ">=4.2"
+        "simplesoftwareio/simple-qrcode": ">=4.2",
+        "zjkal/time-helper": "^1.1"
     },
     "suggest": {
         "ext-imagick": "image 库依赖",
