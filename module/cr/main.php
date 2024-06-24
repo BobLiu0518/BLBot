@@ -11,6 +11,7 @@ else if(!preg_match('/^(G|D|C|Z|T|K|S|Y|L|X|N)?\d+$/', $code)) replyAndLeave('�
 $time = '';
 while($nextArg = nextArg()) $time .= $nextArg.' ';
 $time = $time ? strtotime($time) : time();
+if($time < strtotime('-2days 00:00') || $time >= strtotime('+15days 00:00')) replyAndLeave('只支持查询 2 天前 ~ 14 天后的列车信息噢');
 
 $context = stream_context_create([
 	'http' => [
