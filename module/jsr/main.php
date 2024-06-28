@@ -11,16 +11,17 @@ if(preg_match('/^S?(\d+)$/i', $search, $match)){
 	if(!$trains[$code]) replyAndLeave('［金山铁路］车次 '.$code.' 不存在或已停开…');
 	$train = $trains[$code];
 	$reply = '［金山铁路］'.$train['code'].'次';
-	$reply .= "\n  ".$train['from'].'→'.$train['to'].' '.preg_replace('/ \(.+\)$/', '', $train['type']);
+	$reply .= "\n  ".$train['from'].' → '.$train['to'].' '.preg_replace('/ \(.+\)$/', '', $train['type']);
 	if($train['dates'] == 'weekdays'){
 		$reply .= "\n* 仅工作日开行";
 	}else if($train['dates'] == 'weekends'){
 		$reply .= "\n* 仅双休日开行";
 	}
-	foreach($train['stations'] as $station){
+	foreach($train['stations'] as $n => $station){
 		$reply .= "\n".$station['station_name'];
 		for($i = 0; $i < 4 - mb_strlen($station['station_name']); $i++) $reply .= '　';
-		$reply .= ' '.$station['arrive_time'].'到 '.$station['start_time'].'发';
+		if($n != 0) $reply .= ' '.$station['arrive_time'].'到';
+		if($n != count($train['stations']) - 1) $reply .= ' '.$station['start_time'].'发';
 	}
 	replyAndLeave($reply);
 }else{
