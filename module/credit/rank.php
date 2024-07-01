@@ -22,14 +22,14 @@ $creditData = array();
 $reply = $groupName.'财富榜：';
 
 foreach($groupMemberList as $groupMember){
-	$creditData[] = array($groupMember->user_id, getCredit($groupMember->user_id));
+	if(($credit = getCredit($groupMember->user_id)) > 0){
+		$creditData[] = array($groupMember->user_id, $credit);
+	}
 }
 
 usort($creditData, 'sortCredit');
 foreach(array_slice($creditData, 0, 5) as $n => $groupMember){
-	if($groupMember[1] > 0){
-		$reply .= "\n#".($n + 1).' '.$groupMember[1].'金币 @'.getName($groupMember[0]);
-	}
+	$reply .= "\n#".($n + 1).' '.$groupMember[1].'金币 @'.getName($groupMember[0]);
 }
 
 $Queue[]= replyMessage($reply);
