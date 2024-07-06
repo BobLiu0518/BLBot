@@ -42,7 +42,7 @@ function attack($from, $target, $atTarget, $dreaming = false){
 		case 'universe':
 			$message = '你已经不在地球上了…';
 			break;
-		case 'universe':
+		case 'saucer':
 			$message = '你对👽喊了声“打劫！”可是对方并没有理会你的意思...';
 			break;
 		case 'free':
