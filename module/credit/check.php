@@ -6,11 +6,6 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
 
-function randomChoose($arr)
-{
-    return $arr[array_rand($arr)];
-}
-
 $QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
     $QQ = parseQQ($QQ);
@@ -55,9 +50,9 @@ switch($status) {
 	$characters = ['▖', '▗', '▘', '▝', '▚', '▞', '▀', '▄', '▌', '▐', '▙', '▛', '▜', '▟', '█'];
     $randomParts = '';
     for ($i = 0; $i < 5; $i++) {
-        $randomParts .= randomChoose($characters);
+        $randomParts .= $characters[array_rand($characters)];
     }
-    $msg = "\n你被外星人".$randomParts."了";
+    $msg .= "\n你被外星人".$randomParts."了。";
 	break;
 	case 'free':
 		$lastCheckinTime = filemtime('../storage/data/checkin/'.$QQ);
@@ -68,7 +63,7 @@ switch($status) {
 }
 
 if($Event['user_id'] != $QQ){
-	$msg = str_replace('您', '@'.($CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card ? $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card : $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->nickname).' ', $msg);
+	$msg = preg_replace('/您|你/', '@'.($CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card ? $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card : $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->nickname).' ', $msg);
 }
 $Queue[]= replyMessage($msg);
 

@@ -41,69 +41,31 @@ switch(getStatus($User_id)){
 		}else{
 			$income = rand(1000, 10000);
 		}
-
 		$income = floor(1 + $income * getRp($Event['user_id']) / 50);
-
 		$originLvl = getLvl($Event['user_id']);
-		if(10000==$income)
-		{
-		    $income = -114514;
-		}
-		clearstatcache();
+
+        clearstatcache();
 		$lastCheckinTime = filemtime('../storage/data/checkin/'.$Event['user_id']);
 		if(0 == (int)date('Ymd')-(int)date('Ymd', $lastCheckinTime)){
-			$reply = rand(1,16);
-
-			switch ($reply) {
-                case 1:
-                    $reply = '你今天签到过了！（震声';
-                    break;
-                case 2:
-                    $reply = '签到过了www';
-                    break;
-                case 3:
-                    $reply = '好像，签到，过了，呢？';
-                    break;
-                case 4:
-                    $reply = '签到过了呢';
-                    break;
-                case 5:
-                    $reply = '准备一直签到调戏我吗？';
-                    break;
-                case 6:
-                    $reply = '一直签到还是嫌金币不够的话可以试试 #checkout';
-                    break;
-                case 7:
-                    $reply = '给你讲个鬼故事，你今天签到过了。';
-                    break;
-                case 8:
-                    $reply = '你已经签到过了，但是你有没有听见孩子们的悲鸣？';
-                    break;
-                case 9:
-                    $reply = '你…你失忆了？签到过了啊……';
-                    break;
-                case 10:
-                    $reply = '还签到！再签到小心我扣光你的金币（';
-                    break;
-                case 11:
-                    $reply = '签到过了啦（半恼）';
-                    break;
-                case 12:
-                    $reply = '你不曾注意阴谋得逞者（指一直签到的你）在狞笑！';
-                    break;
-                case 13:
-                    $reply = '签到成…失败！说不定今天你已经签到过了呢？';
-                    break;
-                case 14:
-                    $reply = '还签到？我签到你好不好？@' . (fromGroup() ? ($CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->nickname) : ($CQ->getStrangerInfo($Event['user_id'])->nickname)) . ' 签到！';
-                    break;
-                case 15:
-                    $reply = '签到够了没…我都不知道说什么好……';
-                    break;
-                case 16:
-                    $reply = '你是整天签到的屑[CQ:emoji,id=128052]？';
-                    break;
-            }
+			$replys = [
+				'你今天签到过了！（震声',
+				'签到过了www',
+				'好像，签到，过了，呢？',
+				'签到过了呢',
+				'准备一直签到调戏我吗？',
+				'一直签到还是嫌金币不够的话可以试试 #checkout',
+				'给你讲个鬼故事，你今天签到过了。',
+				'你已经签到过了，但是你有没有听见孩子们的悲鸣？',
+				'你…你失忆了？签到过了啊……',
+				'还签到！再签到小心我扣光你的金币（',
+				'签到过了啦（半恼）',
+				'你不曾注意阴谋得逞者（指一直签到的你）在狞笑！',
+				'签到成…失败！说不定今天你已经签到过了呢？',
+				'还签到？我签到你好不好？@' . (fromGroup() ? ($CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->nickname) : ($CQ->getStrangerInfo($Event['user_id'])->nickname)) . ' 签到！',
+				'签到够了没…我都不知道说什么好……',
+				'你是整天签到的屑[CQ:emoji,id=128052]？',
+			];
+			$reply = $replys[array_rand($replys)];
         } else {
             $checkinData = json_decode(getData('checkin/stat'), true);
             if ((int)date('Ymd') > (int)$checkinData['date']) {
@@ -115,12 +77,12 @@ switch(getStatus($User_id)){
 
             // 被外星人抓走的概率
             $currentHour = date('G'); // 获取当前的小时 (0 - 23)
-            $abductionProbability = 0;   
+            $abductionProbability = 0;
             if ($currentHour >= 0 && $currentHour < 2) {
                 $abductionProbability = 1; // 1%
-            } elseif ($currentHour >= 3 && $currentHour < 5) {
+            } else if ($currentHour >= 3 && $currentHour < 5) {
                 $abductionProbability = 5; // 5%
-            } elseif ($currentHour >= 20 || $currentHour < 6) {
+            } else if ($currentHour >= 20 || $currentHour < 6) {
                 $abductionProbability = 1; // 1%
             }
             // 判断是否被抓走
@@ -154,11 +116,9 @@ switch(getStatus($User_id)){
             }
         }
         break;
-	}
-	
-		if($Message)
+}
+
+if($Message){
 	$reply = str_replace("签到", $Message, $reply);
+}
 $Queue[]= replyMessage($reply);
-
-?>
-
