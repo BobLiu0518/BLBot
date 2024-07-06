@@ -6,6 +6,11 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
 
+function randomChoose($arr)
+{
+    return $arr[array_rand($arr)];
+}
+
 $QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)){
     $QQ = parseQQ($QQ);
