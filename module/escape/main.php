@@ -34,6 +34,9 @@ switch(getStatus($Event['user_id'])){
 	case 'universe':
 		replyAndLeave('你已经身处宇宙中了…还能逃向何方呢？');
 		break;
+	case 'saucer':
+		replyAndLeave('你被外星人五花大绑了…还能逃向何方呢？');
+		break;
 	case 'imprisoned':
 	case 'confined':
 		if($data['escape']['date'] == date('Ymd') && $data['escape']['times'] > 0){

@@ -42,6 +42,9 @@ function attack($from, $target, $atTarget, $dreaming = false){
 		case 'universe':
 			$message = '你已经不在地球上了…';
 			break;
+		case 'universe':
+			$message = '你对👽喊了声“打劫！”可是对方并没有理会你的意思...';
+			break;
 		case 'free':
 			$data['count']['times'] += 1;
 
@@ -134,6 +137,9 @@ function getAttackData($user_id){
 			case 'universe':
 				$message = '睁开眼，你发现自己被引力吸引，回到了地球上。';
 				break;
+			case 'saucer':
+				$message = '外星人发现你没有什么研究价值。把你丢回地球了。';
+				break; 
 		}
 		$Queue[]= replyMessage($message);
 		$data['status'] = 'free';

@@ -46,6 +46,14 @@ switch($status) {
 		$msg .= "\n当前身处异世界"; break;
 	case 'universe': $msg .= "\n当前身处宇宙中"; break;
 	case 'hospitalized': $msg .= "\n当前身处医院中，预计 ".$statusEnd." 出院"; break;
+	case 'saucer':
+	$characters = ['▖', '▗', '▘', '▝', '▚', '▞', '▀', '▄', '▌', '▐', '▙', '▛', '▜', '▟', '█'];
+    $randomParts = '';
+    for ($i = 0; $i < 5; $i++) {
+        $randomParts .= randomChoose($characters);
+    }
+    $msg = "\n你被外星人".$randomParts."了";
+	break;
 	case 'free':
 		$lastCheckinTime = filemtime('../storage/data/checkin/'.$QQ);
                 if(intval(date('Ymd')) - intval(date('Ymd', $lastCheckinTime)) > 0){
