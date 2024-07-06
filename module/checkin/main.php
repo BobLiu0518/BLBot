@@ -86,7 +86,7 @@ switch(getStatus($User_id)){
                 $abductionProbability = 1; // 1%
             }
             // 判断是否被抓走
-            if (rand(1, 100) <= $abductionProbability *100) {
+            if (rand(1, 100) <= $abductionProbability) {
                 $data = getAttackData($Event['user_id']);
                 $data['status'] = 'saucer';
                 $data['end'] = date('Ymd', time() + 86400); // 1 day
