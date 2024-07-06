@@ -86,13 +86,12 @@ switch(getStatus($User_id)){
                 $abductionProbability = 1; // 1%
             }
             // 判断是否被抓走
-            if (rand(1, 100) <= $abductionProbability) {
-                $file = getData('attack/user/' . $user_id);
-                $data = json_decode($file ? $file : '{"status":"free","end":"0","count":{"date":"0","times":0}}', true);
+            if (rand(1, 100) <= $abductionProbability *100) {
+                $data = getAttackData($Event['user_id']);
                 $data['status'] = 'saucer';
                 $data['end'] = date('Ymd', time() + 86400); // 1 day
                 $reply = '🛸天空上突然出现了一台飞碟，你被外星人抓走了....';
-                setData('attack/user/' . $user_id, json_encode($data));
+                setAttackData($Event['user_id'], $data);
             } else {
                 addCredit($Event['user_id'], $income);
                 addExp($Event['user_id'], 1);
@@ -111,9 +110,9 @@ switch(getStatus($User_id)){
                     }
                 }
                 $reply .= "\n你是今天第 " . $checkinData['checked'] . ' 个签到的～';
-                delData('checkin/' . $Event['user_id']);
-                setData('checkin/' . $Event['user_id'], '');
-            }
+		}
+		delData('checkin/' . $Event['user_id']);
+		setData('checkin/' . $Event['user_id'], '');
         }
         break;
 }
