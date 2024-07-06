@@ -35,6 +35,9 @@ switch($status){
 	case 'universe':
 		replyAndLeave('你已经不在地球上了…');
 		break;
+	case 'saucer':
+		replyAndLeave('外星人上下考量着你，没有搭理你的意思…');
+		break;
 }
 
 ?>
