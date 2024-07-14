@@ -42,7 +42,9 @@ if(preg_match('/^S?(\d+)$/i', $search, $match)){
 	$result = array_splice($trains, $i, 10);
 	$reply = '［金山铁路］'.$station.'站 '.date('n月j日', $time)."\n  ".date('H:i', $time).' 起最近 10 次列车：';
 	foreach($result as $train){
-		$reply .= "\n".$train['time'].' '.$train['code'].' 往'.$train['to'].' '.$train['type'];
+		$reply .= "\n".$train['time'].' '.$train['code'];
+		$reply .= $train['to'] == $station ? ' [终到]' : ' 往'.$train['to'];
+		$reply .= ' '.$train['type'];
 	}
 	replyAndLeave($reply);
 }
