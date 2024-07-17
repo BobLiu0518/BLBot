@@ -2,6 +2,12 @@
 
 requireLvl(6);
 
+// 2024/7/1~2024/12/25 期间停开车次，12306 还能查到，很莫名其妙，手动录入了
+$canceledTrains = [
+	'S1607', 'S1017', 'S1611', 'S1615', 'S1023', 'S1621', 'S1025', 'S1027', 'S1623', 'S1010',
+	'S1012', 'S1616', 'S1014', 'S1016', 'S1018', 'S1202', 'S1620', 'S1024', 'S1026',
+];
+
 $trainListApi = 'https://search.12306.cn/search/v1/train/search';
 $trainDetailApi = 'https://kyfw.12306.cn/otn/queryTrainInfo/query';
 
@@ -44,6 +50,8 @@ foreach($weekendTrainList['data'] as $train){
 }
 
 foreach($trainList as $train){
+	if(in_array($train['code'], $canceledTrains)) continue;
+
 	$trainDetail = json_decode(file_get_contents($trainDetailApi.'?leftTicketDTO.train_no='.$train['train_no'].'&leftTicketDTO.train_date='
 		.date('Y-m-d', strtotime($train['dates'] == 'weekdays' ? 'Next Monday' : 'Next Sunday')).'&rand_code=', false, $context), true);
 
