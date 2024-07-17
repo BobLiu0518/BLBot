@@ -20,7 +20,7 @@ if(preg_match('/^(G|D|C|Z|T|K|Y|L|X|N)(\d+)$/i', $search, $match)){
 		$reply .= "\n* 仅双休日开行";
 	}
 	foreach($train['stations'] as $n => $station){
-		$reply .= "\n".$station['station_name'];
+		$reply .= "\n".$station['station_no'].' '.$station['station_name'];
 		for($i = 0; $i < 4 - mb_strlen($station['station_name']); $i++) $reply .= '　';
 		if($n != 0) $reply .= ' '.$station['arrive_time'].'到';
 		if($n != count($train['stations']) - 1) $reply .= ' '.$station['start_time'].'发';
