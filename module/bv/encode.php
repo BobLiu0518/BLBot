@@ -12,7 +12,7 @@ $addVal = 8728348608;
 $x = ($av ^ $xorVal) + $addVal;
 $r = array('B', 'V', '1', ' ', ' ', '4', ' ', '1', ' ', '7', ' ', ' ');
 for($i = 0; $i < 6; $i += 1)
-	$r[$s[$i]] = $table[$x / pow(58, $i) % 58];
+	$r[$s[$i]] = $table[ceil($x / pow(58, $i) % 58)];
 $bv = implode($r);
 
 $Queue[]= replyMessage($bv);
