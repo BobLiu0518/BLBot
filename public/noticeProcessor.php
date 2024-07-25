@@ -35,7 +35,9 @@ switch($Event['notice_type']){
     case 'notify':
         switch($Event['sub_type']){
             case 'poke':
-                pokeBack();
+                if($Event['target_id'] == Config('bot') && $Event['user_id'] != Config('bot')){
+                    pokeBack();
+                }
                 break;
             default:
         }
