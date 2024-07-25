@@ -34,6 +34,9 @@ switch($Event['notice_type']){
         break;
     case 'notify':
         switch($Event['sub_type']){
+            case 'poke':
+                pokeBack();
+                break;
             default:
         }
         break;

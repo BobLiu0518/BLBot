@@ -62,6 +62,7 @@ function replyMessage(string $msg, bool $auto_escape = false, bool $async = fals
 function pokeBack(int $user_id = 0){
     global $Event, $CQ;
     if(!$user_id) $user_id = $Event['user_id'];
+    if($user_id == Config('bot')) return;
     if(fromGroup()){
         $CQ->groupPoke($Event['group_id'], $user_id);
     }else{
