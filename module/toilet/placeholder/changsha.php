@@ -15,7 +15,7 @@ $data['长沙地铁'] = [];
 
 foreach($lines as $line){
 	foreach($line['stations'] as $station){
-		$data['长沙地铁'][$station['stationName']] = "暂不支持长沙地铁车站查询\n（未找到官方卫生间位置数据）";
+		$data['长沙地铁'][$station['stationName']] = "暂不支持长沙地铁车站查询，可在 https://weibo.com/5077996467/Hw6a8w65A 自行查找";
 	}
 }
 
