@@ -7,7 +7,7 @@ $trainDetailApi = 'https://kyfw.12306.cn/otn/queryTrainInfo/query';
 
 $code = strtoupper(nextArg() ?? '');
 if(!$code) replyAndLeave('不知道你想要查询什么车次呢…');
-else if(!preg_match('/^(G|D|C|Z|T|K|S|Y|L|X|N)?\d+$/', $code)) replyAndLeave('这好像不是车次号的格式噢…');
+else if(!preg_match('/^[GDCZTKSYLXN]?\d+$/', $code)) replyAndLeave('这好像不是车次号的格式噢…');
 $time = '';
 while($nextArg = nextArg()) $time .= $nextArg.' ';
 $time = $time ? strtotime($time) : time();
