@@ -6,7 +6,13 @@ requireLvl(6);
 
 // Extract database from /storage/emulated/0/Android/data/com.mtr.mtrmobile/files/databases
 $facilityDb = new SQLite3('../storage/cache/toilet/MTR/E_Info.db');
-$stationDb = new SQLite3('../storage/cache/toilet/MTR/E_Station.db');
+$context = stream_context_create([
+	'http' => [
+		'method' => 'GET',
+		'header' => 'api-key: a070514789c14e22a4e54dbcce6dec81',
+	],
+]);
+$stations = json_decode(file_get_contents('https://proxy001.api.mtr.com.hk./ttp-api/v2/api/StationBaseInfo/HRStations', false, $context), true)['stations'];
 $data = json_decode(getData('toilet/data.json'), true);
 setCache('toilet/'.time().'.bak', json_encode($data));
 $data['香港鐵路'] = [];
@@ -22,15 +28,10 @@ while($row = $toiletData->fetchArray(SQLITE3_ASSOC)){
 	$toilets[$row['STATION_ID']] = '［洗手間］'.$row['STATION_FACILITY_URL_TC'];
 }
 
-$stationData = $stationDb->query(<<<EOT
-SELECT STATION_ID, CHI_LONG_NAME
-FROM stations
-ORDER BY CAST(STATION_ID as INT) ASC;
-EOT);
-while($row = $stationData->fetchArray(SQLITE3_ASSOC)){
-	$data['香港鐵路'][$row['CHI_LONG_NAME']] = $toilets[$row['STATION_ID']] ?? '［洗手間］無';
-	if(OpenCC::hk2s($row['CHI_LONG_NAME']) != $row['CHI_LONG_NAME']){
-		$data['香港鐵路'][OpenCC::hk2s($row['CHI_LONG_NAME'])] = 'Redirect='.$row['CHI_LONG_NAME'];
+foreach($stations as $station){
+	$data['香港鐵路'][$station['nameTC']] = $toilets[$station['ID']] ?? '［洗手間］無';
+	if(OpenCC::hk2s($station['nameTC']) != $station['nameTC']){
+		$data['香港鐵路'][OpenCC::hk2s($station['nameTC'])] = 'Redirect='.$station['nameTC'];
 	}
 }
 
