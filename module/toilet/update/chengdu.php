@@ -13,6 +13,7 @@ foreach($lines['list'] as $line){
 		foreach($subLine['stationList'] as $station){
 			if($data['成都地铁'][$station['stationName']]) continue;
 			$stationInfo = json_decode(file_get_contents($stationInfoApi.$station['stationNo']), true)['data'];
+			$station['stationName'] = preg_replace('/（.+）$/', '', $station['stationName']);
 			foreach($stationInfo['facilities']['stationFacilities'] as $facility){
 				if($facility['type'] == 'TOILET'){
 					$data['成都地铁'][$station['stationName']] = preg_replace('/^\s*$\r?\n/m', '', preg_replace('/(\S+)\：(\S+)/m', '［$1］$2', str_replace('；', "\n", $facility['description'])));
