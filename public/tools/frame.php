@@ -155,6 +155,10 @@ function getImg(string $filePath){
     return file_get_contents('../storage/img/'.$filePath);
 }
 
+function getFontPath(string $fontName){
+    return '../storage/font/'.$fontName;
+}
+
 /**
  * 清理缓存
  */
