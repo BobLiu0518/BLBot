@@ -110,6 +110,10 @@ function getData(string $filePath){
     return file_get_contents('../storage/data/'.$filePath);
 }
 
+function getDataPath(string $filePath){
+    return '../storage/data/'.$filePath;
+}
+
 function getDataFolderContents(string $folderPath){
     $contents = scandir('../storage/data/'.$folderPath);
     return array_diff($contents, ['.', '..']);
@@ -136,6 +140,10 @@ function delCache(string $filePath){
  */
 function getCache($cacheFileName){
     return file_get_contents('../storage/cache/'.$cacheFileName);
+}
+
+function getCachePath($cacheFileName){
+    return '../storage/cache/'.$cacheFileName;
 }
 
 function getCacheFolderContents(string $folderPath){
