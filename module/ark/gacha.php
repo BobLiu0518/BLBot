@@ -296,7 +296,7 @@ function gacha($poolName, $times){
 		$watermarkLayer->setImageFormat('png');
 		$watermark = new ImagickDraw();
 		$watermark->setTextAlignment(Imagick::ALIGN_LEFT);
-		$watermark->setFont('../storage/font/consolab.ttf');
+		$watermark->setFont(getFontPath('consolab.ttf'));
 		$watermark->setFontSize(12);
 		$watermark->setFillColor(new ImagickPixel('#FFFFFF'));
 		$watermark->annotation(84, 438, $Event['user_id'].' '.date('Y/m/d H:i:s'));
