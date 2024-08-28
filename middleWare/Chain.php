@@ -13,7 +13,6 @@ require('yancha.php');
 require('calc.php');
 require('choose.php');
 require('v50.php');
-require('zhiyin.php');
 // require('song.php');
 require('repeat.php');
 require('help.php');
