@@ -11,7 +11,8 @@ $data['上海地铁'] = [];
 foreach($stations as $station){
 	$stationInfo = json_decode(file_get_contents($stationInfoApi.$station['key']), true)[0];
 	$toiletInfo = json_decode($stationInfo['toilet_position'], true)['toilet'];
-	if($station['value'] == '浦电路') $station['value'] = '浦电路（4号线）';
+	if(preg_match('/^[内外]圈(\(宜山路\))?/u', $station['value'])) continue;
+	else if($station['value'] == '浦电路') $station['value'] = '浦电路（4号线）';
 	else if($station['value'] == '浦电路 ') $station['value'] = '浦电路（6号线）';
 	else if(preg_match('/^外高桥保税区(南|北)站$/', $station['value'])) $station['value'] = preg_replace('/站$/', '', $station['value']);
 	$data['上海地铁'][$station['value']] = [];
