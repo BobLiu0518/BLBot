@@ -34,7 +34,7 @@ try{
 
 }catch(\Exception $e){
     if($e->getMessage())
-        $Queue[]= sendBack($e->getMessage(), false, true);
+        $Queue[]= sendBack('[CQ:reply,id='.$Event['message_id'].']'.$e->getMessage(), false, true);
 }
 
 try{

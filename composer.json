@@ -24,6 +24,7 @@
         "php": "^8.1",
         "ext-SimpleXML": ">=7.2",
         "ext-sqlite3": ">=7.2",
+        "fjw/color-compare": "^1.1",
         "intervention/image": ">=2.4",
         "kriswallsmith/buzz": ">=0.17.2",
         "nxp/math-executor": ">=2.3",
