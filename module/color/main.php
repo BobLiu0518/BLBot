@@ -3,7 +3,7 @@
 requireLvl(1);
 
 $color = nextArg();
-if(!$color){
+if($color === null){
     $color = '#'.substr('000000'.dechex(rand(0, pow(2, 24) - 1)), -6);
 }else if(preg_match('/^[0-9a-f]{6}$/i', $color)){
     $color = '#'.$color;
