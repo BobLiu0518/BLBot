@@ -9,7 +9,12 @@ if(!$color){
     $color = '#'.$color;
 }
 
-$pixel = new ImagickPixel($color);
+try{
+    $pixel = new ImagickPixel($color);
+}catch(\Exception $e){
+    replyAndLeave('无法识别颜色…');
+}
+
 $image = new Imagick();
 $image->newImage(640, 360, $pixel);
 $image->setImageFormat('png');
@@ -17,12 +22,15 @@ $draw = new ImagickDraw();
 $draw->setGravity(Imagick::GRAVITY_NORTHWEST);
 $draw->setFont(getFontPath('consolab.ttf'));
 $draw->setFontSize(56);
+
 $rgb = $pixel->getColor();
 unset($rgb['a']);
 $colorCompare = new ColorCompare\Color($rgb);
 $hex = strtoupper($colorCompare->getHex());
+
 $size = $image->queryFontMetrics($draw, $hex);
 $draw->setFillColor($colorCompare->getLab()['L'] > 70 ? '#000000' : '#FFFFFF');
 $draw->annotation((640 - $size['textWidth']) / 2, (360 - $size['textHeight']) / 2, $hex);
 $image->drawImage($draw);
+
 replyAndLeave(sendImg($image->getImageBlob()));
