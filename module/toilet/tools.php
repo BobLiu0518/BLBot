@@ -1,89 +1,69 @@
 <?php
 
-function utf8_to_extended_ascii($str, &$map){
-	$matches = array();
-	if (!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)){
-		return $str;
-	}
-	foreach ($matches[0] as $mbc){
-		if (!isset($map[$mbc])){
-			$map[$mbc] = chr(128 + count($map));
-		}
-	}
+// Reference: https://gist.github.com/simkimsia/2971092/b2c128d643d8333f1ebe4ece1f49566ec2b69d5d
+function wordWrapAnnotation(&$image, &$draw, $text, $maxWidth) {
+    $words = explode(" ", $text);
+    $lines = [];
+    $i = 0;
+    $lineHeight = 0;
+    while($i < count($words)) {
+        $currentLine = $words[$i];
+        $metrics = $image->queryFontMetrics($draw, $currentLine);
 
-	return strtr($str, $map);
-}
-function levenshtein_utf8($s1, $s2){
-	$charMap = array();
-	$s1 = utf8_to_extended_ascii($s1, $charMap);
-	$s2 = utf8_to_extended_ascii($s2, $charMap);
-	return levenshtein($s1, $s2);
-}
+        // Split word if width out of limit
+        if($metrics['textWidth'] > $maxWidth && mb_strlen($currentLine) > 1) {
+            for($j = mb_strlen($words[$i]) - 2; $j > 1; $j--) {
+                $metrics = $image->queryFontMetrics($draw, mb_substr($currentLine, 0, $j));
+                if($metrics['textWidth'] <= $maxWidth) {
+                    if(preg_match('/[。？！，、；：”’』」）】〕］》〉]/u', mb_substr($words[$i], $j, 1))) {
+                        $j++;
+                    }
+                    array_splice($words, $i, 1, [mb_substr($currentLine, 0, $j), mb_substr($currentLine, $j)]);
+                    break;
+                }
+            }
+            $currentLine = $words[$i];
+        }
 
-function getReplyMsg($company, $station, $toilet){
-	return $company.(mb_strlen($company.$station, 'UTF-8') >= 12 ? "\n" : ' ').$station.'站'
-		.(in_array($company, ['香港鐵路', '臺北捷運']) ? '衛生間' : '卫生间')."：\n".$toilet;
-}
+        if($i + 1 >= count($words)) {
+            $lines[] = $currentLine;
+            break;
+        }
 
-function getExactStationData($station){
-	$data = json_decode(getData('toilet/data.json'), true);
-	$result = [];
-	$stations = array_unique([$station, preg_replace('/站$/', '', $station), $station.'站']);
-	foreach($data as $companyName => $company){
-		foreach($stations as $station){
-			$stationNames = [$station];
-			$toiletInfo = $company[$stationNames[0]];
-			if(!$toiletInfo){
-				continue;
-			}else if(preg_match('/^Redirect=(.+)$/', $toiletInfo, $match)){
-				$stationNames = explode('&', $match[1]);
-			}
+        // Check to see if we can add another word to this line
+        $metrics = $image->queryFontMetrics($draw, $currentLine.' '.$words[$i + 1]);
+        while($metrics['textWidth'] <= $maxWidth) {
+            // If so, do it and keep doing it!
+            $currentLine .= ' '.$words[++$i];
+            if($i + 1 >= count($words)) {
+                break;
+            }
+            $metrics = $image->queryFontMetrics($draw, $currentLine.' '.$words[$i + 1]);
+        }
 
-			foreach($stationNames as $stationName){
-				$result[] = getReplyMsg($companyName, $stationName, $company[$stationName]);
-			}
-		}
-	}
-	return implode("\n\n", $result);
-}
-
-function getFuzzyStationNames($station, $unique = true){
-	$data = json_decode(getData('toilet/data.json'), true);
-	$similarNames = [];
-	foreach($data as $companyName => $company){
-		foreach($company as $stationName => $stationInfo){
-			$strDistance = levenshtein_utf8($station, $stationName);
-			if(mb_strlen($station) >= 2 && mb_strpos($stationName, $station, 0, 'UTF-8') !== false){
-				$similarNames[] = [
-					'name' => $stationName,
-					'distance' => 0,
-				];
-			}else if($strDistance <= min(4, mb_strlen($station, 'UTF-8') / 2)){
-				$similarNames[] = [
-					'name' => $stationName,
-					'distance' => $strDistance,
-				];
-			}
-		}
-	}
-	usort($similarNames, function($a, $b){
-		return $a['distance'] - $b['distance'];
-	});
-
-	$distanceLimit = $similarNames[count($similarNames) - 1]['distance'];
-	do{
-		$result = [];
-		foreach($similarNames as $stationName){
-			if($stationName['distance'] > $distanceLimit) break;
-			$result[] = $stationName['name'];
-		}
-		if($unique){
-			$result = array_unique($result);
-		}
-		$distanceLimit --;
-	}while(count($result) > 10 && $distanceLimit >= 0);
-
-	return $result;
+        // We can't add the next word to this line, so loop to the next line
+        $lines[] = $currentLine;
+        $i++;
+    }
+    return $lines;
 }
 
-?>
+function utf8_to_extended_ascii($str, &$map) {
+    $matches = array();
+    if(!preg_match_all('/[\xC0-\xF7][\x80-\xBF]+/', $str, $matches)) {
+        return $str;
+    }
+    foreach($matches[0] as $mbc) {
+        if(!isset($map[$mbc])) {
+            $map[$mbc] = chr(128 + count($map));
+        }
+    }
+
+    return strtr($str, $map);
+}
+function levenshtein_utf8($s1, $s2) {
+    $charMap = array();
+    $s1 = utf8_to_extended_ascii($s1, $charMap);
+    $s2 = utf8_to_extended_ascii($s2, $charMap);
+    return levenshtein($s1, $s2);
+}

@@ -2,42 +2,49 @@
 
 requireLvl(6);
 
-// 该 API 需要验证 sign，尚不清楚计算机制
-// $lines = json_decode(file_get_contents('https://96123.bmncc.com.cn/bjtt-subway-app/api/baseline/queryAllLinesChildStations'), true)['r'];
-$lines = json_decode(getCache('toilet/beijingStations.json'), true)['r'];
-$lines = json_decode(base64_decode($lines), true)['result'];
-$stationInfoApi = 'https://96123.bmncc.com.cn/bjtt-subway-app/api/inside/info';
-$data = json_decode(getData('toilet/data.json'), true);
-setCache('toilet/'.time().'.bak', json_encode($data));
-$data['北京轨道交通'] = [];
+// Init
+$toiletInfo = json_decode(getData('toilet/toiletInfo.json'), true);
+$citiesMeta = json_decode(getData('toilet/citiesMeta.json'), true);
+setCache('toilet/'.time().'.bak', json_encode($toiletInfo));
+$toiletInfo['beijing'] = [];
+$citiesMeta['beijing'] = [
+    'name' => '北京地铁',
+    'support' => true,
+    'source' => '北京轨道运营微信小程序',
+    'time' => date('Y/m/d'),
+    'color' => [
+        'main' => '#1B0082',
+    ],
+    'font' => 'CN',
+    'logo' => 'metro_logo_beijing.svg',
+];
 
-foreach($lines as $line){
-	foreach($line['listStations'] as $station){
-		if($data['北京轨道交通'][$station['stationNameCn']]) continue;
-		$data['北京轨道交通'][$station['stationNameCn']] = [];
-		$options = [
-			'http' => [
-				'method' => 'POST',
-				'header' => 'Content-Type: application/json',
-				'content' => json_encode(['stationName' => $station['stationNameCn']]),
-			],
-		];
-		$context = stream_context_create($options);
-		$stationInfo = json_decode(file_get_contents($stationInfoApi, false, $context), true)['r'];
-		$stationInfo = json_decode(base64_decode($stationInfo), true)['result'];
-		foreach($stationInfo['insideInfoList'] as $insideInfo){
-			if($insideInfo['insideCode'] == 'SF_TOILET'){
-				foreach($insideInfo['insideInfoDesc'] as $insideInfoDesc){
-					$data['北京轨道交通'][$station['stationNameCn']][] = '［'.preg_replace('/^(\d+)-(.+线)$/', '$1号线·$2', $insideInfoDesc['lineName']).'］'.preg_replace('/(\n|\r)+/', '；', trim($insideInfoDesc['insideDesc']));
-				}
-			}
-		}
-		if(!count($data['北京轨道交通'][$station['stationNameCn']])) $data['北京轨道交通'][$station['stationNameCn']] = '无数据，该站可能无卫生间';
-		else $data['北京轨道交通'][$station['stationNameCn']] = implode("\n", $data['北京轨道交通'][$station['stationNameCn']]);
-	}
+// Get data
+$lines = json_decode(file_get_contents('https://xiaochengxu.bjmoa.cn/shop/api/subway/subwayAllInfo'), true)['data'];
+$stationInfoApi = 'https://xiaochengxu.bjmoa.cn/shop/api/subway/stationInfo?stationDbid=';
+foreach($lines as $line) {
+    foreach($line['allStationInfos'] as $station) {
+        if(array_key_exists($station['stationName'], $toiletInfo['beijing'])) continue;
+        $toiletInfo['beijing'][$station['stationName']] = ['toilets' => []];
+        $stationInfo = json_decode(file_get_contents($stationInfoApi.$station['stationDbid']), true)['data'];
+        foreach($stationInfo['stationInfoServiceBase']['allService'] as $facility) {
+            if($facility['serviceFacilityName'] == '卫生间') {
+                $toiletInfo['beijing'][$station['stationName']]['toilets'][] = [
+                    'title' => $facility['serviceFacilityName'],
+                    'content' => $facility['serviceFacilityExit'],
+                ];
+            }
+        }
+    }
 }
 
-setData('toilet/data.json', json_encode($data));
-replyAndLeave('更新数据成功，共 '.count($data['北京轨道交通']).' 条数据');
+// Virtual transfer
+$toiletInfo['beijing']['复兴门']['redirect'] = ['太平桥'];
+$toiletInfo['beijing']['太平桥']['redirect'] = ['复兴门'];
+$toiletInfo['beijing']['广安门内']['redirect'] = ['牛街'];
+$toiletInfo['beijing']['牛街']['redirect'] = ['广安门内'];
 
-?>
+// Save data
+setData('toilet/toiletInfo.json', json_encode($toiletInfo));
+setData('toilet/citiesMeta.json', json_encode($citiesMeta));
+replyAndLeave('更新数据成功，共 '.count($toiletInfo['beijing']).' 条数据');

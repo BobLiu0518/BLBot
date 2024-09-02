@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #FFFFFF;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points="40 0 0 0 40 50 0 100 40 100 80 50 40 0"/>
+</svg>
