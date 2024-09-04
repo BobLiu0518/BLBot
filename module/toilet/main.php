@@ -94,6 +94,10 @@ if(!count($results) && !count($citiesNotSupported) && mb_strlen($stationName) >=
     ksort($similarStations);
 }
 
+if($fromMiddleware && !count($results) && !count($citiesNotSupported) && !count($similarStations)) {
+    leave();
+}
+
 // Draw init
 $imageWidth = max(1000, 100 + 80 + 100 + $maxStationNameWidth + 120);
 $currentX = $currentY = 0;
