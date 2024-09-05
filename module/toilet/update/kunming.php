@@ -28,7 +28,7 @@ $stationDataApi = 'https://zhcx.km-metro.com/api/station_info/get_data?stationNa
 foreach($lines as $line) {
     $citiesMeta['kunming']['color'][$line['label']] = $line['color'];
     foreach($line['children'] as $station) {
-        if(!preg_match('/^.+(汽车站|火车.*站)$/', $station['label'])) {
+        if(!preg_match('/(汽车站|火车.*站)$/', $station['label'])) {
             $station['label'] = preg_replace('/站$/', '', $station['label']);
         }
         if(!array_key_exists($station['label'], $toiletInfo['kunming'])) {
