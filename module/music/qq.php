@@ -14,5 +14,9 @@ if(!$id) {
     addCredit($Event['user_id'], 1000);
     replyAndLeave('没有找到歌曲 '.$name.' …');
 }
-$Queue[] = sendBack('[CQ:music,type=qq,id='.$id.']');
-replyAndLeave('点歌成功，扣除 1000 金币~');
+if(sendBackImmediately('[CQ:music,type=qq,id='.$id.']')) {
+    replyAndLeave('点歌成功，扣除 1000 金币~');
+} else {
+    addCredit($Event['user_id'], 1000);
+    replyAndLeave('点歌失败…');
+}
