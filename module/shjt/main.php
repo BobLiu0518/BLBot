@@ -2,49 +2,62 @@
 
 global $Queue;
 
-$apiA = "http://www.shjt.org.cn:8005/bus/TrafficLineXML.aspx?TypeID=1&name=";
-$apiB = "http://www.shjt.org.cn:8005/bus/TrafficLineXML.aspx?TypeID=2&lineid=0&name=";
+$routeSearchApi = 'https://api.shmaas.net/traffic/v3/querytrafficline';
+$routeDetailApi = 'https://api.shmaas.net/traffic/v1/querybuslineV2';
 
 $route = nextArg();
-$upDown = nextArg();
-if($route && $upDown == '上行' || $upDown == '上' || $upDown == '0' || $upDown === NULL)$upDown = '0';
-else if($route && $upDown == '下行' || $upDown == '下' || $upDown == '1')$upDown = '1';
-else replyAndLeave('参数错误…');
+if(!$route) replyAndLeave('？');
 
-$dataA = json_decode(getData('shjt/'.$route.'a.json'),true);
-$dataB = json_decode(getData('shjt/'.$route.'b.json'),true);
-if(!$dataA){
-	$dataA = json_decode(json_encode(simplexml_load_string(file_get_contents($apiA.urlencode($route)))), true);
-	setData('shjt/'.$route.'a.json', json_encode($dataA));
-}
-if(!$dataA)replyAndLeave("查询失败…(1/2)");
-if(!$dataB){
-	$dataB = json_decode(json_encode(simplexml_load_string(file_get_contents($apiB.urlencode($route)))), true);
-	setData('shjt/'.$route.'b.json', json_encode($dataB));
-}
-if(!$dataB)replyAndLeave('查询失败…(2/2)');
+$context = stream_context_create([
+    'http' => [
+        'method' => 'POST',
+        'header' => implode("\n", [
+            'Content-Type: application/json',
+            'X-Saic-CityCode: 310100',
+        ]),
+        'content' => json_encode([
+            'keywords' => $route,
+            'pageNo' => 1,
+            'pageSize' => 1,
+            'language' => 'zh-cn',
+            'type' => 0,
+        ]),
+    ],
+]);
+$routes = json_decode(file_get_contents($routeSearchApi, false, $context), true)['data']['trafficStop'];
+if(!count($routes)) replyAndLeave('未找到名为 '.$route.'的线路…');
 
-// 线路元信息
 $reply = <<<EOT
-线路名：{$dataA['line_name']}
-线路编码：{$dataA['line_id']}
+线路名：{$routes[0]['lineInfo']['lineName']}
+线路编码：{$routes[0]['lineInfo']['lineId']}
 
 EOT;
-$reply .= '运营时间：'.trim($dataA[($upDown?'end':'start').'_earlytime']).'-'.trim($dataA[($upDown?'end':'start').'_latetime'])."\n\n";
-$reply .= $upDown?'下行 设站：':'上行 设站：';
 
-// 线路设站
-foreach($dataB['lineResults'.$upDown]['stop'] as $station)
-		$reply .= "\n".$station['id'].' '.$station['zdmc'];
+foreach($routes[0]['lineInfo']['upDown'] ? [1, 0] : [1] as $direction) {
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => implode("\n", [
+                'Content-Type: application/json',
+                'X-Saic-CityCode: 310100',
+            ]),
+            'content' => json_encode([
+                'lineId' => $routes[0]['lineInfo']['lineId'],
+                'lineName' => $routes[0]['lineInfo']['lineName'],
+                'language' => 'zh-cn',
+                'busType' => $routes[0]['lineInfo']['lineType'],
+                'stopName' => '',
+                'direction' => $direction,
+            ]),
+        ],
+    ]);
+    $routeDetail = json_decode(file_get_contents($routeDetailApi, false, $context), true)['data']['busLine'];
+    $reply .= "\n【".($direction ? '上行' : '下行')."】\n";
+    $reply .= '运营时间：'.$routeDetail['earlyTime'].'-'.$routeDetail['lateTime']."\n";
 
-$reply .= <<<EOT
+    foreach($routeDetail['stop'] as $n => $stop) {
+        $reply .= ($n + 1).' '.$stop['stopName']."\n";
+    }
+}
 
-
-如果需要切换上下行
-请在命令最后加上上行或者下行哦
-记得先加个空格
-EOT;
-
-$Queue[]= replyMessage($reply);
-
-?>
+$Queue[] = replyMessage(trim($reply));
