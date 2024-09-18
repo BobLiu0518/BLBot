@@ -25,7 +25,7 @@ $context = stream_context_create([
     ],
 ]);
 $routes = json_decode(file_get_contents($routeSearchApi, false, $context), true)['data']['trafficStop'];
-if(!count($routes)) replyAndLeave('未找到名为 '.$route.'的线路…');
+if(!count($routes) || $routes[0]['type'] != 1) replyAndLeave('未找到名为 '.$route.' 的公交线路…');
 
 $reply = <<<EOT
 线路名：{$routes[0]['lineInfo']['lineName']}
