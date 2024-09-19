@@ -27,11 +27,7 @@ $context = stream_context_create([
 $routes = json_decode(file_get_contents($routeSearchApi, false, $context), true)['data']['trafficStop'];
 if(!count($routes) || $routes[0]['type'] != 1) replyAndLeave('未找到名为 '.$route.' 的公交线路…');
 
-$reply = <<<EOT
-线路名：{$routes[0]['lineInfo']['lineName']}
-线路编码：{$routes[0]['lineInfo']['lineId']}
-
-EOT;
+$reply = '［上海交通］'.$routes[0]['lineInfo']['lineName'].' #'.$routes[0]['lineInfo']['lineId']."\n";
 
 foreach($routes[0]['lineInfo']['upDown'] ? [1, 0] : [1] as $direction) {
     $context = stream_context_create([
@@ -52,8 +48,8 @@ foreach($routes[0]['lineInfo']['upDown'] ? [1, 0] : [1] as $direction) {
         ],
     ]);
     $routeDetail = json_decode(file_get_contents($routeDetailApi, false, $context), true)['data']['busLine'];
-    $reply .= "\n【".($direction ? '上行' : '下行')."】\n";
-    $reply .= '运营时间：'.$routeDetail['earlyTime'].'-'.$routeDetail['lateTime']."\n";
+    $reply .= "\n".($direction ? '上行' : '下行').' ';
+    $reply .= $routeDetail['earlyTime'].'-'.$routeDetail['lateTime']."\n";
 
     foreach($routeDetail['stop'] as $n => $stop) {
         $reply .= ($n + 1).' '.$stop['stopName']."\n";
