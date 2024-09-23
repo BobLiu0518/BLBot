@@ -19,6 +19,7 @@ $Debug = config('DEBUG', false);
 $DebugListen = config('DebugListen', config('master'));
 $Command = [];
 $Text = '';
+$Referer = null;
 
 block($Event['user_id']);
 
