@@ -20,12 +20,13 @@ $citiesMeta['xian'] = [
 ];
 
 // Get lines
-$lines = json_decode(file_get_contents('https://xm-cdn.oss-cn-hangzhou.aliyuncs.com/json/stationData.json', false, $context), true)['data'];
+$lines = json_decode(file_get_contents('https://xadt.i-xiaoma.com.cn/api/v1/app/subway/lines?appId=xianmetro&version=v20171215', false, $context), true)['data'];
 $stationDataApi = 'https://xadt.i-xiaoma.com.cn/api/v2/app/stationInfo';
 
 // Get stations
 foreach($lines as $line) {
-    $citiesMeta['xian']['color'][$line['lineName']] = $line['lineColor'];
+    $lineName = preg_replace('/^西安地铁/u', '', $line['lineName']);
+    $citiesMeta['xian']['color'][$lineName] = $line['lineColor'];
     foreach($line['lineStationList'] as $station) {
         if(!array_key_exists($station['stationName'], $toiletInfo['xian'])) {
             $toiletInfo['xian'][$station['stationName']] = ['toilets' => []];
@@ -43,7 +44,7 @@ foreach($lines as $line) {
             if(preg_match('/卫生间/', $facility['facilityName'])) {
                 foreach(explode('；', $facility['facilityDesc']) as $toilet) {
                     $toiletInfo['xian'][$station['stationName']]['toilets'][] = [
-                        'title' => $line['lineName'],
+                        'title' => $lineName,
                         'content' => $toilet,
                     ];
                 }
