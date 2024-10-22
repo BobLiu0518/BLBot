@@ -1,6 +1,7 @@
 <?php
 
 $message = trim(preg_replace('/\[CQ:at,qq='.config('bot').'(,name=.+?)?\]/', '', $Event['message']));
+$message = preg_replace('/\[CQ:face,id=(\d+?),large=\]/', '[CQ:face,id=$1]', $message);
 if(preg_match('/\[CQ:reply,id=(-?\d+?)\]/', $message, $matches)) {
     $Referer = $matches[1];
     $message = preg_replace('/\[CQ:reply,id=(-?\d+?)\]/', '', $message);
