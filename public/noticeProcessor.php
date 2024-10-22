@@ -8,9 +8,9 @@ switch($Event['notice_type']){
         if($Event['user_id'] != config('bot')){
             $addGroupMsg = getData('addGroupMsg/'.$Event['group_id']);
             if(!$addGroupMsg)
-                $Queue[]= sendBack(CQCode::At($Event['user_id']).config('addGroupMsg',' 欢迎加入本群，请阅读群公告~ 我是 BLBot，发送 #help 查看帮助~'));
+                $Queue[]= sendBack(CQCode::At($Event['user_id']).' '.config('addGroupMsg','欢迎加入本群，请阅读群公告~ 我是 BLBot，发送 #help 查看帮助~'));
             else
-                $Queue[]= sendBack(CQCode::At($Event['user_id']).trim($addGroupMsg));
+                $Queue[]= sendBack(CQCode::At($Event['user_id']).' '.trim($addGroupMsg));
         }else{
             $Queue[]= sendBack('BLBot 已加入本群，发送 #help 查看指令列表～');
         }
