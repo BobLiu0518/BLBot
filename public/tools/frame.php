@@ -168,6 +168,18 @@ function getFontPath(string $fontName) {
     return '../storage/font/'.$fontName;
 }
 
+function getConfig($group_id) {
+    $json = getData('config/'.$group_id.'.json');
+    if(!$json) {
+        $json = '{"mode":"blacklist","commands":[],"silence":false}';
+    }
+    return json_decode($json, true);
+}
+
+function setConfig($group_id, $data) {
+    setData('config/'.$group_id.'.json', json_encode($data));
+}
+
 /**
  * 清理缓存
  */
@@ -205,6 +217,24 @@ function sendRec($str): string {
  */
 function loadModule(string $module) {
     global $Event;
+    static $config;
+    if(fromGroup()) {
+        if(!$config) {
+            $config = getConfig($Event['group_id']);
+        }
+        $baseCommand = explode('.', $module)[0];
+        $moduleInList = in_array($baseCommand, $config['commands']);
+        if(!in_array($baseCommand, ['config']) && !preg_match('/\.tools$/', $module)) {
+            if($moduleInList && $config['mode'] == 'blacklist' || !$moduleInList && $config['mode'] == 'whitelist') {
+                if(!$config['silence']){
+                    replyAndLeave('该指令已被群指令配置禁用。');
+                }else{
+                    leave();
+                }
+            }
+        }
+    }
+
     if($Event['user_id'] == "80000000") {
         // $Queue[]= replyMessage('请不要使用匿名！');
         leave();
@@ -375,16 +405,6 @@ function isInsider() {
         }
     }
     return false;
-}
-
-/**
- * 继续执行脚本需要机器人主人权限
- * 是就继续，不是就抛出异常，返回权限不足
- */
-function requireInsider() {
-    if(!isInsider()) {
-        throw new InsiderRequiredException();
-    }
 }
 
 function nextArg() {
