@@ -135,7 +135,8 @@ function initGame() {
 
     setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'starting', 'players' => [$Event['user_id']], 'horse' => $assets['h']]));
 
-    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], "424");
+    $reaction = preg_match('/^\[CQ:face,id=(\d+)\]$/', $assets['h'], $match) ? $match[1] : '424';
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], $reaction);
     re('[CQ:reply,id='.$Event['message_id'].']已发起赛'.$assets['h'].'，发送“赛'.$assets['h']."”或指令 #rh 即可加入～\n赛".$assets['h']."将于一分钟后开始哦～");
     countDownGame(0);
 }
@@ -169,7 +170,9 @@ function joinGame() {
 
     $rhData['players'][] = $Event['user_id'];
     setData('rh/group/'.$Event['group_id'], json_encode($rhData));
-    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], "424");
+
+    $reaction = preg_match('/^\[CQ:face,id=(\d+)\]$/', $horse, $match) ? $match[1] : '424';
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], $reaction);
     replyAndLeave('加入赛'.$horse."成功，消耗了1000金币～\n现在赛".$horse.'场有'.count($rhData['players']).'匹'.$horse.'了～'.(json_decode(getData('rh/user/'.$Event['user_id']), true)['nickname'] ? '' : "\n现在可以使用 #rh.nickname 设置昵称了，快试试吧~"));
 }
 
