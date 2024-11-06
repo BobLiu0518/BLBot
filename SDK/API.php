@@ -1,7 +1,7 @@
 <?php
 namespace kjBot\SDK;
 
-class API{
+class API {
     const friend_poke = '/friend_poke';
     const group_poke = '/group_poke';
     const send_private_msg = '/send_private_msg';
@@ -54,4 +54,5 @@ class API{
     const send_guild_channel_msg = '/send_guild_channel_msg';
     const get_guild_service_profile = '/get_guild_service_profile';
     const get_guild_member_profile = '/get_guild_member_profile';
+    const set_group_reaction = '/set_group_reaction';
 }
