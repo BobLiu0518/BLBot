@@ -91,6 +91,7 @@ switch(getStatus($User_id)) {
                 $data['status'] = 'saucer';
                 $data['end'] = date('Ymd', time() + 86400); // 1 day
                 $reply = '🛸天空上突然出现了一台飞碟，你被外星人抓走了…';
+                $CQ->setGroupReaction($Event['group_id'], $Event['message_id'],'326');
                 setAttackData($Event['user_id'], $data);
             } else {
                 addCredit($Event['user_id'], $income);
