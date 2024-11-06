@@ -51,11 +51,6 @@ function getRandChar(int $num) {
 
 // 检查自定义马
 function legalCharCheck(string $str) {
-    // 屏蔽 id > 221 的表情
-    // https://github.com/kyubotics/coolq-http-api/wiki/%E8%A1%A8%E6%83%85-CQ-%E7%A0%81-ID-%E8%A1%A8
-    if(preg_match('/^\[CQ:face,id=(\d+)\]$/', $str, $matches) && intval($matches[1]) > 221) {
-        le('Bot 暂时不支持发送新表情…', false, true);
-    }
     return mb_strlen(preg_replace('/\\[CQ:(?:emoji|face),id=\\d*?\\]/', '啊', $str)) === 1;
 }
 
@@ -108,10 +103,10 @@ function initGame() {
             ['🦵', '🦿'],
             ['🤪', '🤩'],
             ['📷', '📸'],
-            // ['[CQ:face,id=339]', '[CQ:face,id=337]'], /* [舔屏] [花朵脸] */
+            ['[CQ:face,id=339]', '[CQ:face,id=337]'], /* [舔屏] [花朵脸] */
             ['[CQ:face,id=63]', '[CQ:face,id=64]'], /* [玫瑰] [凋谢] */
-            // ['[CQ:face,id=277]', '[CQ:face,id=317]'], /* [汪汪] [菜汪] */
-            // ['[CQ:face,id=344]', '[CQ:face,id=277]'], /* [大怨种] [汪汪] */
+            ['[CQ:face,id=277]', '[CQ:face,id=317]'], /* [汪汪] [菜汪] */
+            ['[CQ:face,id=344]', '[CQ:face,id=277]'], /* [大怨种] [汪汪] */
             ['[CQ:face,id=74]', '[CQ:face,id=75]'], /* [太阳] [月亮] */
         ];
         $randHorse = randomChoose($specialHorses);
