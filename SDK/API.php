@@ -25,6 +25,7 @@ class API{
     const set_group_admin = '/set_group_admin';
     const set_group_anonymous = '/set_group_anonymous';
     const set_group_card = '/set_group_card';
+    const set_group_name = '/set_group_name';
     const set_group_leave = '/set_group_leave';
     const set_group_special_title = '/set_group_special_title';
     const set_discuss_leave = '/set_discuss_leave';
