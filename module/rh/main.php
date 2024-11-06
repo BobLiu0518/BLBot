@@ -61,7 +61,7 @@ function legalCharCheck(string $str) {
 
 // 初始化游戏
 function initGame() {
-    global $Event;
+    global $Event, $CQ;
 
     requireLvl(3, '发起赛马', '等待其他群成员发起赛马后加入');
     setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'initializing']));
@@ -135,6 +135,7 @@ function initGame() {
 
     setData('rh/group/'.$Event['group_id'], json_encode(['status' => 'starting', 'players' => [$Event['user_id']], 'horse' => $assets['h']]));
 
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], "424");
     re('[CQ:reply,id='.$Event['message_id'].']已发起赛'.$assets['h'].'，发送“赛'.$assets['h']."”或指令 #rh 即可加入～\n赛".$assets['h']."将于一分钟后开始哦～");
     countDownGame(0);
 }
@@ -143,7 +144,7 @@ function initGame() {
 function joinGame() {
     // 不用 le()，因为 le() 会清除群赛马数据
 
-    global $Event;
+    global $Event, $CQ;
     loadModule('credit.tools');
     requireLvl(1, '加入赛马');
 
@@ -168,6 +169,7 @@ function joinGame() {
 
     $rhData['players'][] = $Event['user_id'];
     setData('rh/group/'.$Event['group_id'], json_encode($rhData));
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], "424");
     replyAndLeave('加入赛'.$horse."成功，消耗了1000金币～\n现在赛".$horse.'场有'.count($rhData['players']).'匹'.$horse.'了～'.(json_decode(getData('rh/user/'.$Event['user_id']), true)['nickname'] ? '' : "\n现在可以使用 #rh.nickname 设置昵称了，快试试吧~"));
 }
 
