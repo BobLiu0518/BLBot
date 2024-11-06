@@ -430,6 +430,17 @@ class CoolQ {
         return $this->query($api, $param);
     }
 
+    public function setGroupReaction($group_id, $message_id, $code, $is_add = true) {
+        $api = API::set_group_reaction;
+        $param = [
+            'group_id' => $group_id,
+            'message_id' => $message_id,
+            'code' => $code,
+            'is_add' => $is_add,
+        ];
+        return $this->query($api, $param);
+    }
+
     private function query($api, $param) {
         $param['access_token'] = $this->token;
         $options = [
