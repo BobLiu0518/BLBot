@@ -109,6 +109,7 @@ function initGame() {
             ['[CQ:face,id=277]', '[CQ:face,id=317]'], /* [汪汪] [菜汪] */
             ['[CQ:face,id=344]', '[CQ:face,id=277]'], /* [大怨种] [汪汪] */
             ['[CQ:face,id=74]', '[CQ:face,id=75]'], /* [太阳] [月亮] */
+            ['[CQ:face,id=419]', '[CQ:face,id=423]'], /* [火车] [复兴号] */
         ];
         $randHorse = randomChoose($specialHorses);
         $assets['h'] = $randHorse[0];
