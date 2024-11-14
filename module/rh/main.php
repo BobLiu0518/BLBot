@@ -258,7 +258,7 @@ function startGame($rhData) {
                 ]);
             } else {
                 // 诈尸 50%（消失马 0%）
-                $horses[$target]->goAhead(rand(0, 3) ? rand(1, 5) : rand(-5, -1));
+                $horses[$target]->goAhead(rand(0, 3) ? rand(3, 5) : rand(-5, -3));
                 $corpseFraudulent = $target;
                 reEvent($target, getRandChar(rand(1, 3))."诈".getRandChar(rand(1, 2))."尸".getRandChar(rand(1, 3))."了");
             }
