@@ -61,17 +61,31 @@ function attack($from, $target, $atTarget, $dreaming = false) {
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400 * 2);
-				$message = "抢劫 {$atTarget} 很成功，但刚准备开润，你的手腕上就多了一副银镯子。\n(被罚款 {$fine} 金币，入狱 2 天)";
+				$message = randString([
+					"抢劫 {$atTarget} 很成功，但刚准备开润，你的手腕上就多了一副银镯子。\n(被罚款 {$fine} 金币，入狱 2 天)",
+					"你对着 {$atTarget} 喊“打劫”时用了扩音器，全城的警察都赶来了。\n(被罚款 {$fine} 金币，入狱 2 天)",
+					"你正得意洋洋地挥舞着从 {$atTarget} 手里抢来的钱包，突然从路人的手机中传出了：“某人因抢劫被抓，罚款 {$fine} 金币，入狱 2 天。”对，这说的就是你。",
+				]);
 			} else if($success && !$prison) {
 				decCredit($target, $getMoney, true);
 				addCredit($from, $getMoney);
-				$message = randString(["你成功从 {$atTarget} 手上夺走了 {$getMoney} 金币。", "你从 {$atTarget} 口袋里摸走了 {$getMoney} 金币。", "{$atTarget} 立刻投降，你顺走了 {$getMoney} 金币。"]);
+				$message = randString([
+					"你成功从 {$atTarget} 手上夺走了 {$getMoney} 金币。",
+					"你从 {$atTarget} 口袋里摸走了 {$getMoney} 金币。",
+					"你敏捷如风，轻松从 {$atTarget} 身上搜刮了 {$getMoney} 金币，潇洒离开。",
+					"{$atTarget} 从钱包拿出 {$getMoney} 金币递给你，竟然还贴心地提醒：“别忘了找零。”",
+				]);
 			} else if(!$success && $prison) {
 				$fine = ceil(500 * $magnification);
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400);
-				$message = randString(["正在你向 {$atTarget} 喊出“打劫”的时候，一旁的警察瞥了你一眼。\n(被罚款 {$fine} 金币，入狱 1 天)"]);
+				$message = randString([
+					"正在你向 {$atTarget} 喊出“打劫”的时候，一旁的警察瞥了你一眼。\n(被罚款 {$fine} 金币，入狱 1 天)",
+					"你打劫 {$atTarget} 后，正准备逃跑时踩到了香蕉皮，摔了个狗吃屎，恰好被巡逻的警察按住。\n(被罚款 {$fine} 金币，入狱 1 天)",
+					"你抢劫 {$atTarget} 的现场被直播了，粉丝们一致投票：送你去吃牢饭！\n(被罚款 {$fine} 金币，入狱 1 天)",
+					"你刚抢到一半，{$atTarget} 的朋友们突然从四面八方冲出来，把你绑成了一个粽子送警察。\n(被罚款 {$fine} 金币，入狱 1 天)",
+				]);
 			} else if(!$success && !$prison) {
 				if(rand(1, 100) <= 4) {
 					$event = rand(1, 5);
@@ -105,7 +119,14 @@ function attack($from, $target, $atTarget, $dreaming = false) {
 							break;
 					}
 				} else {
-					$message = randString(["你试图打劫 {$atTarget}。他把钱包翻了出来，发现是空的。", "{$atTarget} 一看到你就溜了。", "你正准备打劫 {$atTarget}，但突然发现旁边有警察，只好开始尬聊天气。"]);
+					$message = randString([
+						"你试图打劫 {$atTarget}。他把钱包翻了出来，发现是空的。",
+						"{$atTarget} 一看到你就溜了。",
+						"你对着 {$atTarget} 的口袋伸出了手，结果掏出了一堆maimai游戏币。",
+						"你偷偷摸摸接近 {$atTarget}，结果发现他正在刷银行卡，余额负数，溜了溜了。",
+						"你盯上了 {$atTarget}，但对方突然掏出一把更大的刀，你转身就跑了！",
+						"你喊了声‘打劫’，却发现 {$atTarget} 是个魔术师，转眼间人和钱包都消失了。",
+					]);
 				}
 			}
 			break;
