@@ -4,25 +4,25 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('jrrp.tools');
 
-if(!function_exists('randString')){
-	function randString(array $strArr){
-		return $strArr[rand(0, sizeof($strArr)-1)];
+if(!function_exists('randString')) {
+	function randString(array $strArr) {
+		return $strArr[rand(0, sizeof($strArr) - 1)];
 	}
 }
 
-function attack($from, $target, $atTarget, $dreaming = false){
+function attack($from, $target, $atTarget, $dreaming = false) {
 	global $Event;
 	$magnification = floatval(getData('attack/group/'.$Event['group_id']));
-	if(!$magnification){
+	if(!$magnification) {
 		$magnification = 1;
 	}
 	$data = getAttackData($from);
 	$message = '';
-	switch($data['status']){
+	switch($data['status']) {
 		case 'imprisoned':
-			if(rand(0, 1)){
+			if(rand(0, 1)) {
 				$message = "狱警发现了你的小动作，对你进行了口头警告。";
-			}else{
+			} else {
 				$data['status'] = 'confined';
 				$message = "狱警发现了你的小动作，把你关进了禁闭室。";
 			}
@@ -56,26 +56,26 @@ function attack($from, $target, $atTarget, $dreaming = false){
 			if(getCredit($target) - 10000 <= $getMoney) $getMoney = getCredit($target) - 9999;
 			if(getCredit($target) < 10000) $success = false;
 
-			if($success && $prison){
+			if($success && $prison) {
 				$fine = ceil(sqrt($getMoney) * 10 + 500 * $magnification);
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400 * 2);
 				$message = "抢劫 {$atTarget} 很成功，但刚准备开润，你的手腕上就多了一副银镯子。\n(被罚款 {$fine} 金币，入狱 2 天)";
-			}else if($success && !$prison){
+			} else if($success && !$prison) {
 				decCredit($target, $getMoney, true);
 				addCredit($from, $getMoney);
 				$message = randString(["你成功从 {$atTarget} 手上夺走了 {$getMoney} 金币。", "你从 {$atTarget} 口袋里摸走了 {$getMoney} 金币。", "{$atTarget} 立刻投降，你顺走了 {$getMoney} 金币。"]);
-			}else if(!$success && $prison){
+			} else if(!$success && $prison) {
 				$fine = ceil(500 * $magnification);
 				decCredit($from, $fine, true);
 				$data['status'] = 'imprisoned';
 				$data['end'] = date('Ymd', time() + 86400);
 				$message = randString(["正在你向 {$atTarget} 喊出“打劫”的时候，一旁的警察瞥了你一眼。\n(被罚款 {$fine} 金币，入狱 1 天)"]);
-			}else if(!$success && !$prison){
-				if(rand(1, 100) <= 4){
+			} else if(!$success && !$prison) {
+				if(rand(1, 100) <= 4) {
 					$event = rand(1, 5);
-					switch($event){
+					switch($event) {
 						case 1:
 							decCredit($from, 10000, true);
 							$data['status'] = 'hospitalized';
@@ -104,8 +104,8 @@ function attack($from, $target, $atTarget, $dreaming = false){
 							$message = "你正在打劫 {$atTarget} 的路上，突然感觉到一阵晕眩。醒来时，你听见有人正在声称自己不是应急食品。";
 							break;
 					}
-				}else{
-					$message = randString(["你试图打劫 {$atTarget}。他把钱包翻了出来，发现是空的。", "{$atTarget} 一看到你就溜了。","你正准备打劫 {$atTarget}，但突然发现旁边有警察，只好开始尬聊天气。"]);
+				} else {
+					$message = randString(["你试图打劫 {$atTarget}。他把钱包翻了出来，发现是空的。", "{$atTarget} 一看到你就溜了。", "你正准备打劫 {$atTarget}，但突然发现旁边有警察，只好开始尬聊天气。"]);
 				}
 			}
 			break;
@@ -114,13 +114,13 @@ function attack($from, $target, $atTarget, $dreaming = false){
 
 	return $message;
 }
-function getAttackData($user_id){
+function getAttackData($user_id) {
 	global $Queue, $Event;
 	$file = getData('attack/user/'.$user_id);
 	$data = json_decode($file ? $file : '{"status":"free","end":"0","count":{"date":"0","times":0}}', true);
 
-	if($Event['user_id'] == $user_id && $data['status'] != 'free' && intval($data['end']) <= intval(date('Ymd'))){
-		switch($data['status']){
+	if($Event['user_id'] == $user_id && $data['status'] != 'free' && intval($data['end']) <= intval(date('Ymd'))) {
+		switch($data['status']) {
 			case 'imprisoned':
 			case 'confined':
 				$message = '恭喜出狱啦～';
@@ -139,15 +139,15 @@ function getAttackData($user_id){
 				break;
 			case 'saucer':
 				$message = '外星人发现你没有什么研究价值。把你丢回地球了。';
-				break; 
+				break;
 		}
-		$Queue[]= replyMessage($message);
+		$Queue[] = replyMessage($message);
 		$data['status'] = 'free';
 		$data['end'] = '0';
 		setAttackData($user_id, $data);
 	}
 
-	if($data['count']['date'] < date('Ymd')){
+	if($data['count']['date'] < date('Ymd')) {
 		$data['count']['date'] = date('Ymd');
 		$data['count']['times'] = 0;
 		setAttackData($user_id, $data);
@@ -156,19 +156,17 @@ function getAttackData($user_id){
 	return $data;
 }
 
-function setAttackData($user_id, $data){
+function setAttackData($user_id, $data) {
 	setData('attack/user/'.$user_id, json_encode($data));
 }
 
-function getStatus($user_id){
+function getStatus($user_id) {
 	// free / imprisoned / confined / hospitalized / arknights / genshin / universe
 	return getAttackData($user_id)['status'];
 }
 
-function getStatusEndTime($user_id){
+function getStatusEndTime($user_id) {
 	$time = getAttackData($user_id)['end'];
 	if($time > 29991231) return '∞';
 	return substr_replace(substr_replace($time, '/', 6, 0), '/', 4, 0);
 }
-
-?>
