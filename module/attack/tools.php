@@ -125,7 +125,7 @@ function attack($from, $target, $atTarget, $dreaming = false) {
 						"你对着 {$atTarget} 的口袋伸出了手，结果掏出了一堆maimai游戏币。",
 						"你偷偷摸摸接近 {$atTarget}，结果发现他正在刷银行卡，余额负数，溜了溜了。",
 						"你盯上了 {$atTarget}，但对方突然掏出一把更大的刀，你转身就跑了！",
-						"你喊了声‘打劫’，却发现 {$atTarget} 是个魔术师，转眼间人和钱包都消失了。",
+						"你喊了声“打劫”，却发现 {$atTarget} 是个魔术师，转眼间人和钱包都消失了。",
 					]);
 				}
 			}
