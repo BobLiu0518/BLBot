@@ -20,14 +20,9 @@ foreach($targets as $target) {
 
     // 匹配节数
     $section = null;
-    $isTimeFullyMatched = false;
     $sectionTimes = json_decode($data['setting']['sectionTimes'], true);
     foreach($sectionTimes as $sectionTime) {
-        if($time >= $sectionTime['s'] && $time <= $sectionTime['e']) {
-            $isTimeFullyMatched = true;
-            $section = $sectionTime['i'];
-            break;
-        } else if($time <= $sectionTime['s']) {
+        if($time >= $sectionTime['s'] && $time <= $sectionTime['e'] || $time <= $sectionTime['s']) {
             $section = $sectionTime['i'];
             break;
         }
@@ -54,43 +49,40 @@ foreach($targets as $target) {
         continue;
     }
     $result = null;
-    foreach($todayCourses as $todayCourse) {
-        if(in_array($section, explode(',', $todayCourse['sections']))) {
-            if($isTimeFullyMatched) {
-                $sections = explode(',', $todayCourse['sections']);
-                $startTime = $sectionTimes[intval($sections[0]) - 1]['s'];
-                $endTime = $sectionTimes[intval($sections[count($sections) - 1]) - 1]['e'];
-                $result = "正在上 {$todayCourse['name']}（{$startTime}~{$endTime}）";
-            } else {
-                $startTime = $sectionTimes[intval($sections[0]) - 1]['s'];
-                $result = "准备上 {$todayCourse['name']}（{$startTime}起）";
-            }
-            break;
-        } else if($section < intval(explode(',', $todayCourse['sections'])[0])) {
-            $startTime = $sectionTimes[intval($sections[0]) - 1]['s'];
-            $result = "准备上 {$todayCourse['name']}（{$startTime}起）";
+    foreach($todayCourses as $course) {
+        $sections = explode(',', $course['sections']);
+        if(in_array($section, $sections) || $section < intval($sections[0])) {
+            $result = $course;
             break;
         }
     }
-    if($result === null) $result = '今日课程已上完';
-    $results[$target->user_id] = $result;
+    if($result === null) {
+        $results[$target->user_id] = '今日课程已上完';
+    } else {
+        $startTime = $sectionTimes[$sections[0] - 1]['s'];
+        $endTime = $sectionTimes[$sections[count($sections) - 1] - 1]['e'];
+        if($time < $startTime) {
+            $results[$target->user_id] = "准备上「{$result['name']}」\n（{$startTime} 开始）";
+        } else {
+            $results[$target->user_id] = "正在上「{$result['name']}」\n（{$startTime}~{$endTime}）";
+        }
+    }
 }
 
 if(!count($results)) {
     replyAndLeave(fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…');
 } else {
     if(fromGroup()) {
-        $reply = '群友在：';
+        $reply = [];
         foreach($results as $user_id => $content) {
             $user = $CQ->getGroupMemberInfo($Event['group_id'], $user_id);
             $nickname = $user->card ?? $user->nickname;
-            $reply .= "\n[ {$nickname} ]\n‣ {$content}";
+            $reply[] = "[ {$nickname} ]\n‣ {$content}";
         }
+        replyAndLeave(implode("\n\n", $reply));
     } else {
-        $reply = '';
         foreach($results as $user_id => $content) {
-            $reply .= $content;
+            replyAndLeave($content);
         }
     }
-    replyAndLeave($reply);
 }
