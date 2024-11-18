@@ -1,0 +1,3 @@
+<?php
+
+loadModule('schedule.ai');

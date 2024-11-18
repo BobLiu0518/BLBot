@@ -1,6 +1,7 @@
 <?php
 
 require('redpack.php');
+require('schedule.php');
 require('autoBan.php');
 require('atBot.php');
 require('alias.php');
@@ -17,5 +18,3 @@ require('v50.php');
 require('repeat.php');
 require('help.php');
 require('fakeCheckin.php');
-
-?>
