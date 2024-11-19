@@ -15,9 +15,9 @@ if(!$code) {
 2. 点击右上角的分享按钮，选择“在线分享课表”，复制口令；
 3. 发送指令 #schedule.wakeup <口令>，注意指令中不包含括号。
 EOT);
-} else if(preg_match('/分享口令为「(.+?)」/u', $code, $matches)) {
+} else if(preg_match('/「([0-9a-zA-Z\-_]+?)」/u', $code, $matches)) {
     $code = $matches[1];
-} else if(!preg_match('/^[0-9a-zA-Z\-_]+$/', $code)) {
+} else if(!preg_match('/^[0-9a-zA-Z\-_]+$/u', $code)) {
     replyAndLeave('这好像不是 WakeUp 课程表的口令哦…');
 }
 
