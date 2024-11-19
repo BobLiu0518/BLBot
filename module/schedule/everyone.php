@@ -2,6 +2,7 @@
 
 global $CQ, $Event;
 requireLvl(1);
+loadModule('schedule.tools');
 
 if(fromGroup()) {
     $targets = $CQ->getGroupMemberList($Event['group_id']);
@@ -13,22 +14,12 @@ $time = date('H:i');
 
 $results = [];
 foreach($targets as $target) {
-    $data = getData('schedule/'.$target->user_id);
-    if(!$data) continue;
-    $data = json_decode($data, true);
+    try {
+        $todayCourses = getCourses($target->user_id, time());
+    } catch (Exception $e) {
+        continue;
+    }
 
-    // 匹配周数
-    $semesterStart = new DateTime('@'.$data['semesterStart']);
-    $semesterStart->modify('Monday this week');
-    $currentWeekStart = new DateTime();
-    $currentWeekStart->modify('Monday this week');
-    $currentWeek = floor($semesterStart->diff($currentWeekStart)->days / 7) + 1;
-
-    // 匹配当日课程
-    // 第{$currentWeek}周 周{$weekday}
-    $todayCourses = array_filter($data['courses'], function ($course) use ($weekday, $currentWeek) {
-        return $course['day'] == $weekday && in_array($currentWeek, $course['weeks']);
-    });
     if(!count($todayCourses)) {
         $results[$target->user_id] = ' ‣ 今日无课';
         continue;
