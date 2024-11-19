@@ -58,7 +58,7 @@ if(!count($results)) {
         foreach($results as $user_id => $content) {
             $user = $CQ->getGroupMemberInfo($Event['group_id'], $user_id);
             $nickname = $user->card ?? $user->nickname;
-            $reply[] = "[ {$nickname} ]\n{$content}";
+            $reply[] = "〖{$nickname}〗\n{$content}";
         }
         replyAndLeave(implode("\n", $reply));
     } else {
