@@ -25,6 +25,11 @@ $data = json_decode(file_get_contents($api), true)['data'];
 
 $name = $data['name'];
 $semesterStart = json_decode($data['setting']['extend'], true)['startSemester'] / 1000;
+if(!$semesterStart) {
+    $dateTime = new DateTime('Monday this week');
+    $dateTime->modify('-'.($data['setting']['presentWeek'] - 1).'weeks');
+    $semesterStart = $dateTime->getTimestamp();
+}
 
 $sectionTimes = [];
 foreach(json_decode($data['setting']['sectionTimes'], true) as $sectionTime) {
