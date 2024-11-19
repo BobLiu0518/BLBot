@@ -22,7 +22,7 @@ foreach($targets as $target) {
     $semesterStart->modify('Monday this week');
     $currentWeekStart = new DateTime();
     $currentWeekStart->modify('Monday this week');
-    $currentWeek = ceil($semesterStart->diff($currentWeekStart)->days / 7) + 1;
+    $currentWeek = floor($semesterStart->diff($currentWeekStart)->days / 7) + 1;
 
     // 匹配当日课程
     // 第{$currentWeek}周 周{$weekday}
