@@ -10,7 +10,6 @@ if(fromGroup()) {
 }
 $weekday = date('N');
 $time = date('H:i');
-$week = intval(date('W'));
 
 $results = [];
 foreach($targets as $target) {
@@ -46,7 +45,11 @@ foreach($targets as $target) {
         }
     }
     if(!$results[$target->user_id]) {
-        $results[$target->user_id] = ' ‣ 今日课程已上完';
+        $total = 0;
+        foreach($todayCourses as $course) {
+            $total += strtotime($course['endTime']) - strtotime($course['startTime']);
+        }
+        $results[$target->user_id] = ' ‣ 今日课程已上完，共 '.round($total / 60 / 60, 1).' 小时';
     }
 }
 
