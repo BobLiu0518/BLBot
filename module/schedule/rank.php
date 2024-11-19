@@ -2,6 +2,7 @@
 
 global $CQ, $Event;
 requireLvl(1);
+loadModule('schedule.tools');
 
 if(!fromGroup()) {
     replyAndLeave('不在群内哦…');
@@ -18,13 +19,7 @@ foreach($targets as $target) {
     $data = getData('schedule/'.$target->user_id);
     if(!$data) continue;
     $data = json_decode($data, true);
-
-    // 匹配周数
-    $semesterStart = new DateTime('@'.$data['semesterStart']);
-    $semesterStart->modify('Monday this week');
-    $currentWeekStart = new DateTime();
-    $currentWeekStart->modify('Monday this week');
-    $currentWeek = ceil($semesterStart->diff($currentWeekStart)->days / 7) + 1;
+    $currentWeek = getWeek($data['semesterStart'], time());
 
     $total = 0;
     foreach($data['courses'] as $course) {
