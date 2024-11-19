@@ -12,6 +12,7 @@ $type = intval(nextArg());
 $types = [
     ['name' => '本周', 'round' => 1,],
     ['name' => '本学期', 'round' => 0],
+    ['name' => '今日', 'round' => 2],
 ];
 
 $results = [];
@@ -20,6 +21,7 @@ foreach($targets as $target) {
     if(!$data) continue;
     $data = json_decode($data, true);
     $currentWeek = getWeek($data['semesterStart'], time());
+    $weekday = date('w');
 
     $total = 0;
     foreach($data['courses'] as $course) {
@@ -27,6 +29,8 @@ foreach($targets as $target) {
             $total += strtotime($course['endTime']) - strtotime($course['startTime']);
         } else if($type == 1) {
             $total += (strtotime($course['endTime']) - strtotime($course['startTime'])) * count($course['weeks']);
+        } else if($type == 2 && in_array($currentWeek, $course['weeks']) && $course['day'] == $weekday) {
+            $total += strtotime($course['endTime']) - strtotime($course['startTime']);
         }
     }
     $results[] = [
@@ -47,7 +51,7 @@ if(!count($results)) {
         $n++;
         $user = $CQ->getGroupMemberInfo($Event['group_id'], $data['user_id']);
         $nickname = $user->card ?? $user->nickname;
-        $totalHours = round($data['total'] / 60 / 60, $types[$type]['round']);
+        $totalHours = number_format($data['total'] / 60 / 60, $types[$type]['round']);
         $reply .= "\n#{$n} {$totalHours}小时 @{$nickname}";
     }
     replyAndLeave($reply);
