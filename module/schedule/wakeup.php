@@ -51,8 +51,13 @@ foreach($data[4] as $course) {
     for($i = $course['startWeek']; $i <= $course['endWeek']; $i++) {
         $weeks[] = $i;
     }
-    $startTime = $course['startTime'] ?: $nodesInfo[$course['startNode']]['startTime'];
-    $endTime = $course['endTime'] ?: $nodesInfo[$course['startNode'] + $course['step'] - 1]['endTime'];
+    if($course['ownTime']) {
+        $startTime = $course['startTime'];
+        $endTime = $course['endTime'];
+    } else {
+        $startTime = $nodesInfo[$course['startNode']]['startTime'];
+        $endTime = $nodesInfo[$course['startNode'] + $course['step'] - 1]['endTime'];
+    }
     $courses[] = [
         'name' => $courseInfo[$course['id']],
         'weeks' => $weeks,
