@@ -21,7 +21,7 @@ foreach($targets as $target) {
     if(!$data) continue;
     $data = json_decode($data, true);
     $currentWeek = getWeek($data['semesterStart'], time());
-    $weekday = date('w');
+    $weekday = date('N');
 
     $total = 0;
     foreach($data['courses'] as $course) {
