@@ -6,6 +6,7 @@ loadModule('schedule.tools');
 global $Event, $CQ;
 $target = nextArg() ?? $Event['user_id'];
 if(!is_numeric($target)) $target = parseQQ($target);
+if(!is_numeric($target)) $target = $Event['user_id'];
 $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
 $nickname = $user->card ?? $user->nickname;
 
