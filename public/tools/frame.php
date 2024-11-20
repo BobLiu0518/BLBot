@@ -91,7 +91,7 @@ function sendMaster(string $msg, bool $auto_escape = false, bool $async = false)
     return new Message($msg, config('master'), false, $auto_escape, $async);
 }
 
-function sendDevGroup(string $msg, bool $auto_escape = false, bool $async = false): Message {
+function sendDevGroup(string $msg, bool $auto_escape = false, bool $async = false): ?Message {
     if(config('devgroup'))
         return new Message($msg, config('devgroup'), true, $auto_escape, $async);
 }
@@ -160,6 +160,26 @@ function getCacheFolderContents(string $folderPath) {
     return array_diff($contents, ['.', '..']);
 }
 
+function getAvatar($user_id, $large = false) {
+    global $Config;
+    $refreshInverval = $Config['avatarCacheTime'] ?? 86400;
+    $size = $large ? 640 : 100;
+    $cacheFile = "avatar/{$size}/{$user_id}";
+    $avatar = getCache($cacheFile);
+    if(!$avatar || time() - filemtime(getCachePath($cacheFile)) > $refreshInverval) {
+        $avatar = file_get_contents("https://q1.qlogo.cn/g?b=qq&s={$size}&nk={$user_id}");
+        $img = new Imagick();
+        $img->readImageBlob($avatar);
+        $img->setImageFormat('png');
+        $img->setImageAlphaChannel(Imagick::ALPHACHANNEL_ACTIVATE);
+        $avatar = $img->getImagesBlob();
+        $img->clear();
+        $img->destroy();
+        setCache('avatar/'.$user_id, $avatar);
+    }
+    return $avatar;
+}
+
 function getImg(string $filePath) {
     return file_get_contents('../storage/img/'.$filePath);
 }
@@ -226,9 +246,9 @@ function loadModule(string $module) {
         $moduleInList = in_array($baseCommand, $config['commands']);
         if(!in_array($baseCommand, ['config']) && !preg_match('/\.tools$/', $module)) {
             if($moduleInList && $config['mode'] == 'blacklist' || !$moduleInList && $config['mode'] == 'whitelist') {
-                if(!$config['silence']){
+                if(!$config['silence']) {
                     replyAndLeave('该指令已被群指令配置禁用。');
-                }else{
+                } else {
                     leave();
                 }
             }
