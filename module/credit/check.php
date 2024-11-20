@@ -5,6 +5,7 @@ use kjBot\SDK\CQCode;
 loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
+loadModule('nickname.tools');
 
 $QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)) {
@@ -78,6 +79,6 @@ switch($status) {
 }
 
 if($Event['user_id'] != $QQ) {
-	$msg = preg_replace('/您|你/', '@'.($CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card ? $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->card : $CQ->getGroupMemberInfo($Event['group_id'], $QQ)->nickname).' ', $msg);
+	$msg = preg_replace('/您|你/', '@'.getNickname($QQ).' ', $msg);
 }
 $Queue[] = replyMessage($msg);
