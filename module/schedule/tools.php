@@ -18,7 +18,7 @@ function getCourses($user_id, $date) {
     }
     $data = json_decode($data, true);
     $week = getWeek($data['semesterStart'], $date);
-    $weekday = date('w', $date);
+    $weekday = date('N', $date);
 
     $courses = array_filter($data['courses'], function ($course) use ($week, $weekday) {
         return in_array($week, $course['weeks']) && $weekday == $course['day'];
