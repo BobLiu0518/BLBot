@@ -1,13 +1,36 @@
 # BLBot
+
 [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
-[![基于kjBot](https://img.shields.io/badge/%E5%9F%BA%E4%BA%8E-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
-[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
+[![Based on kjBot](https://img.shields.io/badge/Based%20on-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
+[![Dev group](https://img.shields.io/badge/Dev%20group-789029454-blue.svg)](https://jq.qq.com/?_wv=1027&k=5FBe63r)
 
-BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的QQ机器人。
+BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的 QQ 机器人。
 
-## 请使用 Lagrange
+## 安装依赖
+
+在开始之前，你需要安装 BLBot 依赖的运行环境：
+
+### OneBot 环境
 
 本项目开发目标为 Lagrange。为获得最好的效果，请您使用 [Lagrange.OneBot](https://github.com/KonataDev/Lagrange.Core) 运行。
+
+使用 [其他 OneBot 11/10 实现](https://onebot.dev/ecosystem.html#onebot-11-10-cqhttp) 也能运行 BLBot，但部分功能可能不可用。
+
+### 数据库
+
+BLBot 使用 [MongoDB](https://www.mongodb.com/) 作为数据库。
+
+为了使用 MongoDB，你需要创建一个 BLBot 使用的账户。可在 `mongosh` 中执行以下指令：
+
+```javascript
+db.createUser({
+    user: 'appUser', // 用户名
+    pwd: 'appPassword', // 密码
+    roles: [{ role: 'readWrite', db: 'BLBot' }],
+});
+```
+
+将其中的 `user` 和 `pwd` 字段的内容分别填入 `config.ini` 的 `dbUsername` 和 `dbPassword` 中。如果没有更改过 MongoDB 的端口号，`dbPort` 可以留空。
 
 ## 框架结构
 
@@ -49,7 +72,7 @@ cd BLBot/
 
 ### 入门
 
-`public/init.php` 中存在一个全局变量区供编写模块的程序员使用，约定本框架产生的全局变量均为大写字母开头。  
+`public/init.php` 中存在一个全局变量区供编写模块的程序员使用，约定本框架产生的全局变量均为大写字母开头。
 
 `public/tools/` 下的文件将为框架扩展各类方法，请仔细阅读。
 
@@ -77,19 +100,19 @@ if(!fromGroup()){ //如果消息不是来自群聊
 
 ## 感谢
 
-- [richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)
-  - 酷Q 与许多 Bot 之间的桥梁
-- [kilingzhang/coolq-php-sdk](https://github.com/kilingzhang/coolq-php-sdk)
-  - kjBot 的起源
-- [kj415j45/jkBot](https://github.com/kj415j45/jkBot)
-  - kjBot 的零代
-- 框架作者
-  - [kj415j45](https://github.com/kj415j45)
-- 贡献者
-  - [Cyanoxygen](https://github.com/Cyanoxygen)
-  - [Baka-D](https://github.com/Baka-D)
-  - [lslqtz](https://github.com/lslqtz)
-  - [LovelyA72](https://github.com/LovelyA72)
+-   [richardchien/coolq-http-api](https://github.com/richardchien/coolq-http-api)
+    -   酷 Q 与许多 Bot 之间的桥梁
+-   [kilingzhang/coolq-php-sdk](https://github.com/kilingzhang/coolq-php-sdk)
+    -   kjBot 的起源
+-   [kj415j45/jkBot](https://github.com/kj415j45/jkBot)
+    -   kjBot 的零代
+-   框架作者
+    -   [kj415j45](https://github.com/kj415j45)
+-   贡献者
+    -   [Cyanoxygen](https://github.com/Cyanoxygen)
+    -   [Baka-D](https://github.com/Baka-D)
+    -   [lslqtz](https://github.com/lslqtz)
+    -   [LovelyA72](https://github.com/LovelyA72)
 
 ## LICENSE
 
