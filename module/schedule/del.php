@@ -2,10 +2,10 @@
 
 global $Event;
 
-$data = getData('schedule/'.$Event['user_id']);
+$db = new BLBot\Database('schedule');
+$data = $db->get($Event['user_id']);
 if(!$data) {
     replyAndLeave('未储存课程表信息…');
 }
-$name = json_decode($data, true)['name'];
-delData('schedule/'.$Event['user_id']);
-replyAndLeave("删除课表 {$name} 信息成功。");
+$db->delete($Event['user_id']);
+replyAndLeave("删除课表 {$data['name']} 信息成功。");

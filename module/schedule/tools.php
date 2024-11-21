@@ -1,5 +1,24 @@
 <?php
 
+function getScheduleData($user_id) {
+    static $db;
+    if(!$db) $db = new BLBot\Database('schedule');
+    return $db->get($user_id);
+}
+
+function setScheduleData($user_id, $name, $semesterStart, $courses) {
+    usort($courses, function ($a, $b) {
+        return $a['startTime'] <=> $b['startTime'];
+    });
+
+    $db = new BLBot\Database('schedule');
+    return $db->set($user_id, [
+        'name' => $name,
+        'semesterStart' => $semesterStart,
+        'courses' => $courses,
+    ]);
+}
+
 function getWeek($semesterStart, $current) {
     $timezone = new DateTimeZone('Asia/Shanghai');
     $semesterStart = new DateTime('@'.$semesterStart);
@@ -12,11 +31,10 @@ function getWeek($semesterStart, $current) {
 }
 
 function getCourses($user_id, $date) {
-    $data = getData('schedule/'.$user_id);
+    $data = getScheduleData($user_id);
     if(!$data) {
         throw new Exception('未设置课程表');
     }
-    $data = json_decode($data, true);
     $week = getWeek($data['semesterStart'], $date);
     $weekday = date('N', $date);
 
