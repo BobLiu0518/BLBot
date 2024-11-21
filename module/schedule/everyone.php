@@ -16,9 +16,8 @@ $time = date('H:i');
 $results = [];
 $status = ['进行中', '下一节', '已结束', '无课程'];
 foreach($targets as $target) {
-    try {
-        $todayCourses = getCourses($target->user_id, time());
-    } catch (Exception $e) {
+    $todayCourses = getCourses($target->user_id, time());
+    if($todayCourses === false) {
         continue;
     }
 
