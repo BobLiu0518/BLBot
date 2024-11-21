@@ -50,7 +50,9 @@ $semesterStart = strtotime($data[2]['startDate']);
 foreach($data[4] as $course) {
     $weeks = [];
     for($i = $course['startWeek']; $i <= $course['endWeek']; $i++) {
-        $weeks[] = $i;
+        if($course['type'] == 0 || $course['type'] % 2 == $i % 2) {
+            $weeks[] = $i;
+        }
     }
     if($course['ownTime']) {
         $startTime = $course['startTime'];
