@@ -27,6 +27,6 @@ $dbClient = new MongoDB\Client('mongodb://localhost:'.config('dbPort', 27017), [
     'password' => config('dbPassword'),
     'authSource' => 'BLBot',
 ]);
-$Database = $dbClient->BLBot;
+$Database = $dbClient->selectDatabase('BLBot', ['typeMap' => ['array' => 'array', 'document' => 'array', 'root' => 'array']]);
 
 block($Event['user_id']);

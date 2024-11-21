@@ -25,7 +25,6 @@ class Database {
     public function get($key) {
         return $this->collection->findOne(
             [$this->primaryKey => $key],
-            ['typeMap' => ['array' => 'array', 'document' => 'array', 'root' => 'array']],
         ) ?? $this->defaultValue;
     }
 
