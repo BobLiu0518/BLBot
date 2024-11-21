@@ -3,7 +3,7 @@
 function getScheduleData($user_id) {
     static $db;
     if(!$db) $db = new BLBot\Database('schedule');
-    return $db->get($user_id);
+    return $db->get(intval($user_id));
 }
 
 function setScheduleData($user_id, $name, $semesterStart, $courses) {
@@ -33,7 +33,7 @@ function getWeek($semesterStart, $current) {
 function getCourses($user_id, $date) {
     $data = getScheduleData($user_id);
     if(!$data) {
-        throw new Exception('未设置课程表');
+        return false;
     }
     $week = getWeek($data['semesterStart'], $date);
     $weekday = date('N', $date);

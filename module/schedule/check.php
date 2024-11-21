@@ -10,11 +10,13 @@ if(!is_numeric($target)) $target = $Event['user_id'];
 $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
 $nickname = $user->card ?? $user->nickname;
 
-try {
-    $courses = getCourses($target, time());
-} catch (Exception $e) {
-    replyAndLeave($e->getMessage());
+$courses = getCourses($target, time());
+if($courses === false) {
+    replyAndLeave($nickname.' 未配置课程表'.var_export($courses, true));
+} else if(!count($courses)) {
+    replyAndLeave($nickname.' 今日无课');
 }
+
 $result = [$nickname.' 今日课程：'];
 foreach($courses as $course) {
     $result[] = "{$course['startTime']}~{$course['endTime']} {$course['name']}";
