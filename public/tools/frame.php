@@ -175,7 +175,7 @@ function getAvatar($user_id, $large = false) {
         $avatar = $img->getImagesBlob();
         $img->clear();
         $img->destroy();
-        setCache('avatar/'.$user_id, $avatar);
+        setCache($cacheFile, $avatar);
     }
     return $avatar;
 }
