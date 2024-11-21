@@ -2,6 +2,7 @@
 
 global $Event, $Command, $Text;
 requireLvl(1);
+loadModule('schedule.tools');
 
 $name = null;
 $semesterStart = null;
@@ -70,13 +71,5 @@ foreach($data[4] as $course) {
     ];
 }
 
-usort($courses, function ($a, $b) {
-    return $a['startTime'] <=> $b['startTime'];
-});
-
-setData('schedule/'.$Event['user_id'], json_encode([
-    'name' => $name,
-    'semesterStart' => $semesterStart,
-    'courses' => $courses,
-]));
+setScheduleData($Event['user_id'], $name, $semesterStart, $courses);
 replyAndLeave('成功读取课程表：'.$name);

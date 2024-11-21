@@ -17,9 +17,8 @@ $types = [
 
 $results = [];
 foreach($targets as $target) {
-    $data = getData('schedule/'.$target->user_id);
+    $data = getScheduleData($target->user_id);
     if(!$data) continue;
-    $data = json_decode($data, true);
     $currentWeek = getWeek($data['semesterStart'], time());
     $weekday = date('N');
 
