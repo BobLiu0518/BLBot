@@ -1,7 +1,7 @@
 <?php
 
 global $Event, $Command, $Text;
-requireLvl(2);
+requireLvl(1);
 
 $name = null;
 $semesterStart = null;
