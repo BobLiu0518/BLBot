@@ -10,7 +10,7 @@ if(fromGroup()) {
 } else {
     $targets = json_decode("[{\"user_id\":{$Event['user_id']}}]");
 }
-$weekday = date('N', time());
+$weekday = date('N');
 $time = date('H:i');
 
 $results = [];
@@ -35,19 +35,22 @@ foreach($targets as $target) {
     // 匹配当前/下节课程
     foreach($todayCourses as $course) {
         if($time < $course['startTime']) {
+            $remain = ceil((strtotime($course['startTime']) - time()) / 60);
+            $remain = $remain > 60 ? (floor($remain / 60).' 小时') : ($remain.' 分钟');
             $results[] = [
                 'user_id' => $target->user_id,
                 'type' => 1,
                 'mainDesc' => $course['name'],
-                'subDesc' => "{$course['startTime']}-{$course['endTime']}",
+                'subDesc' => "{$course['startTime']}-{$course['endTime']} ({$remain}后)",
             ];
             continue 2;
         } else if($time >= $course['startTime'] && $time < $course['endTime']) {
+            $remain = ceil((strtotime($course['endTime']) - time()) / 60).' 分钟';
             $results[] = [
                 'user_id' => $target->user_id,
                 'type' => 0,
                 'mainDesc' => $course['name'],
-                'subDesc' => "{$course['startTime']}-{$course['endTime']}",
+                'subDesc' => "{$course['startTime']}-{$course['endTime']} (剩余 {$remain})",
             ];
             continue 2;
         }
