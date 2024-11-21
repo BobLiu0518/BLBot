@@ -1,13 +1,13 @@
 <?php
 
-global $Event;
+global $Event, $Command, $Text;
 requireLvl(2);
 
 $name = null;
 $semesterStart = null;
 $courses = [];
 
-$link = nextArg();
+$link = trim(implode(' ', array_splice($Command, 1)).$Text);
 if(!$link) {
     replyAndLeave(<<<EOT
 设置课程表方法：
