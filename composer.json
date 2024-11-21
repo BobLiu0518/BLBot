@@ -16,7 +16,8 @@
     "autoload": {
         "psr-4": {
             "kjBot\\SDK\\": "SDK/",
-            "kjBot\\Frame\\": "public/"
+            "kjBot\\Frame\\": "public/",
+            "BLBot\\": "public/"
         },
         "files": ["public/tools/Autoload.php"]
     },
@@ -27,6 +28,7 @@
         "fjw/color-compare": "^1.1",
         "intervention/image": ">=2.4",
         "kriswallsmith/buzz": ">=0.17.2",
+        "mongodb/mongodb": "^1.11",
         "nxp/math-executor": ">=2.3",
         "overtrue/php-opencc": "^1.0",
         "overtrue/pinyin": ">=5.0",
@@ -36,9 +38,7 @@
     },
     "suggest": {
         "ext-imagick": "image 库依赖",
-        "linfo/linfo": "status 模块依赖",
-        "statickidz/php-google-translate-free": "translate 模块依赖",
-        "pndurette/gTTS": "一个pip库，voice 模块依赖"
+        "linfo/linfo": "status 模块依赖"
     },
     "scripts": {
         "post-root-package-install": [

@@ -1,6 +1,10 @@
 ;不懂的就别动了
 API="127.0.0.1:5700"
 token=
+;数据库凭据
+dbUsername=
+dbPassword=
+dbPort=
 ;命令前缀，可以设置俩
 prefix="#"
 prefix2=";"

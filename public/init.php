@@ -21,6 +21,12 @@ $Command = [];
 $Text = '';
 $Referer = null;
 
-block($Event['user_id']);
+$dbClient = new MongoDB\Client('mongodb://localhost:'.config('dbPort', 27017), [
+    'appName' => 'BLBot',
+    'username' => config('dbUsername'),
+    'password' => config('dbPassword'),
+    'authSource' => 'BLBot',
+]);
+$Database = $dbClient->BLBot;
 
-?>
+block($Event['user_id']);
