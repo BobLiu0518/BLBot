@@ -17,7 +17,7 @@ $weekday = date('N');
 $time = date('H:i');
 
 $results = [];
-$status = ['进行中', '下一节', '已结束', '无课程'];
+$status = ['进行中', '下一节', '翘课中', '已结束', '无课程'];
 foreach($targets as $target) {
     $todayCourses = getCourses($target->user_id, time());
     if($todayCourses === false) {
@@ -27,7 +27,7 @@ foreach($targets as $target) {
     if(!count($todayCourses)) {
         $results[] = [
             'user_id' => $target->user_id,
-            'type' => 3,
+            'type' => 4,
             'mainDesc' => '今日无课程',
             'subDesc' => getMotto($target->user_id) ?? getVerse(),
         ];
@@ -50,7 +50,7 @@ foreach($targets as $target) {
             $remain = ceil((strtotime($course['endTime']) - time()) / 60).' 分钟';
             $results[] = [
                 'user_id' => $target->user_id,
-                'type' => 0,
+                'type' => isAbandoned($target->user_id) ? 2 : 0,
                 'mainDesc' => $course['name'],
                 'subDesc' => "{$course['startTime']}-{$course['endTime']} (剩余 {$remain})",
             ];
@@ -64,7 +64,7 @@ foreach($targets as $target) {
     $total = number_format($total / 60 / 60, 1);
     $results[] = [
         'user_id' => $target->user_id,
-        'type' => 2,
+        'type' => 3,
         'mainDesc' => '今日课程已上完',
         'subDesc' => "共计 {$total} 小时",
     ];
@@ -91,10 +91,10 @@ $draw->setTextEncoding('UTF-8');
 $draw->setFont(getFontPath('unifont.otf'));
 $maxContentX = 0;
 $currentX = $currentY = 20;
-$colors = ['#B13333', '#3949AB', '#379151', '#7F7F7F', '#00897B'];
+$colors = ['#B13333', '#3949AB', '#DB6F2D', '#379151', '#7F7F7F', '#00897B'];
 
 // 画左上角框框
-$draw->setFillColor($colors[4]);
+$draw->setFillColor($colors[5]);
 $draw->rectangle($currentX, $currentY, $currentX + 80, $currentY + 40);
 $draw->rectangle($currentX, $currentY, $currentX + 40, $currentY + 80);
 $currentY += 200;
@@ -175,7 +175,7 @@ $currentX = ($imageWidth - $image->queryFontMetrics($draw, $prompt)['textWidth']
 $draw->annotation($currentX, $currentY + 32, $prompt);
 
 // 画右下角框框
-$draw->setFillColor($colors[4]);
+$draw->setFillColor($colors[5]);
 $draw->rectangle($imageWidth - 60, $currentY, $imageWidth - 20, $currentY + 80);
 $draw->rectangle($imageWidth - 100, $currentY + 40, $imageWidth - 20, $currentY + 80);
 

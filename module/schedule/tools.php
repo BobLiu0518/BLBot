@@ -1,9 +1,27 @@
 <?php
 
-function getScheduleData($user_id) {
+function getScheduleDb() {
     static $db;
     if(!$db) $db = new BLBot\Database('schedule');
-    return $db->get(intval($user_id));
+    return $db;
+}
+
+function isAbandoned($user_id) {
+    $abandoned = getScheduleData($user_id)['abandoned'];
+    if($abandoned && date('Y/m/d') == $abandoned) {
+        return true;
+    }
+    return false;
+}
+
+function setAbandoned($user_id, $abandoned) {
+    return getScheduleDb()->set(intval($user_id), [
+        'abandoned' => $abandoned ? date('Y/m/d') : null,
+    ]);
+}
+
+function getScheduleData($user_id) {
+    return getScheduleDb()->get(intval($user_id));
 }
 
 function setScheduleData($user_id, $name, $semesterStart, $courses) {
