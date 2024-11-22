@@ -5,6 +5,7 @@ requireLvl(1);
 loadModule('schedule.tools');
 loadModule('nickname.tools');
 loadModule('poem.tools');
+loadModule('motto.tools');
 
 if(fromGroup()) {
     $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351');
@@ -28,7 +29,7 @@ foreach($targets as $target) {
             'user_id' => $target->user_id,
             'type' => 3,
             'mainDesc' => '今日无课程',
-            'subDesc' => getVerse(),
+            'subDesc' => getMotto($target->user_id) ?? getVerse(),
         ];
         continue;
     }
@@ -156,6 +157,8 @@ foreach($results as $result) {
     if($contentX > $maxContentX) $maxContentX = $contentX;
     $draw->setFontSize(24);
     $draw->annotation($currentX, $currentY + 32, $result['subDesc']);
+    $contentX = $currentX + $image->queryFontMetrics($draw, $result['subDesc'])['textWidth'];
+    if($contentX > $maxContentX) $maxContentX = $contentX;
     $currentY += 100;
 }
 
