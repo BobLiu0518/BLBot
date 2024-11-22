@@ -187,7 +187,9 @@ $draw->annotation(($imageWidth - $titleWidth) / 2, 80, $title);
 
 // 生成图片
 $image->extentImage($imageWidth, $currentY + 100, 0, 0);
+$path = realpath(getCachePath('schedule'))."/{$Event['group_id']}.png";
 $image->drawImage($draw);
+$image->writeImage($path);
 
 $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351', false);
-replyAndLeave(sendImg($image->getImageBlob()));
+replyAndLeave("[CQ:image,file=file://{$path}]");
