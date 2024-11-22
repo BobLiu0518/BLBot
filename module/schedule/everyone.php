@@ -6,6 +6,7 @@ loadModule('schedule.tools');
 loadModule('nickname.tools');
 
 if(fromGroup()) {
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351');
     $targets = $CQ->getGroupMemberList($Event['group_id']);
 } else {
     $targets = json_decode("[{\"user_id\":{$Event['user_id']}}]");
@@ -186,4 +187,6 @@ $draw->annotation(($imageWidth - $titleWidth) / 2, 80, $title);
 // 生成图片
 $image->extentImage($imageWidth, $currentY + 100, 0, 0);
 $image->drawImage($draw);
+
+$CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351', false);
 replyAndLeave(sendImg($image->getImageBlob()));
