@@ -4,6 +4,7 @@ global $CQ, $Event;
 requireLvl(1);
 loadModule('schedule.tools');
 loadModule('nickname.tools');
+loadModule('poem.tools');
 
 if(fromGroup()) {
     $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351');
@@ -27,7 +28,7 @@ foreach($targets as $target) {
             'user_id' => $target->user_id,
             'type' => 3,
             'mainDesc' => '今日无课程',
-            'subDesc' => file_get_contents('https://v1.jinrishici.com/rensheng/mengxiang.txt'),
+            'subDesc' => getVerse(),
         ];
         continue;
     }
