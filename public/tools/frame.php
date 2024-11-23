@@ -427,11 +427,11 @@ function isInsider() {
     return false;
 }
 
-function nextArg() {
+function nextArg(bool $getRemaining = false) {
     global $Command;
     static $index = 0;
 
-    return $Command[$index++];
+    return $getRemaining ? implode(' ', array_slice($Command, $index)) : $Command[$index++];
 }
 
 /**
