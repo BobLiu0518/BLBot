@@ -8,13 +8,13 @@ $target = nextArg() ?? $Event['user_id'];
 if(!is_numeric($target)) $target = parseQQ($target);
 if(!is_numeric($target)) $target = $Event['user_id'];
 $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
-$nickname = $user->card ?? $user->nickname;
+$nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本群哦…");
 
 $courses = getCourses($target, time());
 if($courses === false) {
-    replyAndLeave($nickname.' 未配置课程表'.var_export($courses, true));
+    replyAndLeave($nickname.' 未配置课程表哦…');
 } else if(!count($courses)) {
-    replyAndLeave($nickname.' 今日无课');
+    replyAndLeave($nickname.' 今日无课～');
 }
 
 $result = [$nickname.' 今日课程：'];
