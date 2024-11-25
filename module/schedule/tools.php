@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Asia/Shanghai');
+
 function getScheduleDb() {
     static $db;
     if(!$db) $db = new BLBot\Database('schedule');
