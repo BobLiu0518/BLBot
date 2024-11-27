@@ -2,6 +2,7 @@
 
 date_default_timezone_set('Asia/Shanghai');
 
+$pool = Spatie\Async\Pool::create();
 $time = time();
 $path = '../scheduler/';
 $files = scandir($path);
@@ -16,6 +17,8 @@ foreach($files as $file) {
 foreach($Schedulers as $scheduler) {
     $scheduler->setTime($time);
     if($scheduler->validate()) {
-        $scheduler->run();
+        $pool->add([$scheduler, 'run']);
     }
 }
+
+$pool->wait();

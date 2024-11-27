@@ -34,6 +34,7 @@
         "overtrue/pinyin": ">=5.0",
         "rexxars/morse": ">=1.0",
         "simplesoftwareio/simple-qrcode": ">=4.2",
+        "spatie/async": "^1.6",
         "zjkal/time-helper": "^1.1"
     },
     "suggest": {
