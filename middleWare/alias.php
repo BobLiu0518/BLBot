@@ -2,9 +2,10 @@
 
 global $Event;
 
-if(config('alias',false) == true && $alias = json_decode(getData('alias/'.$Event['user_id'].'.json'),true)[nextArg()]){
-	loadModule($alias);
-	leave();
+if(config('alias', false) == true) {
+    loadModule('alias.tools');
+    if($alias = getAlias($Event['user_id'])[nextArg()]) {
+        loadModule($alias);
+        leave();
+    }
 }
-
-?>

@@ -18,11 +18,13 @@ if(preg_match('/^('.config('prefix', '#').')/', $message, $prefix)
     $Text = substr($message, $length + 1);
     $module = substr(nextArg(), strlen($prefix[1]));
     try {
-        if(config('alias', false) == true
-            && $alias = json_decode(getData('alias/'.$Event['user_id'].'.json'), true)[$module]) {
-            loadModule($alias);
-        } else
-            loadModule($module);
+        if(config('alias', false) == true) {
+            loadModule('alias.tools');
+            if($alias = getAlias($Event['user_id'])[$module]) {
+                $module = $alias;
+            }
+        }
+        loadModule($module);
     } catch (\Exception $e) {
         throw $e;
     }

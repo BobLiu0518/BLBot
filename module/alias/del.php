@@ -1,5 +1,3 @@
 <?php
 
-	loadModule('alias.delete');
-
-?>
+loadModule('alias.delete');
