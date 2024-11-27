@@ -364,11 +364,9 @@ class CoolQ {
         return $this->query($api, $param);
     }
 
-    public function _getFriendList($flat = false) {
-        $api = API::_get_friend_list;
-        $param = [
-            'flat' => $flat,
-        ];
+    public function getFriendList() {
+        $api = API::get_friend_list;
+        $param = [];
         return $this->query($api, $param);
     }
 
