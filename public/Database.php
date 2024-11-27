@@ -28,6 +28,17 @@ class Database {
         ) ?? $this->defaultValue;
     }
 
+    public function remove($key, $data, $upsert = true) {
+        if(!is_array($data)) {
+            $data = [$data];
+        }
+        return $this->collection->updateOne(
+            [$this->primaryKey => $key],
+            ['$unset' => array_flip($data)],
+            ['upsert' => $upsert],
+        )->isAcknowledged();
+    }
+
     public function delete($key) {
         return $this->collection->deleteOne(
             [$this->primaryKey => $key],
