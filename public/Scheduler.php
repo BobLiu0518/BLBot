@@ -3,13 +3,13 @@
 namespace BLBot;
 class Scheduler {
     private $db, $name, $enabled, $validator, $runner, $interval, $timestamp;
-    private function checkInterval() {
+    private function checkInterval(): bool {
         return $this->timestamp - ($this->db->get($this->name)['lastExecute'] ?? 0) >= $this->interval;
     }
-    private function setInterval() {
+    private function setInterval(): bool {
         return $this->db->set($this->name, ['lastExecute' => $this->timestamp]);
     }
-    public function setTime(int $timestamp) {
+    public function setTime(int $timestamp): void {
         $this->timestamp = $timestamp;
     }
     public function validate(): bool {
@@ -22,7 +22,8 @@ class Scheduler {
         } catch (\Exception $e) {
             global $Queue;
             $time = date('Y/m/d H:i:s', $this->timestamp);
-            $Queue[] = sendMaster("[{$time}] 执行 Scheduler {$this->name} 时发生错误：{$e}");
+            $trace = implode("\n", array_slice(explode("\n", $e), 0, 4));
+            $Queue[] = sendMaster("[{$time}] 执行 Scheduler {$this->name} 时发生错误：{$trace}\n...");
         }
     }
     public function __construct(string $name, bool $enabled, callable $validator, callable $runner, int $interval = -1) {
