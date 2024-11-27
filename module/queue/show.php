@@ -1,5 +1,0 @@
-<?php
-
-loadModule('queue.list');
-
-?>
