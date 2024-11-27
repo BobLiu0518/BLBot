@@ -36,10 +36,6 @@ function delAlias($user_id, $alias) {
     return $db->remove(intval($user_id), 'aliases.'.$alias);
 }
 
-function chkAlias($qq) {
-    return getAlias($qq);
-}
-
 function parseCommandName($name) {
     global $Config;
     if($Config['enablePrefix2']) {
