@@ -22,9 +22,17 @@ class Database {
         )->isAcknowledged();
     }
 
-    public function get($key) {
+    public function get($key, $projection = null) {
+        $options = [];
+        if($projection) {
+            if(gettype($projection) == 'string') {
+                $projection = [$projection];
+            }
+            $options['projection'] = array_combine($projection, array_fill(0, count($projection), 1));
+        }
         return $this->collection->findOne(
             [$this->primaryKey => $key],
+            $options,
         ) ?? $this->defaultValue;
     }
 
