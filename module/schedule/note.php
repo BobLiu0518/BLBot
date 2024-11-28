@@ -14,7 +14,14 @@ if(!$data['notify']) {
 $courseName = nextArg();
 $note = nextArg(true);
 if(!$courseName) {
-    replyAndLeave('不知道你要设置什么课程呢…');
+    if(!$data['note'] || !count($data['note'])) {
+        replyAndLeave('你还没有设置过备注哦…');
+    }
+    $reply = ['当前设置的备注：'];
+    foreach($data['note'] as $course => $note) {
+        $reply[] = "「{$course}」\n· {$note}";
+    }
+    replyAndLeave(implode("\n", $reply));
 }
 
 $courseFound = false;
