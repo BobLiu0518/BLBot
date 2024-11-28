@@ -14,6 +14,9 @@ if(!$data['notify']) {
 $courseName = nextArg();
 $note = nextArg(true);
 if(!$courseName) {
+    if(fromGroup()) {
+        replyAndLeave('如果希望查询设置的课程备注，请私信 Bot 使用本指令。');
+    }
     if(!$data['note'] || !count($data['note'])) {
         replyAndLeave('你还没有设置过备注哦…');
     }
