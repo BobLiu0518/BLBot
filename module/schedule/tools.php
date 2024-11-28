@@ -27,16 +27,32 @@ function getScheduleData($user_id) {
 }
 
 function setScheduleData($user_id, $name, $semesterStart, $courses) {
+    global $Queue;
     usort($courses, function ($a, $b) {
         return $a['startTime'] <=> $b['startTime'];
     });
-
+    $courseNames = [];
+    foreach($courses as $course) {
+        $courseNames[] = $course['name'];
+    }
     $db = new BLBot\Database('schedule');
-    return $db->set($user_id, [
+    $ret = $db->set($user_id, [
         'name' => $name,
         'semesterStart' => $semesterStart,
         'courses' => $courses,
     ]);
+    $data = $db->get($user_id, 'note');
+    $removedNotes = [];
+    foreach($data['note'] as $courseName => $note) {
+        if(!in_array($courseName, $courseNames)) {
+            $removedNotes[] = $courseName;
+            $db->remove($user_id, 'note'.$courseName);
+        }
+    }
+    if(count($removedNotes)) {
+        $Queue[] = replyMessage('以下课程在新课程表中已不再可用，备注已移除：'.implode(" / ", $removedNotes));
+    }
+    return $ret;
 }
 
 function getWeek($semesterStart, $current) {
