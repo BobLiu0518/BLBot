@@ -8,12 +8,12 @@ function getScheduleDb() {
     return $db;
 }
 
-function isAbandoned($user_id) {
-    $abandoned = getScheduleData($user_id)['abandoned'];
-    if($abandoned && date('Y/m/d') == $abandoned) {
-        return true;
+function isAbandoned($data, $timestamp = null) {
+    if(gettype($data) == 'string' || gettype($data) == 'integer') {
+        $data = getScheduleData($data);
     }
-    return false;
+    $abandoned = $data['abandoned'];
+    return $abandoned && date('Y/m/d', $timestamp) == $abandoned;
 }
 
 function setAbandoned($user_id, $abandoned) {
