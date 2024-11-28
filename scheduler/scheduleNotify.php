@@ -14,6 +14,9 @@ $Schedulers[] = new BLBot\Scheduler(
             'notify' => ['$ne' => false, '$exists' => true],
         ]);
         foreach($data as $userData) {
+            if(isAbandoned($userData)){
+                continue;
+            }
             $todayCourses = getCourses($userData, time());
             foreach($todayCourses as $course) {
                 $timeDiff = $timestamp + $userData['notify'] * 60 - strtotime($course['startTime']);
