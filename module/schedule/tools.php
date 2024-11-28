@@ -50,8 +50,10 @@ function getWeek($semesterStart, $current) {
     return $semesterStart->diff($currentWeekStart)->days / 7 + 1;
 }
 
-function getCourses($user_id, $date) {
-    $data = getScheduleData($user_id);
+function getCourses($data, $date) {
+    if(gettype($data) == 'string' || gettype($data) == 'integer') {
+        $data = getScheduleData($data);
+    }
     if(!$data) {
         return false;
     }
