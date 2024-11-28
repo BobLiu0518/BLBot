@@ -68,6 +68,7 @@ foreach($data[4] as $course) {
         'day' => strval($course['day']),
         'startTime' => $startTime,
         'endTime' => $endTime,
+        'location' => $course['room'],
     ];
 }
 
