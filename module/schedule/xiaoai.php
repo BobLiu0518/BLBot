@@ -49,6 +49,7 @@ foreach($data['courses'] as $course) {
         'day' => strval($course['day']),
         'startTime' => $sectionTimes[intval($courseSection[0])]['startTime'],
         'endTime' => $sectionTimes[intval($courseSection[count($courseSection) - 1])]['endTime'],
+        'location' => $course['position'],
     ];
 }
 
