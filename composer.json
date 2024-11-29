@@ -1,7 +1,10 @@
 {
     "name": "bobliu0518/bl1040bot",
     "description": "NULL",
-    "keywords": ["qqbot", "coolq-http-api"],
+    "keywords": [
+        "qqbot",
+        "coolq-http-api"
+    ],
     "license": "(MIT and AGPL-3.0-or-later)",
     "authors": [
         {
@@ -19,7 +22,9 @@
             "kjBot\\Frame\\": "public/",
             "BLBot\\": "public/"
         },
-        "files": ["public/tools/Autoload.php"]
+        "files": [
+            "public/tools/Autoload.php"
+        ]
     },
     "require": {
         "php": "^8.1",
@@ -63,7 +68,6 @@
         "linfo/linfo": ">=4.0",
         "meyfa/php-svg": ">=0.9.0",
         "nelexa/zip": ">=3.1",
-        "php-http/guzzle6-adapter": ">=1.1",
         "statickidz/php-google-translate-free": ">=1.0"
     }
 }
