@@ -15,6 +15,9 @@ if(preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:])?$/', $arg, $matches)) {
 }
 if($arg) {
     $time = strtotime($arg);
+    if(!$time) {
+        replyAndLeave("无法识别日期：{$arg}…");
+    }
     $date = date('Y/m/d', $time);
 } else {
     $time = time();
