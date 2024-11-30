@@ -9,7 +9,7 @@ if($alias === null) {
 
 $alias = parseCommandName($alias);
 if(!getAlias($Event['user_id'])[$alias]) {
-    $Queue[] = replyMessage('没有设置名为 #'.$alias.' 的别名哦…');
+    replyAndLeave('没有设置名为 #'.$alias.' 的别名哦…');
 }
 
 delAlias($Event['user_id'], $alias);
