@@ -105,7 +105,9 @@ switch(getStatus($User_id)) {
                     foreach($lvlMap as $lvl) {
                         if($lvl['lvl'] == $originLvl + 1) {
                             $expGap = $lvl['exp'] - $exp;
-                            $reply .= "\n再签到 {$expGap} 天即可升级 Lv{$lvl['lvl']}～";
+                            if($expGap <= 1e7) {
+                                $reply .= "\n再签到 {$expGap} 天即可升级 Lv{$lvl['lvl']}～";
+                            }
                             break;
                         }
                     }
