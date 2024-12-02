@@ -22,6 +22,22 @@ class Database {
         )->isAcknowledged();
     }
 
+    public function push($key, $dataName, $data, $upsert = true) {
+        return $this->collection->updateOne(
+            [$this->primaryKey => $key],
+            ['$push' => [$dataName => $data]],
+            ['upsert' => $upsert],
+        )->isAcknowledged();
+    }
+
+    public function pull($key, $dataName, $data, $upsert = true) {
+        return $this->collection->updateOne(
+            [$this->primaryKey => $key],
+            ['$pull' => [$dataName => $data]],
+            ['upsert' => $upsert],
+        )->isAcknowledged();
+    }
+
     public function get($key, $projection = null) {
         $options = [];
         if($projection) {
