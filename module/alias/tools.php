@@ -18,10 +18,10 @@ function setAlias($user_id, $alias, $origin) {
     $db = getAliasDb();
     $aliases = getAlias($user_id);
     $aliasLimits = [
-        ['level' => 2, 'limit' => 3],
-        ['level' => 3, 'limit' => 5],
-        ['level' => 4, 'limit' => 8],
-        ['level' => 5, 'limit' => 12],
+        ['level' => 2, 'limit' => 6],
+        ['level' => 3, 'limit' => 8],
+        ['level' => 4, 'limit' => 12],
+        ['level' => 5, 'limit' => 18],
     ];
     foreach($aliasLimits as $limit) {
         if(count($aliases) >= $limit['limit']) {
