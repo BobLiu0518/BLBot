@@ -6,6 +6,7 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
 loadModule('nickname.tools');
+loadModule('motto.tools');
 
 $QQ = nextArg() ?? $Event['user_id'];
 if(!(preg_match('/\d+/', $QQ, $match) && $match[0] == $QQ)) {
@@ -23,7 +24,7 @@ if($Event['user_id'] != $QQ && !isAdmin()) {
         }
     }
     if(!$inGroup) {
-        replyAndLeave($QQ.' 不在本群哦…');
+        replyAndLeave("{$QQ} 不在本群哦…");
     }
 }
 
@@ -31,7 +32,8 @@ $exp = getExp($QQ);
 $level = getLvl($QQ);
 $status = getStatus($QQ);
 $statusEnd = getStatusEndTime($QQ);
-$msg = "您的金币余额为 ".getCredit($QQ)."，经验值为 ".$exp."，等级为 Lv".$level." ～";
+$credit = getCredit($QQ);
+$msg = "您的金币余额为 {$credit}，经验值为 {$exp}，等级为 Lv{$level} ～";
 if($Event['user_id'] == $QQ) {
     switch($level) {
         case 2:
@@ -47,10 +49,10 @@ if($Event['user_id'] == $QQ) {
 }
 switch($status) {
     case 'imprisoned':
-        $msg .= "\n当前身处监狱中，预计 ".$statusEnd." 出狱";
+        $msg .= "\n当前身处监狱中，预计 {$statusEnd} 出狱";
         break;
     case 'confined':
-        $msg .= "\n当前身处监狱禁闭室中，预计 ".$statusEnd." 出狱";
+        $msg .= "\n当前身处监狱禁闭室中，预计 {$statusEnd} 出狱";
         break;
     case 'arknights':
     case 'genshin':
@@ -60,7 +62,7 @@ switch($status) {
         $msg .= "\n当前身处宇宙中";
         break;
     case 'hospitalized':
-        $msg .= "\n当前身处医院中，预计 ".$statusEnd." 出院";
+        $msg .= "\n当前身处医院中，预计 {$statusEnd} 出院";
         break;
     case 'saucer':
         $characters = ['▖', '▗', '▘', '▝', '▚', '▞', '▀', '▄', '▌', '▐', '▙', '▛', '▜', '▟', '█'];
@@ -68,7 +70,7 @@ switch($status) {
         for($i = 0; $i < 5; $i++) {
             $randomParts .= $characters[array_rand($characters)];
         }
-        $msg .= "\n你被外星人".$randomParts."了。";
+        $msg .= "\n你被外星人{$randomParts}了。";
         break;
     case 'free':
         $lastCheckinTime = filemtime('../storage/data/checkin/'.$QQ);
@@ -81,4 +83,14 @@ switch($status) {
 if($Event['user_id'] != $QQ) {
     $msg = preg_replace('/您|你/', '@'.getNickname($QQ).' ', $msg);
 }
+
+$nickname = getNickname($QQ, null, false);
+$motto = getMotto($QQ);
+if($nickname) {
+    $msg .= "\n昵称：{$nickname}";
+}
+if($motto) {
+    $msg .= "\n个性签名：{$motto}";
+}
+
 $Queue[] = replyMessage($msg);
