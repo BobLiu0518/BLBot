@@ -6,7 +6,7 @@ loadModule('schedule.tools');
 global $Event, $CQ;
 
 $arg = nextArg();
-if(preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:])?$/', $arg, $matches)) {
+if(preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:,name=.+?)?(?:])?$/', $arg, $matches)) {
     $target = intval($matches[1]);
     $arg = nextArg(true);
 } else {
