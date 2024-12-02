@@ -91,7 +91,7 @@ switch(getStatus($User_id)) {
                 $data['status'] = 'saucer';
                 $data['end'] = date('Ymd', time() + 86400); // 1 day
                 $reply = '🛸天空上突然出现了一台飞碟，你被外星人抓走了…';
-                $CQ->setGroupReaction($Event['group_id'], $Event['message_id'],'326');
+                $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '326');
                 setAttackData($Event['user_id'], $data);
             } else {
                 addCredit($Event['user_id'], $income);
@@ -101,13 +101,13 @@ switch(getStatus($User_id)) {
                     $reply .= "\n恭喜升级 Lv".getLvl($Event['user_id']).' 啦～';
                 } else {
                     $exp = getExp($Event['user_id']);
-                    switch(getLvl($Event['user_id'])) {
-                        case 2:
-                            $reply .= "\n再签到 ".(30 - $exp).' 天即可升级 Lv3～';
+                    $lvlMap = getLvlMap();
+                    foreach($lvlMap as $lvl) {
+                        if($lvl['lvl'] == $originLvl + 1) {
+                            $expGap = $lvl['exp'] - $exp;
+                            $reply .= "\n再签到 {$expGap} 天即可升级 Lv{$lvl['lvl']}～";
                             break;
-                        case 1:
-                            $reply .= "\n再签到 ".(7 - $exp).' 天即可升级 Lv2～';
-                            break;
+                        }
                     }
                 }
                 $reply .= "\n你是今天第 ".$checkinData['checked'].' 个签到的～';
