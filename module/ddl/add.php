@@ -19,4 +19,4 @@ if(mb_strlen($name) > 10) {
 
 setDdl($Event['user_id'], $name, $ddl);
 $time = date('Y/m/d', $ddl);
-replyAndLeave("设置任务 {$name} 成功，截止：{$ddl}");
+replyAndLeave("设置任务 {$name} 成功，截止：{$time}");
