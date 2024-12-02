@@ -17,10 +17,15 @@ function getAlias($user_id) {
 function setAlias($user_id, $alias, $origin) {
     $db = getAliasDb();
     $aliases = getAlias($user_id);
-    if(count($aliases) >= 4) {
-        requireLvl(3, '设置更多别名', '使用 #alias.del 删掉一些');
-        if(count($aliases) >= 8) {
-            requireLvl(4, '设置更多别名', '使用 #alias.del 删掉一些');
+    $aliasLimits = [
+        ['level' => 2, 'limit' => 3],
+        ['level' => 3, 'limit' => 5],
+        ['level' => 4, 'limit' => 8],
+        ['level' => 5, 'limit' => 12],
+    ];
+    foreach($aliasLimits as $limit) {
+        if(count($aliases) >= $limit['limit']) {
+            requireLvl($limit['level'] + 1, '设置更多别名', '使用 #alias.del 删掉一些');
         }
     }
     return $db->set($user_id, ['aliases.'.$alias => $origin]);
