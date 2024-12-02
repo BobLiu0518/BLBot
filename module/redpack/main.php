@@ -44,7 +44,7 @@ if($amount <= 0 || $count <= 0 || !$code) {
 	replyAndLeave('口令太长啦…');
 }
 
-$fee = $count == 1 ? intval(0.01 * $amount + 1) : intval(0.0001 * $amount + 1);
+$fee = $count == 1 ? ceil(0.01 * $amount) : ceil(0.0001 * $amount);
 decCredit($Event['user_id'], $amount + $fee);
 $redpacks[] = [
 	'sender' => $Event['user_id'],
