@@ -46,31 +46,31 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 ## `#ark` {#ark}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.branch` {#ark-branch}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.clear` {#ark-clear}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.gacha` {#ark-gacha}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.operator` {#ark-operator}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.random` {#ark-random}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.time` {#ark-time}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.update` <MasterBadge /> {#ark.update}
 
@@ -78,11 +78,11 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 ## `#ark.voice` {#ark-voice}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#ark.waifu` {#ark-waifu}
 
-详见 [明日方舟相关](./ark)。
+详见 [明日方舟相关](./arknights)。
 
 ## `#atk` {#atk}
 
