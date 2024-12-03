@@ -67,6 +67,10 @@ export default defineConfig({
             },
             { icon: 'github', link: 'https://github.com/BobLiu0518/BLBot' },
         ],
+        footer: {
+            message:
+                '<a href="https://beian.miit.gov.cn/" style="text-decoration: none;">沪ICP备20015150号-1</a>',
+        },
         lastUpdated: {
             text: '更新于 ',
             formatOptions: {
