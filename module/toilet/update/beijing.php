@@ -1,6 +1,7 @@
 <?php
 
 requireLvl(6);
+loadModule('toilet.update.enfc');
 
 // Init
 $toiletInfo = json_decode(getData('toilet/toiletInfo.json'), true);
@@ -10,7 +11,7 @@ $toiletInfo['beijing'] = [];
 $citiesMeta['beijing'] = [
     'name' => '北京地铁',
     'support' => true,
-    'source' => '北京轨道运营微信小程序',
+    'source' => '亿通行 App',
     'time' => date('Y/m/d'),
     'color' => [
         'main' => '#1B0082',
@@ -19,22 +20,28 @@ $citiesMeta['beijing'] = [
     'logo' => 'metro_logo_beijing.svg',
 ];
 
-// Get data
-$lines = json_decode(file_get_contents('https://xiaochengxu.bjmoa.cn/shop/api/subway/subwayAllInfo'), true)['data'];
-$stationInfoApi = 'https://xiaochengxu.bjmoa.cn/shop/api/subway/stationInfo?stationDbid=';
-foreach($lines as $line) {
-    foreach($line['allStationInfos'] as $station) {
-        if(array_key_exists($station['stationName'], $toiletInfo['beijing'])) continue;
-        $toiletInfo['beijing'][$station['stationName']] = ['toilets' => []];
-        $stationInfo = json_decode(file_get_contents($stationInfoApi.$station['stationDbid']), true)['data'];
-        foreach($stationInfo['stationInfoServiceBase']['allService'] as $facility) {
-            if($facility['serviceFacilityName'] == '卫生间') {
-                $toiletInfo['beijing'][$station['stationName']]['toilets'][] = [
-                    'title' => $facility['serviceFacilityName'],
-                    'content' => $facility['serviceFacilityExit'],
-                ];
-            }
-        }
+$map = json_decode(file_get_contents('https://appconfig.ruubypay.com/stations/map-app.json'), true);
+$accLocation = json_decode(file_get_contents('https://appconfig.ruubypay.com/stations/acclocation.json'), true);
+
+$lineMap = [];
+foreach($map['lines_data'] as $line) {
+    $lineName = preg_replace('/^(\d+号线)(.+线)$/', '$1·$2', $line['cn_name']);
+    $lineMap[$line['id']] = $lineName;
+    $citiesMeta['beijing']['color'][$lineName] = '#'.$line['color'];
+}
+
+$stationsMap = [];
+foreach($map['stations_data'] as $station) {
+    $stationsMap[$station['id']] = $station['cn_name'];
+}
+
+foreach($accLocation as $device) {
+    $deviceData = getStationEquipment($device['device_location']);
+    if($deviceData['device'][0]) {
+        $toiletInfo['beijing'][$stationsMap[$device['station_id']]]['toilets'][] = [
+            'title' => $lineMap[$device['line_id']],
+            'content' => $deviceData['device'][0]['restroom'],
+        ];
     }
 }
 

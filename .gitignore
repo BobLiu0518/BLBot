@@ -10,5 +10,6 @@ storage/data/
 config.ini
 .DS_Store
 module/bld/
+module/toilet/update/enfc.php
 module/toilet/update/request.php
 public/php_errors.log
