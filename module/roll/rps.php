@@ -1,5 +1,4 @@
 <?php
 
-leave('[CQ:rps]');
-
-?>
+global $Queue;
+$Queue[] = sendBack('[CQ:rps]');

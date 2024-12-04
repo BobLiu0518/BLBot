@@ -1,5 +1,4 @@
 <?php
 
-leave('[CQ:dice]');
-
-?>
+global $Queue;
+$Queue[] = sendBack('[CQ:dice]');
