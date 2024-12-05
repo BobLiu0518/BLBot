@@ -45,6 +45,16 @@ foreach($accLocation as $device) {
     }
 }
 
+foreach($toiletInfo['beijing'] as &$data) {
+    usort($data['toilets'],
+        fn($a, $b) =>
+        (preg_match('/^\d+/', $a['title'], $m1) ? intval($m1[0]) : INF)
+        <=>
+        (preg_match('/^\d+/', $b['title'], $m2) ? intval($m2[0]) : INF)
+        ?: $a['title'] <=> $b['title']
+    );
+}
+
 // Virtual transfer
 $toiletInfo['beijing']['复兴门']['redirect'] = ['太平桥'];
 $toiletInfo['beijing']['太平桥']['redirect'] = ['复兴门'];
