@@ -24,9 +24,6 @@ $Schedulers[] = new BLBot\Scheduler(
                 'urgent' => [],
                 'regular' => [],
             ];
-            usort($userData['ddls'], function ($a, $b) {
-                return $a['time'] <=> $b['time'];
-            });
             foreach($userData['ddls'] as $ddl) {
                 $remainTime = $ddl['time'] - $timestamp;
                 $time = date('Y/m/d', $ddl['time']);
