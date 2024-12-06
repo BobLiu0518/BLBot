@@ -22,10 +22,20 @@ class Database {
         )->isAcknowledged();
     }
 
-    public function push($key, $dataName, $data, $upsert = true) {
+    public function push($key, $dataName, $data, $sort = null, $upsert = true) {
+        if(!$sort) {
+            $operator = [$dataName => $data];
+        } else {
+            $operator = [
+                $dataName => [
+                    '$each' => [$data],
+                    '$sort' => $sort,
+                ]
+            ];
+        }
         return $this->collection->updateOne(
             [$this->primaryKey => $key],
-            ['$push' => [$dataName => $data]],
+            ['$push' => $operator],
             ['upsert' => $upsert],
         )->isAcknowledged();
     }
