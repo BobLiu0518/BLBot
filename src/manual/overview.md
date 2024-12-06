@@ -331,6 +331,10 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 见 [金山铁路车次](./jsr)。
 
+## `#jsr.update` <MasterBadge /> {#jsr-update}
+
+更新金山铁路车次信息。
+
 ## `#jst <线路名>` {#jst}
 
 查询久事公交公交线路信息。
