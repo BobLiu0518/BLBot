@@ -9,7 +9,7 @@ setCache('toilet/'.time().'.bak', json_encode($toiletInfo));
 $toiletInfo['harbin'] = [];
 $citiesMeta['harbin'] = [
     'name' => '哈尔滨地铁',
-    'support' => '无北马路站，数据来源疑似已停止更新',
+    'support' => '数据截止北马路站开通前',
     'source' => 'Metro冰城行 App',
     'time' => date('Y/m/d'),
     'color' => [
@@ -53,14 +53,19 @@ foreach($lines as $line) {
 }
 
 // Additional data
-$toiletInfo['harbin']['北马路'] = [
-    'toilets' => [
-        [
-            'title' => '洗手间',
-            'content' => '未知',
-        ]
-    ],
-];
+$newStations = ['北马路', '兆麟公园', '友谊宫', '上海街', '公路大桥', '河松街', '河山街', '丁香公园'];
+foreach($newStations as $station) {
+    if(!$toiletInfo['harbin'][$station]) {
+        $toiletInfo['harbin'][$station] = [
+            'toilets' => [
+                [
+                    'title' => '无数据',
+                    'content' => '由于数据源已停止更新，本站点洗手间位置数据缺失',
+                ]
+            ],
+        ];
+    }
+}
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
