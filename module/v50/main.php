@@ -5,7 +5,7 @@ loadModule('credit.tools');
 requireLvl(1);
 $data = json_decode(getData('v50/'.$Event['user_id']) ?? '{"date": 0, "count": 0}', true);
 if(date('N') != 4){
-	replyAndLeave('今天不是周四哦？');
+	replyAndLeave('今天不是周四啊？');
 }else if($data['date'] != date('Ymd')){
 	$data['date'] = date('Ymd');
 	$data['times'] = 0;
