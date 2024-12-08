@@ -24,10 +24,8 @@ $citiesMeta['macau'] = [
 
 // Load stations
 $html = file_get_contents('https://www.mlm.com.mo/tc/route.html');
-preg_match('/<select class="to">([\s\S]+?)<\/select>/u', $html, $match);
-$html = $match[1];
-preg_match_all('/<option value="\d+">(.+)站<\/option>/u', $html, $match);
-$stations = $match[1];
+preg_match_all('/\{\s+?text: "(.+?)站(?:[（(].+?[）)])?",\s+?value: ".+?",?\s+?}/us', $html, $match);
+$stations = array_unique($match[1]);
 foreach($stations as $station) {
     $toiletInfo['macau'][$station] = [];
     // TC -> SC
