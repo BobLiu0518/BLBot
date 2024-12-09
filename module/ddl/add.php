@@ -17,8 +17,8 @@ if(mb_strlen($name) > 10) {
     replyAndLeave('名称太长了哦，精简一下吧～');
 }
 $ddls = getDdl($Event['user_id']);
-foreach($ddls as $ddl) {
-    if($ddl['name'] == $name) {
+foreach($tasks as $task) {
+    if($task['name'] == $name) {
         replyAndLeave("已经存在名为 {$name} 的待办事项了哦…");
     }
 }
