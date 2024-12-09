@@ -16,6 +16,12 @@ if(!$ddl) {
 if(mb_strlen($name) > 10) {
     replyAndLeave('名称太长了哦，精简一下吧～');
 }
+$ddls = getDdl($Event['user_id']);
+foreach($ddls as $ddl) {
+    if($ddl['name'] == $name) {
+        replyAndLeave("已经存在名为 {$name} 的待办事项了哦…");
+    }
+}
 
 setDdl($Event['user_id'], $name, $ddl);
 $time = date('Y/m/d', $ddl);
