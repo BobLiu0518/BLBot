@@ -272,7 +272,8 @@ function loadModule(string $module) {
     if(file_exists('../module/'.$moduleFile)) {
         require_once('../module/'.$moduleFile);
     } else if(strlen($module) <= 15) {
-        replyAndLeave('指令 #'.$module." 不存在哦，可能是拼写错误，或是他人设置的别名？\n发送 #help 查看指令列表～");
+        $prefix = config('prefix', '/');
+        replyAndLeave("指令 {$prefix}{$module} 不存在哦…不知道怎么使用 Bot ？发送 {$prefix}help 即可查看帮助～");
     }
 }
 
