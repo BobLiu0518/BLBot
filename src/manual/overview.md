@@ -267,13 +267,13 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 同 [#ddl.check](#ddl-check)。
 
-## `#ddl <名称> <时间>` {#ddl-2}
+## `#ddl <名称> [时间]` {#ddl-2}
 
 同 [#ddl.add](#ddl-add)。
 
-## `#ddl.add <名称> <时间>` {#ddl-add}
+## `#ddl.add <名称> [时间]` {#ddl-add}
 
-添加待办事项。
+添加待办事项。如果不指定时间，则为长期任务。
 
 ## `#ddl.check` {#ddl-check}
 
