@@ -71,7 +71,7 @@ foreach($targets as $target) {
 }
 
 if(!count($results)) {
-    replyAndLeave(fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…');
+    replyAndLeave((fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…')."\n使用 #schedule.set 指令即可设置～");
 }
 if(!fromGroup()) {
     foreach($results as $user_id => $content) {
