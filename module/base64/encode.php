@@ -1,9 +1,11 @@
-l<?php
+<?php
 
-	global $Queue, $Text;
-	while($nextArg = nextArg())
-		$Text = $nextArg.$Text;
-	if(strpos($Text, "[CQ:") !== false)leave("非法内容！");
-	$Queue[]= replyMessage('base64('.$Text.') = '.base64_encode($Text));
+$text = nextArg(true);
+if(!$text) {
+    replyAndLeave('不知道你想要编码什么呢…');
+}
+if(strpos($text, "[CQ:") !== false) {
+    replyAndLeave('不能包含非文本内容哦…');
+}
 
-?>
+replyAndLeave(base64_encode($text));
