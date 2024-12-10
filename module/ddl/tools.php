@@ -31,12 +31,15 @@ function classifyDdls($ddls, $timestamp = null) {
         'critical' => [],
         'urgent' => [],
         'regular' => [],
+        'long-term' => [],
     ];
     foreach($ddls as $ddl) {
         $remainTime = $ddl['time'] - ($timestamp ?? time());
         $time = date('Y/m/d', $ddl['time']);
         $description = "{$time} {$ddl['name']}";
-        if($remainTime < 0) {
+        if($ddl['time'] >= 1e16) {
+            $result['long-term'][] = "????/??/?? {$ddl['name']}";
+        } else if($remainTime < 0) {
             $result['expired'][] = $description;
         } else if($remainTime <= 3 * 86400) {
             $result['critical'][] = $description;
@@ -57,6 +60,9 @@ function classifyDdls($ddls, $timestamp = null) {
     }
     if(count($result['regular'])) {
         $reply[] = "———— 其他 ————\n".implode("\n", $result['regular']);
+    }
+    if(count($result['long-term'])) {
+        $reply[] = "———— 长期 ————\n".implode("\n", $result['long-term']);
     }
     return implode("\n", $reply);
 }
