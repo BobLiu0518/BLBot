@@ -8,10 +8,10 @@ if(!$names) {
     replyAndLeave('不知道你想完成什么呢…');
 }
 $ddls = getDdl($Event['user_id']);
-$match = [];
 $reply = [];
 
 foreach(explode(' ', $names) as $name) {
+    $match = [];
     foreach($ddls as $ddl) {
         if(strpos($ddl['name'], $name) !== false) {
             $match[] = $ddl['name'];
