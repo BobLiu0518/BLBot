@@ -59,7 +59,7 @@ function classifyDdls($ddls, $timestamp = null) {
         $reply[] = "———— 优先 ————\n".implode("\n", $result['urgent']);
     }
     if(count($result['regular'])) {
-        $reply[] = "———— 其他 ————\n".implode("\n", $result['regular']);
+        $reply[] = "———— 常规 ————\n".implode("\n", $result['regular']);
     }
     if(count($result['long-term'])) {
         $reply[] = "———— 长期 ————\n".implode("\n", $result['long-term']);
