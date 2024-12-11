@@ -265,27 +265,23 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 ## `#ddl` {#ddl}
 
-同 [#ddl.check](#ddl-check)。
+见 [待办事项](./ddl)。
 
-## `#ddl <名称> [时间]` {#ddl-2}
+## `#ddl.add` {#ddl-add}
 
-同 [#ddl.add](#ddl-add)。
-
-## `#ddl.add <名称> [时间]` {#ddl-add}
-
-添加待办事项。如果不指定时间，则为长期任务。
+见 [待办事项](./ddl)。
 
 ## `#ddl.check` {#ddl-check}
 
-查看设置的待办事项。
+见 [待办事项](./ddl)。
 
-## `#ddl.finish <名称1> [名称2...]` {#ddl-finish}
+## `#ddl.finish` {#ddl-finish}
 
-完成待办事项。
+见 [待办事项](./ddl)。
 
-## `#ddl.notify [时间]` <LvBadge lv=4 /> {#ddl-notify}
+## `#ddl.notify` {#ddl-notify}
 
-设置每日指定时间提醒待办事项。如果不指定时间，默认为 08:00 进行提醒。
+见 [待办事项](./ddl)。
 
 ## `#escape` {#escape}
 

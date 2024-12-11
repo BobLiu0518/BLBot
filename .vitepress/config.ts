@@ -28,6 +28,7 @@ export default defineConfig({
                 {
                     text: '实用功能',
                     items: [
+                        { text: '待办事项', link: '/manual/ddl' },
                         { text: '垃圾分类', link: '/manual/trash' },
                         { text: '课程表', link: '/manual/schedule' },
                         { text: '洗手间位置', link: '/manual/toilet' },
