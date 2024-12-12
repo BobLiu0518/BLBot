@@ -604,9 +604,9 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 测试 Bot 是否正常。
 
-## `#time [时间戳]` {#time}
+## `#time [时间戳/时间字符串]` {#time}
 
-看看时间戳对应的 UTC+8 时间。如果不填写时间戳，则为当前时间。
+在时间戳和时间字符串之间转换。如果不填写参数，则为查看当前时间戳。
 
 ## `#toilet` {#toilet}
 
