@@ -4,11 +4,20 @@ function UTF2GB($str) {
     if(!$str) {
         replyAndLeave('不知道你想查看什么字呢…');
     }
-    $str = iconv('UTF-8', 'GB2312', $str);
-    if(!$str) {
-        replyAndLeave('有字符无法转换为 GB2312 编码哦…');
+    $str = mb_convert_kana($str, 'NA');
+    $converted = iconv('UTF-8', 'GB2312', $str);
+    if(!$converted) {
+        $unsupported = [];
+        $str = mb_str_split($str, 1, 'UTF-8');
+        foreach($str as $n => $char) {
+            $str[$n] = iconv('UTF-8', 'GB2312', $char);
+            if(!$str[$n]) {
+                $unsupported[] = $char;
+            }
+        }
+        replyAndLeave('字符 '.implode('/', $unsupported).' 无法转换为 GB2312 编码哦…');
     }
-    return $str;
+    return $converted;
 }
 
 function getHZK12($char) {
