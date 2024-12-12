@@ -38,7 +38,7 @@ function classifyDdls($ddls, $timestamp = null) {
         $time = date('Y/m/d', $ddl['time']);
         $description = "{$time} {$ddl['name']}";
         if($ddl['time'] >= 1e16) {
-            $result['long-term'][] = "????/??/?? {$ddl['name']}";
+            $result['long-term'][] = "长期待办事项 {$ddl['name']}";
         } else if($remainTime < 0) {
             $result['expired'][] = $description;
         } else if($remainTime <= 3 * 86400) {
