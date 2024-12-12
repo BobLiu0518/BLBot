@@ -22,5 +22,4 @@ for($i = 0; $i < $length; $i++) {
     $reply .= "\n\n";
 }
 
-fclose($font);
 replyAndLeave(trim($reply) ?: '生成失败…');
