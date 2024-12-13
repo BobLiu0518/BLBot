@@ -1,5 +1,14 @@
 <?php
 
+function parseFont($font) {
+    $fontList = ['12', '14', '16', '16F', '16S', '24F', '24H', '24K', '24S', '32'];
+    preg_match('/^(?:HZK)?(\d+[FHKS]?)$/', strtoupper($font), $match);
+    if(!$match[1] || !in_array($match[1], $fontList)) {
+        replyAndLeave("无法识别字体 {$font}…\n可选字体：HZK".implode("/", $fontList));
+    }
+    return 'HZK'.$match[1];
+}
+
 function UTF2GB(string $str) {
     if(!$str) {
         replyAndLeave('不知道你想查看什么字呢…');
@@ -20,7 +29,8 @@ function UTF2GB(string $str) {
     return $converted;
 }
 
-function getBrailledChar(string $str, string $font) {
+function getBrailledChar(string $font, string $str) {
+    $font = parseFont($font);
     preg_match('/(\d+)/', $font, $match);
     $size = intval($match[1]);
     $lines = lineBreaker(UTF2GB($str), $size);
