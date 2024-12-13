@@ -23,8 +23,7 @@ if($arg) {
     $date = '今日';
 }
 
-$user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
-$nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本群哦…");
+$nickname = getNickname($target);
 
 $courses = getCourses($target, $time);
 if($courses === false) {

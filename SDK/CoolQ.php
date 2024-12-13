@@ -285,12 +285,9 @@ class CoolQ {
         return $this->query($api, $param);
     }
 
-    public function getGroupMemberList($group_id) {
-        $api = API::get_group_member_list;
-        $param = [
-            'group_id' => $group_id,
-        ];
-        return $this->query($api, $param);
+    public function getGroupMemberList(int $group_id) {
+        $db = new \BLBot\Database('group', ['key' => 'group_id']);
+        return json_decode(json_encode($db->get($group_id)['members']));
     }
 
     public function getCookies() {

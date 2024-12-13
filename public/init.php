@@ -29,4 +29,15 @@ $dbClient = new MongoDB\Client('mongodb://localhost:'.config('dbPort', 27017), [
 ]);
 $Database = $dbClient->selectDatabase('BLBot', ['typeMap' => ['array' => 'array', 'document' => 'array', 'root' => 'array']]);
 
-block($Event['user_id']);
+$Database->group->updateOne(
+    ['group_id' => $Event['group_id']],
+    [
+        '$set' => [
+            "members.{$Event['user_id']}" => [
+                'real_user_id' => $Event['real_user_id'],
+                ...$Event['sender']
+            ]
+        ]
+    ],
+    ['upsert' => true]
+);
