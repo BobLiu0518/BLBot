@@ -1,3 +1,0 @@
-<?php
-
-loadModule('alias.delete');

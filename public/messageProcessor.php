@@ -17,17 +17,7 @@ if(preg_match('/^('.config('prefix', '#').')/', $message, $prefix)
     $Command = parseCommand(mb_substr($message, mb_strlen($prefix[1]) - 1, $length));
     $Text = substr($message, $length + 1);
     $module = substr(nextArg(), strlen($prefix[1]));
-    try {
-        if(config('alias', false) == true) {
-            loadModule('alias.tools');
-            if($alias = getAlias($Event['user_id'])[$module]) {
-                $module = $alias;
-            }
-        }
-        loadModule($module);
-    } catch (\Exception $e) {
-        throw $e;
-    }
+    loadModule($module);
 } else { //不是命令
     $Message = $message;
     $Command = parseCommand(substr($message, 0, $length));
