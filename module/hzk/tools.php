@@ -1,6 +1,6 @@
 <?php
 
-function UTF2GB($str) {
+function UTF2GB(string $str) {
     if(!$str) {
         replyAndLeave('不知道你想查看什么字呢…');
     }
@@ -20,21 +20,87 @@ function UTF2GB($str) {
     return $converted;
 }
 
-function getHZK12($char) {
-    $font = fopen(getFontPath('HZK12'), 'rb');
-    $high = ord($char[0]);
-    $low = ord($char[1]);
-    $offset = ($high - 0xA1) * 0x8D0 + ($low - 0xA1) * 0x18;
+function getBrailledChar(string $str, string $font) {
+    preg_match('/(\d+)/', $font, $match);
+    $size = intval($match[1]);
+    $lines = lineBreaker(UTF2GB($str), $size);
+    foreach($lines as $line) {
+        $reply .= getBraille(getHZK($line, $font, $size))."\n";
+    }
+    return trim($reply) ?: null;
+}
+
+function lineBreaker(string $str, int $size) {
+    $charsPerLine = floor(36 / $size);
+    if(ceil(mb_strlen($str, 'GB2312') / $charsPerLine) > 5 && fromGroup()) {
+        replyAndLeave('太长了，会刷屏的，请私聊使用哦…');
+    }
+    $result = [''];
+    $lines = 0;
+    for($i = 0; $i < mb_strlen($str, 'GB2312'); $i++) {
+        $char = mb_substr($str, $i, 1, 'GB2312');
+        if(mb_strlen($result[$lines], 'GB2312') == $charsPerLine || $char == "\n") {
+            $lines++;
+            $result[$lines] = '';
+        }
+        if($char != "\n") {
+            $result[$lines] .= $char;
+        }
+    }
+    return $result;
+}
+
+function getHZK(string $str, string $font, int $size) {
+    $font = fopen(getFontPath($font), 'rb');
     $result = [];
 
-    fseek($font, $offset);
-    for($i = 0; $i < 12; $i++) {
-        $bytes = fread($font, 2);
-        $bytes = (ord($bytes[0]) << 8) | ord($bytes[1]);
-        for($j = 0; $j < 12; $j++) {
-            $result[$i][$j] = ($bytes >> (15 - $j)) & 1;
+    for($i = 0; $i < mb_strlen($str, 'GB2312'); $i++) {
+        $char = mb_substr($str, $i, 1, 'GB2312');
+        $high = ord($char[0]);
+        $low = ord($char[1]);
+        $bytes = ceil($size / 8);
+        $offset = (($high - 0xA1) * 0x5E + ($low - 0xA1)) * $bytes * $size;
+
+        fseek($font, $offset);
+        for($j = 0; $j < $size; $j++) {
+            $bits = 0;
+            for($k = 0; $k < $bytes; $k++) {
+                $byte = fread($font, 1);
+                $bits = ($bits << 8) | ord($byte);
+            }
+            for($k = 0; $k < $size; $k++) {
+                $result[$j][$i * $size + $k] = ($bits >> ($bytes * 8 - $k - 1)) & 1;
+            }
         }
     }
     fclose($font);
+    return $result;
+}
+
+function getBraille(array $data) {
+    $pixelMap = [
+        [0x01, 0x08],
+        [0x02, 0x10],
+        [0x04, 0x20],
+        [0x40, 0x80],
+    ];
+    for($i = 0; $i < count($data); $i += 4) {
+        for($j = 0; $j < count($data[$i]); $j += 2) {
+            $sum = 0;
+            for($y = 0; $y < 4; $y++) {
+                for($x = 0; $x < 2; $x++) {
+                    if($j + $x >= count($data[$i])) {
+                        break;
+                    }
+                    if($i + $y >= count($data)) {
+                        break 2;
+                    }
+                    $sum += $data[$i + $y][$j + $x] * $pixelMap[$y][$x];
+                }
+            }
+            $result .= mb_chr(0x2800 + $sum, 'UTF-8');
+        }
+        $result .= "\n";
+    }
     return $result;
 }
