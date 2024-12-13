@@ -34,11 +34,7 @@ try {
 
 } catch (\Exception $e) {
     if($e->getMessage()) {
-        if(preg_match('/\[CQ:reply,id=(-?\d+?)\]/', $e->getMessage())) {
-            $Queue[] = sendBack($e->getMessage(), false, true);
-        } else {
-            $Queue[] = replyMessage($e->getMessage(), false, true);
-        }
+        $Queue[] = sendBack($e->getMessage(), false, true);
     }
 }
 
