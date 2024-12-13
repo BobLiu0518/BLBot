@@ -1,4 +1,4 @@
-# BLBot
+# BLBot Lite
 
 [![License](https://img.shields.io/badge/License-MIT%20%26%20AGPL-red.svg)](LICENSE)
 [![Based on kjBot](https://img.shields.io/badge/Based%20on-kjBot-brightgreen.svg)](https://github.com/kj415j45/kjBot)
@@ -6,15 +6,15 @@
 
 BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的 QQ 机器人。
 
+BLBot Lite 在 [BLBot](https://github.com/BobLiu0518/BLBot/tree/main/) 上，精简了部分功能，并改用 [QQ 开放平台](https://bot.q.qq.com/wiki) 的官方接口。
+
 ## 安装依赖
 
 在开始之前，你需要安装 BLBot 依赖的运行环境：
 
 ### OneBot 环境
 
-本项目开发目标为 Lagrange。为获得最好的效果，请您使用 [Lagrange.OneBot](https://github.com/KonataDev/Lagrange.Core) 运行。
-
-使用 [其他 OneBot 11/10 实现](https://onebot.dev/ecosystem.html#onebot-11-10-cqhttp) 也能运行 BLBot，但部分功能可能不可用。
+Lite 版开发目标为 Gensokyo。为获得最好的效果，请您使用 [Gensokyo](https://github.com/Hoshinonyaruko/Gensokyo) 运行。
 
 ### 数据库
 
@@ -26,7 +26,7 @@ BLBot 使用 [MongoDB](https://www.mongodb.com/) 作为数据库。
 db.createUser({
     user: 'appUser', // 用户名
     pwd: 'appPassword', // 密码
-    roles: [{ role: 'readWrite', db: 'BLBot' }],
+    roles: [{ role: 'readWrite', db: 'BLBotLite' }],
 });
 ```
 
@@ -48,55 +48,12 @@ db.createUser({
         |--error.log #如果出现异常未捕获则会在此存放日志
         |......
     |--cache/ #缓存文件夹
-|--middleWare/ #中间件，用于处理非命令
-    |--Chain.php #中间件链，用于调整中间件顺序以及启用状态
-    |--......
 |--module/ #在这里开始编写你的模块吧 :)
     |--......
 |--config.ini.example #配置文件样例，本地部署时请复制为 config.ini 并根据实际情况调整
 |--build.sh #进行环境配置
 |--run.sh #一键部署（大概 :v
 ```
-
-## 上手
-
-### 快速安装
-
-```sh
-git clone https://github.com/BobLiu0518/BLBot.git
-cd BLBot/
-./build.sh
-```
-
-仅作为框架使用时请清除 `composer.json` 内的 `require` 以及 `module/`、`middleWare/` 文件夹内的全部内容。
-
-### 入门
-
-`public/init.php` 中存在一个全局变量区供编写模块的程序员使用，约定本框架产生的全局变量均为大写字母开头。
-
-`public/tools/` 下的文件将为框架扩展各类方法，请仔细阅读。
-
-### 编写第一个模块
-
-假定该模块为 `hello/main.php` ，向 bot 发送 `#hello` 即可触发该模块。
-
-```php
-<?php
-
-global $Queue; //从全局变量区中导入 $Queue 数组，该数组提供消息队列的功能
-
-if(!fromGroup()){ //如果消息不是来自群聊
-    $Queue[]= sendBack('Hello, world!'); //向消息队列尾插入一句 'Hello, world!'，在哪收到就发到哪，此处只会在私聊中发送
-}else{
-    leave(); //从模块中退出，不再执行下面的语句
-}
-
-?>
-```
-
-### 编写更多模块
-
-参考 `module/` 文件夹下的其他模块
 
 ## 感谢
 
