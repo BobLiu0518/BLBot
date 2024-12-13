@@ -241,27 +241,7 @@ function sendRec($str): string {
 function loadModule(string $module) {
     global $Event;
     static $config;
-    if(fromGroup()) {
-        if(!$config) {
-            $config = getConfig($Event['group_id']);
-        }
-        $baseCommand = explode('.', $module)[0];
-        $moduleInList = in_array($baseCommand, $config['commands']);
-        if(!in_array($baseCommand, ['config']) && !preg_match('/\.tools$/', $module)) {
-            if($moduleInList && $config['mode'] == 'blacklist' || !$moduleInList && $config['mode'] == 'whitelist') {
-                if(!$config['silence']) {
-                    replyAndLeave('该指令已被群指令配置禁用。');
-                } else {
-                    leave();
-                }
-            }
-        }
-    }
 
-    if($Event['user_id'] == "80000000") {
-        // $Queue[]= replyMessage('请不要使用匿名！');
-        leave();
-    }
     if('.' === $module[0]) {
         $Queue[] = replyMessage('非法命令！');
         leave();
