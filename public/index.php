@@ -4,17 +4,8 @@ if(function_exists('fastcgi_finish_request')) fastcgi_finish_request();
 
 require('init.php');
 
-use kjBot\Frame\Message;
-
 try {
     $listen = config('Listen');
-    $whiteList = json_decode(getData('whitelist.json'), true)['groups'];
-    if($whiteList && !in_array($Event['group_id'], $whiteList) && $Event['group_id'] != null) {
-        $Queue[] = sendMaster('No access at '.$Event['group_id']);
-        $Queue[] = sendDevGroup('No access at '.$Event['group_id']);
-        $CQ->setGroupLeave($Event['group_id']);
-        exit();
-    }
 
     switch($Event['post_type']) {
         case 'message':
