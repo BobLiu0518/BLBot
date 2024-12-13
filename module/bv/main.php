@@ -1,5 +1,0 @@
-<?php
-
-loadModule('bv.decode');
-
-?>

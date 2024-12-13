@@ -1,3 +1,0 @@
-<?php
-
-loadModule('attack.escape');
