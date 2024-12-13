@@ -1,5 +1,0 @@
-<?php
-
-loadModule('credit.see');
-
-?>
