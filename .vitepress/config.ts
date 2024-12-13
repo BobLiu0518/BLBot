@@ -34,6 +34,7 @@ export default defineConfig({
                         { text: '洗手间位置', link: '/manual/toilet' },
                         { text: '国铁车次', link: '/manual/cr' },
                         { text: '金山铁路车次', link: '/manual/jsr' },
+                        { text: '点阵汉字', link: '/manual/hzk' },
                         { text: '拼音查询', link: '/manual/pinyin' },
                     ],
                 },
