@@ -6,7 +6,7 @@ requireLvl(2);
 $str = UTF2GB(nextArg(true));
 $length = mb_strlen($str, 'GB2312');
 if($length > 2 && fromGroup()) {
-    replyAndLeave('太长了，会刷屏的，请私聊使用，或换用 #hzk.12s 哦…');
+    replyAndLeave('太长了，会刷屏的，请私聊使用，或换用 #hzk 12 哦…');
 }
 $reply = '';
 
