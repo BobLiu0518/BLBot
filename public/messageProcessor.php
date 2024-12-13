@@ -19,8 +19,5 @@ if(preg_match('/^('.config('prefix', '#').')/', $message, $prefix)
     $module = substr(nextArg(), strlen($prefix[1]));
     loadModule($module);
 } else { //不是命令
-    $Message = $message;
-    $Command = parseCommand(substr($message, 0, $length));
-    $Text = substr($message, $length + 1);
-    require('../middleWare/Chain.php');
+    replyAndLeave("不知道怎么使用 Bot ？发送 /help 即可查看帮助～");
 }
