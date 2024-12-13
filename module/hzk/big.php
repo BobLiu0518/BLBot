@@ -12,7 +12,7 @@ $reply = '';
 
 for($i = 0; $i < $length; $i++) {
     $char = mb_substr($str, $i, 1, 'GB2312');
-    $result = getHZK($char, 'HZK12', 12);
+    $result = getHZK($char, 'HZK12', 12, false);
     for($j = 0; $j < 12; $j++) {
         for($k = 0; $k < 12; $k++) {
             $reply .= $result[$j][$k] ? '■' : '　';

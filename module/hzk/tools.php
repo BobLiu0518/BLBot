@@ -29,15 +29,15 @@ function UTF2GB(string $str) {
     return $converted;
 }
 
-function getBrailledChar(string $font, string $str) {
+function getBrailledChar(string $font, string $str, bool $bold = false) {
     $font = parseFont($font);
     preg_match('/(\d+)/', $font, $match);
     $size = intval($match[1]);
     $lines = lineBreaker(UTF2GB($str), $size);
     foreach($lines as $line) {
-        $reply .= getBraille(getHZK($line, $font, $size))."\n";
+        $reply .= getBraille(getHZK($line, $font, $size, $bold))."\n";
     }
-    return trim($reply) ?: null;
+    return trim($reply) ?: '生成失败…';
 }
 
 function lineBreaker(string $str, int $size) {
@@ -60,7 +60,7 @@ function lineBreaker(string $str, int $size) {
     return $result;
 }
 
-function getHZK(string $str, string $font, int $size) {
+function getHZK(string $str, string $font, int $size, bool $bold) {
     $font = fopen(getFontPath($font), 'rb');
     $result = [];
 
@@ -80,6 +80,9 @@ function getHZK(string $str, string $font, int $size) {
             }
             for($k = 0; $k < $size; $k++) {
                 $result[$j][$i * $size + $k] = ($bits >> ($bytes * 8 - $k - 1)) & 1;
+                if($bold && $k != 0) {
+                    $result[$j][$i * $size + $k] |= ($bits >> ($bytes * 8 - $k)) & 1;
+                }
             }
         }
     }
