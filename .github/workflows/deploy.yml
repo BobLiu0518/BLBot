@@ -37,6 +37,8 @@ jobs:
               run: pnpm install
             - name: Build with VitePress
               run: pnpm run docs:build
+            - name: Place domain name verification file
+              run: echo '{"bot_appid":102077530}' > ./.vitepress/dist/102077530.json
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
