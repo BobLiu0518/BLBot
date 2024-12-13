@@ -10,6 +10,7 @@ export default defineConfig({
         nav: [
             { text: '首页', link: '/' },
             { text: '用户手册', link: '/manual/', activeMatch: '/manual/' },
+            { text: 'Lite', link: '/lite', activeMatch: '/lite' },
             { text: '部署', link: '/deploy/', activeMatch: '/deploy/' },
             { text: '关于', link: '/about', activeMatch: '/about' },
         ],

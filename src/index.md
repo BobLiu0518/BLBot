@@ -10,6 +10,9 @@ hero:
           text: 用户手册
           link: /manual/
         - theme: alt
+          text: Lite
+          link: /lite
+        - theme: alt
           text: 部署
           link: /deploy/
         - theme: alt
