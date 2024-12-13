@@ -309,8 +309,8 @@ $date = date('Y年m月d日 H:i');
 $hint = <<<EOT
 本图由 BLBot 生成于 {$date}
 地铁标志由 -Lyt- 绘制，版权由各地轨交公司所有
-使用 #toilet.cities 指令查看支持情况及数据来源
-如遇数据错误等问题，请用 #feedback 指令反馈
+使用 /toilet.cities 指令查看支持情况及数据来源
+Bot 不为数据的准确性和实时性负责
 EOT;
 $draw->setGravity(Imagick::GRAVITY_NORTHWEST);
 $draw->setFillColor('#FFFFFF');
