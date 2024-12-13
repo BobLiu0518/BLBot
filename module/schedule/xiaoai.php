@@ -14,7 +14,7 @@ if(!$link) {
 1. 打开小爱课程表，导入或手动录入自己的课表信息，非小米设备可下载小爱同学或小爱课程表 app：
 https://zhengy7.lanzoue.com/i9wkK0mx1fhe
 2. 在课程表设置中，选择分享课表，复制分享链接；
-3. 发送指令 #schedule.xiaoai <分享链接>，注意指令中不包含括号。
+3. 发送指令 /schedule.xiaoai <分享链接>，注意指令中不包含括号。
 EOT);
 } else if(!preg_match('/(?:linkToken|token)=([0-9a-zA-Z\+\/=]+)$/', $link, $matches)) {
     replyAndLeave('这好像不是小爱课表的链接哦…');

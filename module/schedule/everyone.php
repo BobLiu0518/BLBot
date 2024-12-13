@@ -70,7 +70,7 @@ foreach($targets as $target) {
 }
 
 if(!count($results)) {
-    replyAndLeave((fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…')."\n使用 #schedule.set 指令即可设置～");
+    replyAndLeave((fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…')."\n使用 /schedule.set 指令即可设置～");
 }
 if(!fromGroup()) {
     foreach($results as $user_id => $content) {
@@ -164,12 +164,12 @@ foreach($results as $result) {
 $imageWidth = max(800, $maxContentX + 100);
 
 // 画底栏
-$signature = 'BLBot - '.date('Y/m/d H:i:s').' - '.$Event['group_id'];
+$signature = 'BLBot Lite - '.date('Y/m/d H:i:s');
 $draw->setFillColor('#000000');
 $draw->setFontSize(24);
 $currentX = ($imageWidth - $image->queryFontMetrics($draw, $signature)['textWidth']) / 2;
 $draw->annotation($currentX, $currentY + 8, $signature);
-$prompt = '使用 #schedule.set 指令设置课程表';
+$prompt = '使用 /schedule.set 指令设置课程表';
 $currentX = ($imageWidth - $image->queryFontMetrics($draw, $prompt)['textWidth']) / 2;
 $draw->annotation($currentX, $currentY + 32, $prompt);
 

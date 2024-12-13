@@ -13,7 +13,7 @@ if(!$code) {
 设置课程表方法：
 1. 打开 WakeUp 课程表，导入或手动录入自己的课表信息；
 2. 点击右上角的分享按钮，选择“在线分享课表”，复制口令；
-3. 发送指令 #schedule.wakeup <口令>，注意指令中不包含括号。
+3. 发送指令 /schedule.wakeup <口令>，注意指令中不包含括号。
 EOT);
 } else if(preg_match('/「([0-9a-zA-Z\-_]+?)」/u', $code, $matches)) {
     $code = $matches[1];
