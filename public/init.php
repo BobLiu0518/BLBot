@@ -20,14 +20,13 @@ $DebugListen = config('DebugListen', config('master'));
 $Command = [];
 $Text = '';
 $Referer = null;
-
 $dbClient = new MongoDB\Client('mongodb://localhost:'.config('dbPort', 27017), [
-    'appName' => 'BLBot',
+    'appName' => 'BLBotLite',
     'username' => config('dbUsername'),
     'password' => config('dbPassword'),
-    'authSource' => 'BLBot',
+    'authSource' => 'BLBotLite',
 ]);
-$Database = $dbClient->selectDatabase('BLBot', ['typeMap' => ['array' => 'array', 'document' => 'array', 'root' => 'array']]);
+$Database = $dbClient->selectDatabase('BLBotLite', ['typeMap' => ['array' => 'array', 'document' => 'array', 'root' => 'array']]);
 
 $Database->group->updateOne(
     ['group_id' => $Event['group_id']],
