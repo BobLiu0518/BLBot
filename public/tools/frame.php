@@ -161,13 +161,16 @@ function getCacheFolderContents(string $folderPath) {
 }
 
 function getAvatar($user_id, $large = false) {
-    global $Config;
+    global $Config, $Event;
+    static $db;
+    if(!$db) $db = new BLBot\Database('group', ['key' => 'group_id']);
+    $realId = $db->get($Event['group_id'])['members'][$user_id]['real_user_id'];
     $refreshInverval = $Config['avatarCacheTime'] ?? 86400;
     $size = $large ? 640 : 100;
     $cacheFile = "avatar/{$size}/{$user_id}";
     $avatar = getCache($cacheFile);
     if(!$avatar || time() - filemtime(getCachePath($cacheFile)) > $refreshInverval) {
-        $avatar = file_get_contents("https://q1.qlogo.cn/g?b=qq&s={$size}&nk={$user_id}");
+        $avatar = file_get_contents("https://q.qlogo.cn/qqapp/102077530/{$realId}/100");
         $img = new Imagick();
         $img->readImageBlob($avatar);
         $img->setImageFormat('png');
