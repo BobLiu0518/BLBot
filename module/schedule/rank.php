@@ -1,7 +1,6 @@
 <?php
 
 global $CQ, $Event;
-requireLvl(1);
 loadModule('schedule.tools');
 
 if(!fromGroup()) {

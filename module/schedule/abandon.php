@@ -1,7 +1,6 @@
 <?php
 
 global $Event;
-requireLvl(1);
 loadModule('schedule.tools');
 
 if(!getScheduleData($Event['user_id'])) {

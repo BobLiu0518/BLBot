@@ -1,7 +1,6 @@
 <?php
 
 global $Event, $Command, $Text;
-requireLvl(1);
 loadModule('schedule.tools');
 
 $name = null;

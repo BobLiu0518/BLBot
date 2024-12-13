@@ -2,7 +2,6 @@
 
 global $Event;
 loadModule('ddl.tools');
-requireLvl(1);
 
 $name = nextArg();
 $time = nextArg(true);

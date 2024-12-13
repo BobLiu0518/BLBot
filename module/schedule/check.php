@@ -1,6 +1,5 @@
 <?php
 
-requireLvl(1);
 loadModule('schedule.tools');
 
 global $Event, $CQ;

@@ -1,7 +1,6 @@
 <?php
 
 global $Text, $Command;
-requireLvl(1);
 use Overtrue\Pinyin\Pinyin;
 
 $text = preg_replace('/\[CQ:.+?\]/', '', implode(' ', array_slice($Command, 1)).$Text);

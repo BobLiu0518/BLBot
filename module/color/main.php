@@ -1,7 +1,5 @@
 <?php
 
-requireLvl(1);
-
 $color = nextArg();
 if($color === null){
     $color = '#'.substr('000000'.dechex(rand(0, pow(2, 24) - 1)), -6);
