@@ -1,29 +1,10 @@
-;不懂的就别动了
 API="127.0.0.1:5700"
 token=
 ;数据库凭据
 dbUsername=
 dbPassword=
 dbPort=
-;命令前缀，可以设置俩
-prefix="#"
-prefix2=";"
-enablePrefix2=true
-;依次填入你的Q号、你机器人的Q号和你的开发群
-master=
+;填入Bot号
 bot=
-devgroup=
-;是否允许加好友和加群，可选 true false ignore
-allowFriends=false
-allowGroups=ignore
-;添加好友或新人进群时的默认提示语
-addFriendMsg="BLBot 已经是你的好友啦，发送 #help 查看帮助～"
-addGroupMsg="欢迎加入本群，我是 BLBot，发送 #help 查看帮助～"
 ;头像缓存时长
 avatarCacheTime=86400
-;调试选项
-DEBUG=false
-DebugListen=
-Listen=-1
-;是否开启一些功能
-alias=true
