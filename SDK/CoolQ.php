@@ -54,7 +54,7 @@ class CoolQ {
         $api = API::send_group_msg;
         $param = [
             'group_id' => $group_id,
-            'message' => $message,
+            'message' => "\n".$message,
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -65,7 +65,7 @@ class CoolQ {
         $api = API::send_group_msg_async;
         $param = [
             'group_id' => $group_id,
-            'message' => $message,
+            'message' => "\n".$message,
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -76,7 +76,7 @@ class CoolQ {
         $api = API::send_discuss_msg;
         $param = [
             'discuss_id' => $discuss_id,
-            'message' => $message,
+            'message' => "\n".$message,
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -90,7 +90,7 @@ class CoolQ {
             'user_id' => $id,
             'group_id' => $id,
             'discuss_id' => $id,
-            'message' => $message,
+            'message' => "\n".$message,
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -104,7 +104,7 @@ class CoolQ {
             'user_id' => $id,
             'group_id' => $id,
             'discuss_id' => $id,
-            'message' => $message,
+            'message' => "\n".$message,
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
