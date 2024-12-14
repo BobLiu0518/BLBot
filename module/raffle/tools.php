@@ -1,6 +1,6 @@
 <?php
 
-function getRandGroupMember(){
+function getRandGroupMember() {
 	date_default_timezone_set('Asia/Shanghai');
 	global $Event, $CQ;
 
@@ -9,14 +9,14 @@ function getRandGroupMember(){
 	$pool = [];
 
 	foreach($memberList as $member) {
-	    if($time - $CQ->getGroupMemberInfo($Event['group_id'], $member->user_id)->last_sent_time <= 86400 * 3) {
-	        $pool[] = $member;
-	    }
+		if($time - $CQ->getGroupMemberInfo($Event['group_id'], $member->user_id)->last_sent_time <= 86400 * 3) {
+			$pool[] = $member;
+		}
 	}
 	if(!count($pool)) {
-	    $pool = $memberList;
+		$pool = $memberList;
 	}
-	$member = $pool[rand(0, count($pool)-1)];
+	$member = $pool[rand(0, count($pool) - 1)];
 
 	pokeBack($member->user_id);
 	return [
@@ -24,5 +24,3 @@ function getRandGroupMember(){
 		'user_id' => $member->user_id,
 	];
 }
-
-?>
