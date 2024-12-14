@@ -6,6 +6,10 @@ class CoolQ {
     private $host;
     private $token;
 
+    private function addLineBreak($msg) {
+        return preg_replace('/^(?!\[CQ:image)/', "\n", $msg);
+    }
+
     public function __construct($host = '127.0.0.1:5700', $token = '') {
         $this->host = $host;
         $this->token = $token;
@@ -54,7 +58,7 @@ class CoolQ {
         $api = API::send_group_msg;
         $param = [
             'group_id' => $group_id,
-            'message' => "\n".$message,
+            'message' => $this->addLineBreak($message),
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -65,7 +69,7 @@ class CoolQ {
         $api = API::send_group_msg_async;
         $param = [
             'group_id' => $group_id,
-            'message' => "\n".$message,
+            'message' => $this->addLineBreak($message),
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -76,7 +80,7 @@ class CoolQ {
         $api = API::send_discuss_msg;
         $param = [
             'discuss_id' => $discuss_id,
-            'message' => "\n".$message,
+            'message' => $this->addLineBreak($message),
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -90,7 +94,7 @@ class CoolQ {
             'user_id' => $id,
             'group_id' => $id,
             'discuss_id' => $id,
-            'message' => "\n".$message,
+            'message' => $this->addLineBreak($message),
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
@@ -104,7 +108,7 @@ class CoolQ {
             'user_id' => $id,
             'group_id' => $id,
             'discuss_id' => $id,
-            'message' => "\n".$message,
+            'message' => $this->addLineBreak($message),
             'auto_escape' => $auto_escape,
             'is_raw' => $auto_escape,
         ];
