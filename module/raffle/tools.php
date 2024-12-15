@@ -1,5 +1,7 @@
 <?php
 
+loadModule('nickname.tools');
+
 function getRandGroupMember() {
 	date_default_timezone_set('Asia/Shanghai');
 	global $Event, $CQ;
@@ -20,7 +22,7 @@ function getRandGroupMember() {
 
 	pokeBack($member->user_id);
 	return [
-		'nickname' => $member->card ? $member->card : $member->nickname,
+		'nickname' => getNickname($member->user_id, null, false) ?? $member->card ?? $member->nickname,
 		'user_id' => $member->user_id,
 	];
 }
