@@ -47,6 +47,8 @@ BLBot 内置 [别名系统](./alias)，可以将任意内容设置为已存在�
     - 群主的等级达到 `Lv2`
 
 满足以上条件后，在 BLBot 官方群内使用 `#feedback.invite` 指令申请，Bot 会和你核实相关条件。
+
+当然，你也可以选择邀请 [BLBot Lite](/lite) 加入群聊，不受上述限制。
 :::
 
 ::: details 发现了 BLBot 的 bug，应当如何反馈？
