@@ -451,6 +451,10 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 通过文本生成二维码。
 
+## `#raffle` {#raffle}
+
+随机抽取一名群友。
+
 ## `#randomban` {#randomban}
 
 让 Bot 随机禁言你一段时间（最少 1 秒，最多 10 分钟）。此指令需要 Bot 在群内的权限较高，即 Bot 为群主，或者 Bot 为管理员且调用者为普通用户。
@@ -595,10 +599,6 @@ import MasterBadge from '../../components/MasterBadge.vue';
 ## `#suicide` {#suicide}
 
 同 [`#attack.suicide`](#attack-suicide)。
-
-## `#sun` {#sun}
-
-随机抽取一名群友。
 
 ## `#test` {#test}
 
