@@ -311,6 +311,18 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 获取帮助页面。
 
+## `#hzk` {#hzk}
+
+见 [点阵汉字](./hzk)。
+
+## `#hzk.big` {#hzk-big}
+
+见 [点阵汉字](./hzk)。
+
+## `#hzk.bold` {#hzk-bold}
+
+见 [点阵汉字](./hzk)。
+
 ## `#inmate` {#inmate}
 
 同 [`attack.inmate`](#attack-inmate)。
