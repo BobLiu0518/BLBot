@@ -31,17 +31,20 @@ foreach($targets as $target) {
             $total += strtotime($course['endTime']) - strtotime($course['startTime']);
         }
     }
-    $results[] = [
-        'user_id' => $target->user_id,
-        'total' => $total,
-    ];
+
+    if($total) {
+        $results[] = [
+            'user_id' => $target->user_id,
+            'total' => $total,
+        ];
+    }
 }
 usort($results, function ($a, $b) {
     return $b['total'] <=> $a['total'];
 });
 
 if(!count($results)) {
-    replyAndLeave(fromGroup() ? '暂无群友配置了课程表哦…' : '暂未配置课程表哦…');
+    replyAndLeave(fromGroup() ? "{$types[$type]['name']}没有群友有课哦…" : "{$types[$type]['name']}无课哦…");
 } else {
     $groupName = $CQ->getGroupInfo($Event['group_id'])->group_name;
     $reply = $groupName.' '.$types[$type]['name'].'课程时长榜';
