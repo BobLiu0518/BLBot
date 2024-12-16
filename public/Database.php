@@ -15,7 +15,7 @@ class Database {
     }
 
     public function set($key, $data, $options = []) {
-        if(!$options['upsert']) {
+        if($options['upsert'] === null) {
             $options['upsert'] = true;
         }
         return $this->collection->updateOne(
