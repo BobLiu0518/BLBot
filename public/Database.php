@@ -14,11 +14,11 @@ class Database {
         $this->defaultValue = $options['default'] ?? null;
     }
 
-    public function set($key, $data, $upsert = true) {
+    public function set($key, $data, $options = []) {
         return $this->collection->updateOne(
             [$this->primaryKey => $key],
             ['$set' => $data],
-            ['upsert' => $upsert],
+            $options,
         )->isAcknowledged();
     }
 
@@ -28,7 +28,7 @@ class Database {
         } else {
             $operator = [
                 $dataName => [
-                    '$each' => [$data],
+                    '$each' => $data ? [$data] : [],
                     '$sort' => $sort,
                 ]
             ];
