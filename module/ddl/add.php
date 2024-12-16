@@ -9,6 +9,7 @@ if(!$name) {
     replyAndLeave('不知道你想设置什么呢…');
 }
 $ddl = $time ? strtotime($time) : 1e16;
+$time = $ddl >= 1e16 ? '长期' : date('Y/m/d', $ddl);
 if(!$ddl) {
     replyAndLeave("无法识别的时间：{$time}");
 }
@@ -18,10 +19,10 @@ if(mb_strlen($name) > 10) {
 $tasks = getDdl($Event['user_id']);
 foreach($tasks as $task) {
     if($task['name'] == $name) {
-        replyAndLeave("已经存在名为 {$name} 的待办事项了哦…");
+        updateDdl($Event['user_id'], $task['name'], $ddl);
+        replyAndLeave("更新任务 {$name} 成功，截止：{$time}");
     }
 }
 
 setDdl($Event['user_id'], $name, $ddl);
-$time = $ddl >=1e16 ? '长期' : date('Y/m/d', $ddl);
 replyAndLeave("设置任务 {$name} 成功，截止：{$time}");

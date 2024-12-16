@@ -17,6 +17,16 @@ function setDdl(int $user_id, string $name, int $time) {
     ], ['time' => 1]);
 }
 
+function updateDdl(int $user_id, string $name, int $time) {
+    return getDdlDb()->set($user_id, [
+        'ddls.$[elem].time' => $time,
+    ], [
+        'arrayFilters' => [
+            ['elem.name' => $name]
+        ],
+    ]) & getDdlDb()->push($user_id, 'ddls', null, ['time' => 1]);
+}
+
 function finishDdl(int $user_id, string $name) {
     return getDdlDb()->pull($user_id, 'ddls', [
         'name' => $name,
