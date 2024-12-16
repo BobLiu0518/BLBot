@@ -15,6 +15,9 @@ class Database {
     }
 
     public function set($key, $data, $options = []) {
+        if(!$options['upsert']) {
+            $options['upsert'] = true;
+        }
         return $this->collection->updateOne(
             [$this->primaryKey => $key],
             ['$set' => $data],
