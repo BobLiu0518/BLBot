@@ -33,6 +33,8 @@ foreach($stations as $station) {
     $toiletInfo['nanchang'][$station['station_name']] = [];
 }
 
+$toiletInfo['nanchang']['大岗'] = ['redirect' => ['南昌中学']];
+
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
 setData('toilet/citiesMeta.json', json_encode($citiesMeta));
