@@ -10,10 +10,10 @@ if(!$name) {
     replyAndLeave('不知道你想设置什么呢…');
 }
 $ddl = $time ? strtotime($time) : 1e16;
-$time = $ddl >= 1e16 ? '长期' : date('Y/m/d', $ddl);
 if(!$ddl) {
     replyAndLeave("无法识别的时间：{$time}");
 }
+$time = $ddl >= 1e16 ? '长期' : date('Y/m/d', $ddl);
 if(mb_strlen($name) > 10) {
     replyAndLeave('名称太长了哦，精简一下吧～');
 }
