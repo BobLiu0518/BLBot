@@ -188,7 +188,7 @@ function joinGame() {
 
     // 检查锁定
     if(isHorseLocked($Event['user_id'])) {
-        le('你的'.$horse.'现在在别的赛'.$horse.'场哦？');
+        replyAndLeave('你的'.$horse.'现在在别的赛'.$horse.'场哦？');
     }
 
     // 检查cd
