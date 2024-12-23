@@ -588,10 +588,6 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 查询上海交通公交线路信息。
 
-## `#shname <姓名>` {#shname}
-
-在上海市户籍人口中查询同名人数。
-
 ## `#sjwgj <线路名>` {#sjwgj}
 
 查询松江公交公交线路信息。
