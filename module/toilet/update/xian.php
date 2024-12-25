@@ -19,33 +19,41 @@ $citiesMeta['xian'] = [
     'logo' => 'metro_logo_xian.svg',
 ];
 
-// Get lines
-$lines = json_decode(file_get_contents('https://xadt.i-xiaoma.com.cn/api/v1/app/subway/lines?appId=xianmetro&version=v20171215', false, $context), true)['data'];
-$stationDataApi = 'https://xadt.i-xiaoma.com.cn/api/v2/app/stationInfo';
+// Get stations
+$context = stream_context_create([
+    'http' => [
+        'method' => 'GET',
+        'header' => 'appId: 810280297121',
+    ],
+]);
+$lines = json_decode(file_get_contents('https://aclc.xa-metro.com/apps/v1/api/extend/station/lines/810280297121', false, $context), true)['data'];
+$stationDataApi = 'https://aclc.xa-metro.com/apps/v1/api/extend/station/details/810280297121';
 
 // Get stations
 foreach($lines as $line) {
-    $lineName = preg_replace('/^西安地铁/u', '', $line['lineName']);
-    $citiesMeta['xian']['color'][$lineName] = $line['lineColor'];
-    foreach($line['lineStationList'] as $station) {
+    $lineName = preg_replace('/^地铁/u', '', $line['lineName']);
+    $citiesMeta['xian']['color'][$lineName] = $line['colour'];
+    foreach($line['stationList'] as $station) {
         if(!array_key_exists($station['stationName'], $toiletInfo['xian'])) {
             $toiletInfo['xian'][$station['stationName']] = ['toilets' => []];
         }
-        $toilets = [];
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
-                'header' => 'Content-Type: application/json',
-                'content' => json_encode(['stationId' => $station['stationId']]),
+                'header' => implode("\n", [
+                    'Content-Type: application/json',
+                    'appId: 810280297121',
+                ]),
+                'content' => json_encode(['stationNo' => $station['stationNo']]),
             ],
         ]);
         $stationData = json_decode(file_get_contents($stationDataApi, false, $context), true)['data'];
-        foreach($stationData['facility'] as $facility) {
-            if(preg_match('/卫生间/', $facility['facilityName'])) {
-                foreach(explode('；', $facility['facilityDesc']) as $toilet) {
+        foreach($stationData['contentTabs'][0]['tabContent'] as $facility) {
+            if(preg_match('/卫生间/', $facility['contentTitle'])) {
+                foreach(explode('；', $facility['contentInfo']) as $toilet) {
                     $toiletInfo['xian'][$station['stationName']]['toilets'][] = [
                         'title' => $lineName,
-                        'content' => $toilet,
+                        'content' => trim($toilet),
                     ];
                 }
             }
