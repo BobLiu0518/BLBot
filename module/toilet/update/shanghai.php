@@ -35,7 +35,7 @@ $stations = json_decode(file_get_contents('https://m.shmetro.com/core/shmetro/md
 $stationInfoApi = 'https://m.shmetro.com/interface/metromap/metromap.aspx?func=stationInfo&stat_id=';
 $lines = json_decode(file_get_contents('https://m.shmetro.com/interface/metromap/metromap.aspx?func=lines'), true);
 $getCompany = fn($line) => intval($line) > 50 ? 'shanghai_suburban' : 'shanghai';
-$lineName = fn($id) => $id == 41 ? '浦江线' : $id == 51 ? '机场联络线' : "{$id}号线";
+$lineName = fn($id) => $id == 41 ? '浦江线' : ($id == 51 ? '机场联络线' : "{$id}号线");
 foreach($stations as $station) {
     $company = $getCompany(substr($station['key'], 0, 2));
 
