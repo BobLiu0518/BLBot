@@ -18,12 +18,27 @@ $citiesMeta['shanghai'] = [
     'font' => 'CN',
     'logo' => 'metro_logo_shanghai.svg',
 ];
+$citiesMeta['shanghai_suburban'] = [
+    'name' => '上海市域铁路',
+    'support' => true,
+    'source' => '上海地铁官方网站',
+    'time' => date('Y/m/d'),
+    'color' => [
+        'main' => '#E60012',
+    ],
+    'font' => 'CN',
+    'logo' => 'metro_logo_shanghai_suburban.svg',
+];
 
 // Load stations
 $stations = json_decode(file_get_contents('https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx?act=getAllStations'), true);
 $stationInfoApi = 'https://m.shmetro.com/interface/metromap/metromap.aspx?func=stationInfo&stat_id=';
 $lines = json_decode(file_get_contents('https://m.shmetro.com/interface/metromap/metromap.aspx?func=lines'), true);
+$getCompany = fn($line) => intval($line) > 50 ? 'shanghai_suburban' : 'shanghai';
+$lineName = fn($id) => $id == 41 ? '浦江线' : $id == 51 ? '机场联络线' : "{$id}号线";
 foreach($stations as $station) {
+    $company = $getCompany(substr($station['key'], 0, 2));
+
     // Load data
     $stationInfo = json_decode(file_get_contents($stationInfoApi.$station['key']), true)[0];
     $stationName = $station['value'];
@@ -35,38 +50,25 @@ foreach($stations as $station) {
     // Skip fake stations
     if(preg_match('/^[内外]圈(\(宜山路\))?/u', $stationName)) continue;
 
-    // Remove redundant "站"
-    else if(preg_match('/^外高桥保税区[南北]站$/u', $stationName)) $stationName = preg_replace('/站$/', '', $stationName);
-
     // Match data
-    if(!array_key_exists($stationName, $toiletInfo['shanghai'])) {
-        $toiletInfo['shanghai'][$stationName] = ['toilets' => []];
+    if(!array_key_exists($stationName, $toiletInfo[$company] ?? [])) {
+        $toiletInfo[$company][$stationName] = ['toilets' => []];
     }
     foreach($toilets as $toilet) {
-        if($toilet['lineno'] == 41) {
-            $lineName = '浦江线';
-        } else {
-            $lineName = $toilet['lineno'].'号线';
-        }
-
+        if($getCompany($toilet['lineno']) != $company) continue;
         $info = [
-            'title' => $lineName,
+            'title' => $lineName($toilet['lineno']),
             'content' => $toilet['description'],
         ];
-        if(!in_array($info, $toiletInfo['shanghai'][$stationName]['toilets'])){
-            $toiletInfo['shanghai'][$stationName]['toilets'][] = $info;
+        if(!in_array($info, $toiletInfo[$company][$stationName]['toilets'])) {
+            $toiletInfo[$company][$stationName]['toilets'][] = $info;
         }
     }
 }
 
 // Set line color
 foreach($lines as $line) {
-    if($line['line_no'] == 41) {
-        $lineName = '浦江线';
-    } else {
-        $lineName = $line['line_no'].'号线';
-    }
-    $citiesMeta['shanghai']['color'][$lineName] = $line['color'];
+    $citiesMeta[$getCompany($line['line_no'])]['color'][$lineName($line['line_no'])] = $line['color'];
 }
 
 // Set aliases
@@ -80,6 +82,7 @@ $toiletInfo['shanghai']['新天地'] = ['redirect' => ['一大会址·新天地'
 $toiletInfo['shanghai']['徐泾东'] = ['redirect' => ['国家会展中心']];
 $toiletInfo['shanghai']['东昌路'] = ['redirect' => ['浦东南路']];
 $toiletInfo['shanghai']['浦东国际机场'] = ['redirect' => ['浦东1号2号航站楼']];
+$toiletInfo['shanghai_suburban']['浦东国际机场'] = ['redirect' => ['浦东1号2号航站楼']];
 $toiletInfo['shanghai']['浦电路']['redirect'] = ['向城路'];
 $toiletInfo['shanghai']['松江南站'] = ['redirect' => ['上海松江站']];
 $toiletInfo['shanghai']['华泾西'] = ['redirect' => ['景洪路']];
@@ -88,4 +91,4 @@ $toiletInfo['shanghai']['诸光路'] = ['redirect' => ['国家会展中心']];
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
 setData('toilet/citiesMeta.json', json_encode($citiesMeta));
-replyAndLeave('更新数据成功，共 '.count($toiletInfo['shanghai']).' 条数据');
+replyAndLeave('更新数据成功，上海地铁 '.count($toiletInfo['shanghai']).' 条数据，上海市域铁路 '.count($toiletInfo['shanghai_suburban']).' 条数据');
