@@ -20,7 +20,7 @@ $citiesMeta['guiyang'] = [
 ];
 
 // Get lines
-$lines = json_decode(file_get_contents('http://gongzhongfuwu.guiyang3haoxian.cn/api/station/list'), true)['data'];
+$lines = json_decode(file_get_contents('https://gygds1.topterr.com/api/station/list'), true)['data'];
 
 // Get stations
 foreach($lines as $line) {
