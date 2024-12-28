@@ -1,5 +1,6 @@
 <?php
 
+loadModule('toilet.update.request');
 requireLvl(6);
 
 // Init
@@ -10,7 +11,7 @@ $toiletInfo['nanjing'] = [];
 $citiesMeta['nanjing'] = [
     'name' => '南京地铁',
     'support' => true,
-    'source' => '南京地铁微信公众号乘车宝典页面',
+    'source' => '与宁同行 App',
     'time' => date('Y/m/d'),
     'color' => [
         'main' => '#FF0000',
@@ -19,64 +20,23 @@ $citiesMeta['nanjing'] = [
     'logo' => 'metro_logo_nanjing.svg',
 ];
 
-// Get token
-$timestamp = time().sprintf('%03d', rand(0, 999));
-$docMosft = base64_encode('101-'.$timestamp.'-NJmetro');
-$Md5Pwd = md5('101-'.$timestamp.'-NJmetro-Derensoft');
-$host = 'http://ccbd.njmetro.net:9093/';
-$stationNameApi = 'api/GetStationsName';
-$stationInfoApi = 'api/GetStationInfo';
-$tokenApi = 'token';
-$context = stream_context_create([
-    'http' => [
-        'method' => 'POST',
-        'header' => 'Content-Type: application/x-www-form-urlencoded',
-        'content' => 'client_id='.$docMosft.'&client_secret='.$Md5Pwd.'&grant_type=client_credentials',
-    ],
-]);
-$token = json_decode(file_get_contents($host.$tokenApi, false, $context), true)['access_token'];
-
-// Get stations
-$context = stream_context_create([
-    'http' => [
-        'method' => 'POST',
-        'header' => implode("\n", [
-            'Authorization: Bearer '.$token,
-            'Content-Length: 0',
-        ]),
-        'content' => '',
-    ],
-]);
-$stations = json_decode(file_get_contents($host.$stationInfoApi, false, $context), true);
-foreach($stations as $station) {
-    $toilets = trim($station['stationInfo']['wc']);
-    $toilets = preg_replace('/(；|\r\n|\s+)/', "\n", $toilets);
-    $toiletInfo['nanjing'][$station['name']] = ['toilets' => []];
-
-    // Parse data
-    if(preg_match_all('/^(.+?线)(.+?：)?(.+?)$/mu', $toilets, $match)) {
-        foreach($match[1] as $id => $lineName) {
-            $toiletInfo['nanjing'][$station['name']]['toilets'][] = [
-                'title' => trim($lineName),
-                'content' => trim(preg_replace('/[；。：]/u', '', $match[3][$id])),
-            ];
+$cityId = '3201';
+$lines = json_decode(request($cityId, 'bas/smartstation/v1/bas/line/list', ['service_id' => '01']), true)['result'];
+foreach($lines as $line) {
+    $stations = json_decode(request($cityId, 'bas/smartstation/v1/bas/station/list', ['page_no' => 1, 'page_size' => 200, 'line_no' => $line['line_no'], 'service_id' => '01']), true)['result']['rows'];
+    foreach($stations as $station) {
+        if(!array_key_exists($station['station_name'], $toiletInfo['nanjing'])) {
+            $toiletInfo['nanjing'][$station['station_name']] = ['toilets' => []];
         }
-    } else {
-        foreach(explode("\n", $toilets) as $toilet) {
-            $toiletInfo['nanjing'][$station['name']]['toilets'][] = [
-                'title' => '卫生间',
-                'content' => $toilet,
-            ];
-        }
-    }
-
-    // Set color
-    foreach($station['durations'] as $line) {
-        if(!array_key_exists($line['lineName'], $citiesMeta['nanjing']['color'])) {
-            $citiesMeta['nanjing']['color'][$line['lineName']] = str_replace('0x', '#', $line['lineColor']);
-            if(preg_match('/^.+线(S\d+)$/u', $line['lineName'], $match)) {
-                $citiesMeta['nanjing']['color'][$match[1].'线'] = str_replace('0x', '#', $line['lineColor']);
-                $citiesMeta['nanjing']['color'][$match[1].'号线'] = str_replace('0x', '#', $line['lineColor']);
+        $stationInfo = json_decode(request($cityId, 'bas/smartstation/v2/bas/station/detail', ['station_no' => $station['station_no'], 'line_no' => $line['line_no'], 'service_id' => '01', 'train_plan_type' => '01,02,03']), true)['result'];
+        foreach($stationInfo['device_list'] as $facility) {
+            if($facility['device_name'] == '卫生间') {
+                foreach(preg_split('/\r|\n/', $facility['description']) as $toilet) {
+                    $toiletInfo['nanjing'][$station['station_name']]['toilets'][] = [
+                        'title' => $line['line_name'],
+                        'content' => $toilet,
+                    ];
+                }
             }
         }
     }
