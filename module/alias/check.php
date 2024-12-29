@@ -8,7 +8,6 @@ $target = nextArg() ?? $Event['user_id'];
 if(!is_numeric($target)) {
     $target = parseQQ($target);
 }
-$targetInfo = $CQ->getGroupMemberInfo($Event['group_id'], $target);
 $atTarget = '@'.getNickname($target);
 
 $list = getAlias($target);
