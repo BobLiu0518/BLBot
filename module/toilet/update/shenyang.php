@@ -20,30 +20,52 @@ $citiesMeta['shenyang'] = [
 ];
 
 // Get lines
-$lines = json_decode(file_get_contents('https://external-website.nsmetro.com/api/mp-api/line'), true)['result'];
-$stationApi = 'https://external-website.nsmetro.com/api/mp-api/station';
+$lines = json_decode(file_get_contents('https://www.symtc.com/sjzx/api/basic/b001'), true)['data'];
+$lineMap = [];
+$context = stream_context_create([
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => json_encode(['line_id' => '00']),
+    ],
+]);
+$stations = json_decode(file_get_contents('https://www.symtc.com/sjzx/api/basic/b002', false, $context), true)['data'];
+$stationApi = 'https://www.symtc.com/sjzx/api/basic/b009';
+
+foreach($lines as $line) {
+    $citiesMeta['shenyang']['color'][$line['line_name']] = $line['line_color'];
+    $lineMap[$line['line_id']] = $line['line_name'];
+}
 
 // Get stations
-foreach($lines as $line) {
-    $stations = json_decode(file_get_contents($stationApi.'?lineCode='.$line['lineCode']), true)['result'];
-    foreach($stations as $station) {
-        if(!array_key_exists($station['stationName'], $toiletInfo['shenyang'])) {
-            $toiletInfo['shenyang'][$station['stationName']] = ['toilets' => []];
-        }
+foreach($stations as $station) {
+    if(!$station['ats_station_id']) continue;
+    if(!array_key_exists($station['station_name'], $toiletInfo['shenyang'])) {
+        $toiletInfo['shenyang'][$station['station_name']] = ['toilets' => []];
+    }
 
-        $stationData = json_decode(file_get_contents($stationApi.'/'.$station['id']), true)['result'];
-        foreach($stationData['facilities'] as $facility) {
-            if($facility['facilityId'] == 16) {
-                foreach(explode('、', $facility['facilityValue']) as $toilet) {
-                    $toiletInfo['shenyang'][$station['stationName']]['toilets'][] = [
-                        'title' => preg_replace('/^地铁/', '', $line['lineName']),
-                        'content' => $toilet,
-                    ];
-                }
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-type: application/json',
+            'content' => json_encode(['device_id' => '00', 'line_id' => '00', 'station_id' => $station['station_id']]),
+        ],
+    ]);
+    $stationData = json_decode(file_get_contents($stationApi, false, $context), true)['data'];
+
+    foreach($stationData as $facility) {
+        if($facility['device_id'] == '03') {
+            foreach(explode(';', $facility['device_location_desc']) as $toilet) {
+                $toiletInfo['shenyang'][$station['station_name']]['toilets'][] = [
+                    'title' => $lineMap[$facility['line_id']],
+                    'content' => $toilet,
+                ];
             }
         }
     }
 }
+
+$toiletInfo['shenyang']['市府广场'] = ['redirect' => ['人民广场']];
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
