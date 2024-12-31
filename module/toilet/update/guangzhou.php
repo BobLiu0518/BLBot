@@ -114,6 +114,14 @@ while($row = $stationData->fetchArray(SQLITE3_ASSOC)) {
     $toiletInfo[$company][$stationName] = ['toilets' => $toilets[$row['station_id']] ?? []];
 }
 
+foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
+    foreach($toiletInfo[$company] as $station => $data) {
+        if(preg_match('/^(.+)（(.+)）$/u', $station, $matches) && $matches[2] != '有轨') {
+            $toiletInfo[$company][$matches[1]] = ['redirect' => [$station]];
+        }
+    }
+}
+
 // Handle tram redirect
 $toiletInfo['guangzhou']['广州塔']['redirect'] = ['广州塔（有轨）'];
 $toiletInfo['foshan']['林岳东']['redirect'] = ['林岳东（有轨）'];
