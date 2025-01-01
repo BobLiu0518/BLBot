@@ -5,10 +5,14 @@ loadModule('ddl.tools');
 requireLvl(1);
 
 $name = nextArg();
-$time = nextArg(true);
 if(!$name) {
     replyAndLeave('不知道你想设置什么呢…');
 }
+if($name == '逾期' || $name == 'expired') {
+    replyAndLeave("无法设置 {$name} 为任务名称哦…");
+}
+
+$time = nextArg(true);
 $ddl = $time ? strtotime($time) : 1e16;
 if(!$ddl) {
     replyAndLeave("无法识别的时间：{$time}");
