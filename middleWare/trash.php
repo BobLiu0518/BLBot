@@ -1,10 +1,9 @@
 <?php
 
-global $Message;
+global $Command;
 
-if(strrchr($Message, "是什么垃圾") == "是什么垃圾"){
-    $Message = str_replace("是什么垃圾","",$Message);
-    loadModule('trash');leave();
+if(preg_match('/^(.+)是什么垃圾$/', $Message, $matches)) {
+    $Command = ['middleware-trash', $matches[1]];
+    loadModule('trash');
+    leave();
 }
-
-?>
