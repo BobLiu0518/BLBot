@@ -86,7 +86,7 @@ if($Event['user_id'] != $QQ) {
 
 $nickname = getNickname($QQ, null, false);
 $motto = getMotto($QQ);
-if($nickname) {
+if($nickname && $Event['user_id'] == $QQ) {
     $msg .= "\n昵称：{$nickname}";
 }
 if($motto) {
