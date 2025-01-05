@@ -13,11 +13,11 @@ $context = stream_context_create([
         'header' => 'User-Agent: BLBot',
     ],
 ]);
-$weekdayTrainList = json_decode(file_get_contents($trainListApi.'?keyword=S&date='.date('Ymd', strtotime('Next Monday'))), true);
-$weekendTrainList = json_decode(file_get_contents($trainListApi.'?keyword=S&date='.date('Ymd', strtotime('Next Sunday'))), true);
+$weekdayTrainList = json_decode(file_get_contents("{$trainListApi}?keyword=S&date=".date('Ymd', strtotime('Next Monday'))), true);
+$weekendTrainList = json_decode(file_get_contents("{$trainListApi}?keyword=S&date=".date('Ymd', strtotime('Next Sunday'))), true);
 $trainList = [];
 foreach($weekdayTrainList['data'] as $train) {
-    if($train['from_station'] != '上海南' && $train['to_station'] != '上海南') continue;
+    if(!in_array($train[intval(substr($train['station_train_code'], -1)) % 2 ? 'from_station' : 'to_station'], ['上海南', '莘庄'])) continue;
     $trainList[$train['station_train_code']] = [
         'code' => $train['station_train_code'],
         'train_no' => $train['train_no'],
@@ -28,42 +28,22 @@ foreach($weekdayTrainList['data'] as $train) {
     ];
 }
 foreach($weekendTrainList['data'] as $train) {
-    if($train['from_station'] != '上海南' && $train['to_station'] != '上海南') continue;
     if($trainList[$train['station_train_code']]) {
         $trainList[$train['station_train_code']]['dates'] = 'all';
-        continue;
     }
-    $trainList[$train['station_train_code']] = [
-        'code' => $train['station_train_code'],
-        'train_no' => $train['train_no'],
-        'dates' => 'weekends',
-        'from' => $train['from_station'],
-        'to' => $train['to_station'],
-        'stations_count' => $train['total_num'],
-    ];
 }
 
 foreach($trainList as $train) {
-    $trainDetail = json_decode(file_get_contents($trainDetailApi.'?leftTicketDTO.train_no='.$train['train_no'].'&leftTicketDTO.train_date='
+    $trainDetail = json_decode(file_get_contents("{$trainDetailApi}?leftTicketDTO.train_no={$train['train_no']}&leftTicketDTO.train_date="
         .date('Y-m-d', strtotime($train['dates'] == 'weekdays' ? 'Next Monday' : 'Next Sunday')).'&rand_code=', false, $context), true);
 
     $stations = $trainDetail['data']['data'];
     if($train['stations_count'] == 2) {
         $trainType = '直达';
-    } else if($train['stations_count'] == 8) {
-        $trainType = '站站停';
-    } else if(in_array($train['from'], ['上海南', '金山卫']) && in_array($train['to'], ['上海南', '金山卫'])) {
-        $trainType = [];
-        foreach($stations as $station) {
-            $trainType[] = $station['station_name'];
-        }
-        $trainType = '大站停 ('.implode(' ', array_splice($trainType, 1, -1)).')';
+    } else if($train['stations_count'] >= 8 || $train[intval(substr($train['code'], -1)) % 2 ? 'to' : 'from'] != '金山卫') {
+        $trainType = "站站停";
     } else {
-        $trainType = [];
-        foreach($stations as $station) {
-            $trainType[] = $station['station_name'];
-        }
-        $trainType = '其他 ('.implode('-', $trainType).')';
+        $trainType = implode('', array_map(fn($station) => mb_substr($station['station_name'], 0, 1), array_slice($stations, 1, -1))).'大站';
     }
 
     $trainData[$train['code']] = [
@@ -89,9 +69,7 @@ foreach($trainList as $train) {
 }
 
 foreach($stationData as $stationName => $stationTrains) {
-    usort($stationData[$stationName], function ($a, $b) {
-        return strnatcmp($a['time'], $b['time']);
-    });
+    usort($stationData[$stationName], fn($a, $b) => $a['time'] <=> $b['time']);
 }
 
 setData('jsr/train.json', json_encode($trainData));
