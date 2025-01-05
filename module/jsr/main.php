@@ -32,21 +32,28 @@ if(preg_match('/^(G|D|C|Z|T|K|Y|L|X|N)(\d+)$/i', $search, $match)) {
     if(!$stations[$station]) replyAndLeave('［金山铁路］车站 '.$station." 不存在…\n可选车站：".implode(' ', array_keys($stations)));
     $trains = $stations[$station];
 
-    $time = '';
-    while($nextArg = nextArg()) $time .= $nextArg.' ';
+    $time = nextArg(true);
     $time = $time ? strtotime($time) : (time() - 5 * 60);
     $isWorkday = ChinaHoliday::isWorkday($time);
-    $trains = array_filter($trains, fn($train) =>
-        ($train['dates'] == 'all' || $isWorkday && $train['dates'] == 'weekdays' || !$isWorkday && $train['dates'] == 'weekends'));
-    foreach($trains as $i => $train) {
-        if(strnatcmp(date('H:i', $time), $train['time']) < 0) break;
+    $trains = array_filter($trains,
+        fn($train) =>
+        ($train['dates'] == 'all' || $isWorkday && $train['dates'] == 'weekdays' || !$isWorkday && $train['dates'] == 'weekends')
+        && (date('H:i', $time) <=> $train['time']) <= 0
+    );
+    $result = [[], []];
+    foreach($trains as $train) {
+        $direction = intval(substr($train['code'], -1)) % 2;
+        $result[$direction][] = $train;
     }
-    $result = array_splice($trains, $i, 10);
-    $reply = '［金山铁路］'.$station."站\n  ".date('n月j日 H:i', $time).' 起最近 10 次列车：';
-    foreach($result as $train) {
-        $reply .= "\n· ".$train['time'].' '.$train['code'];
-        $reply .= $train['to'] == $station ? ' [终到]' : ' 往'.$train['to'];
-        $reply .= ' '.$train['type'];
+    $reply = '　　［金山铁路 '.$station."站］\n".date('n月j日 H:i', $time).' 起最近 5 次列车：';
+    foreach(in_array($station, ['莘庄', '上海南']) ? [1, 0] : [0, 1] as $direction) {
+        array_splice($result[$direction], 5);
+        $reply .= "\n‣ 往".($direction ? '金山卫' : '上海南').'方向：';
+        foreach($result[$direction] as $train) {
+            $reply .= "\n· {$train['time']} {$train['code']}";
+            $reply .= $train['to'] == $station ? ' (终到)' : ' 往'.$train['to'];
+            $reply .= ' '.$train['type'];
+        }
     }
     replyAndLeave($reply);
 }
