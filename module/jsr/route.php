@@ -43,5 +43,8 @@ foreach(intval(date('H', $time)) < 12 ? [0, 1] : [1, 0] as $direction) {
     array_splice($result[$direction], 5);
     $reply .= "\n‣ ".($direction ? "上海南/莘庄 → {$station}\n" : "{$station} → 莘庄/上海南\n");
     $reply .= implode("\n", $result[$direction]);
+    if(!count($result[$direction])) {
+        $reply .= '末班车时间已过';
+    }
 }
 replyAndLeave($reply);

@@ -54,6 +54,9 @@ if(preg_match('/^(G|D|C|Z|T|K|Y|L|X|N)(\d+)$/i', $search, $match)) {
             $reply .= $train['to'] == $station ? ' (终到)' : ' 往'.$train['to'];
             $reply .= ' '.$train['type'];
         }
+        if(!count($result[$direction])) {
+            $reply .= "\n末班车时间已过";
+        }
     }
     replyAndLeave($reply);
 }
