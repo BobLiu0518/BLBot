@@ -16,6 +16,7 @@ $stations = json_decode(getData('jsr/station.json'), true);
 $trainInfo = json_decode(getData('jsr/train.json'), true);
 $time = nextArg(true);
 $time = $time ? strtotime($time) : time();
+if(!$time) replyAndLeave('无法识别的时间…');
 $isWorkday = ChinaHoliday::isWorkday($time);
 
 $trains = array_filter($stations[$station],

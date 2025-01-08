@@ -34,6 +34,7 @@ if(preg_match('/^(G|D|C|Z|T|K|Y|L|X|N)(\d+)$/i', $search, $match)) {
 
     $time = nextArg(true);
     $time = $time ? strtotime($time) : (time() - 5 * 60);
+    if(!$time) replyAndLeave('无法识别的时间…');
     $isWorkday = ChinaHoliday::isWorkday($time);
     $trains = array_filter($trains,
         fn($train) =>
