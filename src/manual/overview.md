@@ -435,6 +435,10 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 见 [昵称](./nickname)。
 
+## `#nonsense [主体]` {#nonsense}
+
+废话文学。
+
 ## `#pd` {#pd}
 
 触发一次“权限不足”报错。
