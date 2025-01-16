@@ -23,7 +23,7 @@ EOT);
 $params = explode('%26', base64_decode($matches[1]));
 $api = "https://i.ai.mi.com/course-multi/table?ctId={$params[4]}&userId={$params[0]}&deviceId={$params[1]}";
 $data = json_decode(file_get_contents($api), true)['data'];
-if(!$data) replyAndLeave('读取失败，可能是链接无效…');
+if(!$data) replyAndLeave('读取失败，大抵是小爱课程表的分享功能寄了…');
 
 $name = $data['name'];
 $semesterStart = json_decode($data['setting']['extend'], true)['startSemester'] / 1000;
