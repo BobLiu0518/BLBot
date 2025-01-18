@@ -25,7 +25,7 @@ $context = stream_context_create([
     ],
 ]);
 $routes = json_decode(file_get_contents($routeSearchApi, false, $context), true)['data']['trafficStop'];
-if(!count($routes) || $routes[0]['type'] != 1) replyAndLeave('未找到名为 '.$route.' 的公交线路…');
+if(!$routes || !count($routes) || $routes[0]['type'] != 1) replyAndLeave('未找到名为 '.$route.' 的公交线路…');
 
 $reply = '［上海交通］'.$routes[0]['lineInfo']['lineName'].' #'.$routes[0]['lineInfo']['lineId']."\n";
 
