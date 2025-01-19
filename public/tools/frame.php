@@ -474,11 +474,11 @@ function fromGroup($group = null): bool {
  * @param int $code 指定返回码
  * @throws Exception 用于退出模块
  */
-function leave($msg = '', $code = 0) {
+function leave($msg = '', $code = 0): never {
     throw new \Exception($msg, $code);
 }
 
-function replyAndLeave($msg = '', $code = 0) {
+function replyAndLeave($msg = '', $code = 0): never {
     global $Event;
     if($msg) {
         $msg = "[CQ:reply,id=".$Event['message_id']."]".$msg;

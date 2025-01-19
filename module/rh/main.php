@@ -240,7 +240,7 @@ function countDownGame($time) {
 }
 
 // 开始游戏
-function startGame($rhData) {
+function startGame($rhData): never {
     loadModule('rh.tools');
     loadModule('credit.tools');
 
