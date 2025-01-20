@@ -9,14 +9,18 @@ $station = nextArg() ?? (new BLBot\Database('jsr'))->get($Event['user_id'])['def
 if(!$station) replyAndLeave("不知道你想查询什么车站呢…\n可以使用 #jsr.default 设置默认车站哦～");
 $station = preg_replace('/站$/', '', $station);
 if(!in_array($station, ['春申', '新桥', '车墩', '叶榭', '亭林', '金山园区', '金山卫'])) {
-    replyAndLeave("只能查询设置春申~金山卫内的车站哦…\n如果想要查询莘庄或上海南的车次信息，请使用 #jsr 指令～");
+    $time = "{$station} ";
+    $station = (new BLBot\Database('jsr'))->get($Event['user_id'])['default'];
+    if(!$station) {
+        replyAndLeave("只能查询设置春申~金山卫内的车站哦…\n如果想要查询莘庄或上海南的车次信息，请使用 #jsr 指令～");
+    }
 }
+$time .= nextArg(true);
+$time = trim($time) ? strtotime($time) : time();
+if(!$time) replyAndLeave('无法识别的时间…');
 
 $stations = json_decode(getData('jsr/station.json'), true);
 $trainInfo = json_decode(getData('jsr/train.json'), true);
-$time = nextArg(true);
-$time = $time ? strtotime($time) : time();
-if(!$time) replyAndLeave('无法识别的时间…');
 $isWorkday = ChinaHoliday::isWorkday($time);
 
 $trains = array_filter($stations[$station],
