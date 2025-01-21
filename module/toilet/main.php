@@ -308,7 +308,7 @@ $icon->destroy();
 $date = date('Y年m月d日 H:i');
 $hint = <<<EOT
 本图由 BLBot 生成于 {$date}
-地铁标志由 -Lyt- 绘制，版权由各地轨交公司所有
+图标来自 -Lyt- 和 J_C_Y114，版权归各公司所有
 使用 #toilet.cities 指令查看支持情况及数据来源
 如遇数据错误等问题，请用 #feedback 指令反馈
 EOT;
