@@ -45,7 +45,7 @@ function classifyDdls($ddls, $timestamp = null) {
     ];
     foreach($ddls as $ddl) {
         $remainTime = $ddl['time'] - ($timestamp ?? time());
-        $time = date('Y/m/d', $ddl['time']);
+        $time = preg_replace('/ 00:00$/', '', date('Y/m/d H:i', $ddl['time']));
         $description = "{$time} {$ddl['name']}";
         if($ddl['time'] >= 1e16) {
             $result['long-term'][] = "长期待办事项 {$ddl['name']}";
