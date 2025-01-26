@@ -17,7 +17,7 @@ $ddl = $time ? strtotime($time) : 1e16;
 if(!$ddl) {
     replyAndLeave("无法识别的时间：{$time}");
 }
-$time = $ddl >= 1e16 ? '长期' : date('Y/m/d', $ddl);
+$time = $ddl >= 1e16 ? '长期' : preg_replace('/ 00:00$/', '', date('Y/m/d H:i', $ddl));
 if(mb_strlen($name) > 10) {
     replyAndLeave('名称太长了哦，精简一下吧～');
 }
