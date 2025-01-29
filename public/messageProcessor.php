@@ -1,11 +1,13 @@
 <?php
 
-$message = trim(preg_replace('/\[CQ:at,qq='.config('bot').'(,name=.+?)?\]/', '', $Event['message']));
+$message = $Event['message'];
 $message = preg_replace('/\[CQ:face,id=(\d+?),large=\]/', '[CQ:face,id=$1]', $message);
+$message = preg_replace('/\[CQ:at,qq=(\d+?),name=\]/', '[CQ:at,qq=$1]', $message);
 if(preg_match('/\[CQ:reply,id=(-?\d+?)\]/', $message, $matches)) {
     $Referer = $matches[1];
     $message = preg_replace('/\[CQ:reply,id=(-?\d+?)\]/', '', $message);
 }
+$message = trim(preg_replace('/^\s*\[CQ:at,qq='.config('bot').'\]/', '', $message));
 
 $length = strpos($message, PHP_EOL);
 if(false === $length) {
