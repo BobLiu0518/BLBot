@@ -6,19 +6,24 @@ loadModule('credit.tools');
 loadModule('exp.tools');
 loadModule('attack.tools');
 loadModule('jrrp.tools');
+loadModule('nickname.tools');
+
+$word = $Message ?? '签到';
+$c1 = mb_substr($word, 0, 1);
+$c2 = mb_substr($word, 1);
 
 switch(getStatus($User_id)) {
     case 'imprisoned':
-        $reply = '监狱里貌似没法签到呢…';
+        $reply = "监狱里貌似没法{$word}呢…";
         break;
 
     case 'confined':
-        $reply = '禁闭室里貌似没法签到呢…';
+        $reply = "禁闭室里貌似没法{$word}呢…";
         break;
 
     case 'arknights':
     case 'genshin':
-        $reply = '身处异世界的你貌似找不到要去哪里签到…';
+        $reply = "身处异世界的你貌似找不到要去哪里{$word}…";
         break;
 
     case 'universe':
@@ -26,7 +31,7 @@ switch(getStatus($User_id)) {
         break;
 
     case 'saucer':
-        $reply = '你被外星人抓走了，无法签到了…';
+        $reply = "你被外星人抓走了，无法{$word}了…";
         break;
 
     case 'hospitalized':
@@ -48,30 +53,30 @@ switch(getStatus($User_id)) {
         $lastCheckinTime = filemtime('../storage/data/checkin/'.$Event['user_id']);
         if(0 == (int)date('Ymd') - (int)date('Ymd', $lastCheckinTime)) {
             $replys = [
-                '你今天签到过了！（震声',
-                '签到过了www',
-                '好像，签到，过了，呢？',
-                '签到过了呢',
-                '准备一直签到调戏我吗？',
-                '其实你再怎么签到也无人在意 0 人在意 NBCS 哈',
-                '签到签到，你早八签到了吗？',
+                "你今天{$word}过了！（震声",
+                "{$word}过了www",
+                "好像，{$word}，过了，呢？",
+                "{$word}过了呢",
+                "准备一直{$word}调戏我吗？",
+                "其实你再怎么{$word}也无人在意 0 人在意 NBCS 哈",
+                "{$word}{$word}，你早八签到了吗？",
                 '嫌自己金币不够可以试试 #attack 别人',
-                'Tips: 其实签到获得的金币一点用都没有',
-                'Tips: 签到的金币多少与今日人品有关哦！',
-                '签签你的',
-                '签到很积极，可是，你作业写完了吗？',
-                '签到签到，希望你考试周复习也能跟签到一样积极^_^',
-                '一直签到还是嫌金币不够的话可以试试 #checkout',
-                '给你讲个鬼故事，你今天签到过了。',
-                '你已经签到过了，但是你有没有听见孩子们的悲鸣？',
-                '你…你失忆了？签到过了啊……',
-                '还签到！再签到小心我扣光你的金币（',
-                '签到过了啦（半恼）',
-                '你不曾注意阴谋得逞者（指一直签到的你）在狞笑！',
-                '签到成…失败！说不定今天你已经签到过了呢？',
-                '还签到？我签到你好不好？@'.(fromGroup() ? ($CQ->getGroupMemberInfo($Event['group_id'], $Event['user_id'])->nickname) : ($CQ->getStrangerInfo($Event['user_id'])->nickname)).' 签到！',
-                '签到够了没…我都不知道说什么好……',
-                '你是整天签到的屑[CQ:emoji,id=128052]？',
+                "Tips: 其实{$word}获得的金币一点用都没有",
+                "Tips: {$word}的金币多少与今日人品有关哦！",
+                "{$c1}{$c1}你的",
+                "{$word}很积极，可是，你作业写完了吗？",
+                "{$word}{$word}，希望你考试周复习也能跟{$word}一样积极^_^",
+                "一直{$word}还是嫌金币不够的话可以试试 #checkout",
+                "给你讲个鬼故事，你今天{$word}过了。",
+                "你已经{$word}过了，但是你有没有听见孩子们的悲鸣？",
+                "你…你失忆了？{$word}过了啊……",
+                "还{$word}！再{$word}小心我扣光你的金币（",
+                "{$word}过了啦（半恼）",
+                "你不曾注意阴谋得逞者（指一直{$word}的你）在狞笑！",
+                "{$word}成…失败！说不定今天你已经{$c1}过了呢？",
+                "还{$word}？我{$c1}{$c1}你好不好？@".getNickname($Event["user_id"], $Event["group_id"])." {$word}！",
+                "{$word}够了没…我都不知道说什么好……",
+                "你是整天{$word}的屑[CQ:emoji,id=128052]？",
             ];
             $reply = $replys[array_rand($replys)];
         } else {
@@ -104,7 +109,7 @@ switch(getStatus($User_id)) {
             } else {
                 addCredit($Event['user_id'], $income);
                 addExp($Event['user_id'], 1);
-                $reply = '签到成功，获得 '.$income.' 金币，1 经验～';
+                $reply = "{$word}成功，获得 {$income} 金币，1 经验～";
                 if(getLvl($Event['user_id']) > $originLvl) {
                     $reply .= "\n恭喜升级 Lv".getLvl($Event['user_id']).' 啦～';
                 } else {
@@ -114,13 +119,13 @@ switch(getStatus($User_id)) {
                         if($lvl['lvl'] == $originLvl + 1) {
                             $expGap = $lvl['exp'] - $exp;
                             if($expGap <= 1e7) {
-                                $reply .= "\n再签到 {$expGap} 天即可升级 Lv{$lvl['lvl']}～";
+                                $reply .= "\n再{$word} {$expGap} 天即可升级 Lv{$lvl['lvl']}～";
                             }
                             break;
                         }
                     }
                 }
-                $reply .= "\n你是今天第 ".$checkinData['checked'].' 个签到的～';
+                $reply .= "\n你是今天第 {$checkinData['checked']} 个{$word}的～";
             }
             delData('checkin/'.$Event['user_id']);
             setData('checkin/'.$Event['user_id'], '');
@@ -128,7 +133,4 @@ switch(getStatus($User_id)) {
         break;
 }
 
-if($Message) {
-    $reply = str_replace('签到', $Message, $reply);
-}
 $Queue[] = replyMessage($reply);
