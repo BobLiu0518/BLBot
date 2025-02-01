@@ -1,5 +1,3 @@
 <?php
 
-loadModule('ark.gacha');
-
-?>
+loadModule('ark.voice');
