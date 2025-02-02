@@ -1,7 +1,7 @@
 <?php
 
 requireLvl(1);
-global $Event;
+global $Event, $Queue;
 
 if($Event['group_id'] != config('devgroup')) {
     replyAndLeave('请在 Bot 开发群内使用本指令哦');
