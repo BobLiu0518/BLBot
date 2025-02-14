@@ -59,6 +59,5 @@ $output .= "宜  " . implode(" ", $suitableActivities) . "\n";
 $output .= "--------------------\n";
 $output .= "忌  " . implode(" ", $unsuitableActivities) . "\n";
 
-$horoscope = $output;
-echo $horoscope;
+$Queue[] = replyMessage($output);
 ?>
