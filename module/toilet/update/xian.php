@@ -71,6 +71,12 @@ foreach(array_keys($toiletInfo['xian']) as $stationName) {
             $toiletInfo['xian'][$subName]['redirect'] = [$stationName];
         }
     }
+    if(preg_match('/(.+)\(.+\)/', $stationName, $match)) {
+        if(!array_key_exists($match[1], $toiletInfo['xian'])) {
+            $toiletInfo['xian'][$match[1]] = [];
+        }
+        $toiletInfo['xian'][$match[1]]['redirect'] = [$stationName];
+    }
 }
 
 // Save data
