@@ -49,7 +49,7 @@ if(!$courseFound) {
 }
 
 if(!$note) {
-    $db->remove($Event['user_id'], 'notes.'.$courseName);
+    $db->remove($Event['user_id'], 'note.'.$courseName);
     replyAndLeave("已清除课程 {$courseName} 的备注～");
 }
 

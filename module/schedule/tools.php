@@ -46,7 +46,7 @@ function setScheduleData($user_id, $name, $semesterStart, $courses) {
     foreach($data['note'] as $courseName => $note) {
         if(!in_array($courseName, $courseNames)) {
             $removedNotes[] = $courseName;
-            $db->remove($user_id, 'note'.$courseName);
+            $db->remove($user_id, 'note.'.$courseName);
         }
     }
     if(count($removedNotes)) {
