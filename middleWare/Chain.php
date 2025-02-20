@@ -11,6 +11,7 @@ require('toilet.php');
 require('checkin.php');
 require('rh.php');
 require('yancha.php');
+require('base64.php');
 require('calc.php');
 require('choose.php');
 require('v50.php');
