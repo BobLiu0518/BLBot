@@ -37,9 +37,9 @@ function setScheduleData($user_id, $name, $semesterStart, $courses) {
     }
     $db = new BLBot\Database('schedule');
     $ret = $db->set($user_id, [
-        'name' => $name,
-        'semesterStart' => $semesterStart,
-        'courses' => $courses,
+        'name' => $name ?: '未知课表',
+        'semesterStart' => $semesterStart ?: 0,
+        'courses' => $courses ?: [],
     ]);
     $data = $db->get($user_id, 'note');
     $removedNotes = [];
@@ -56,13 +56,14 @@ function setScheduleData($user_id, $name, $semesterStart, $courses) {
 }
 
 function getWeek($semesterStart, $current) {
+    if(!$semesterStart) $semesterStart = '0';
     $timezone = new DateTimeZone('Asia/Shanghai');
     $semesterStart = new DateTime('@'.$semesterStart);
     $semesterStart->setTimezone($timezone);
-    $semesterStart->modify('Monday this week');
+    $semesterStart->modify('Monday this week'); // Next Monday ?
     $currentWeekStart = new DateTime('@'.$current);
     $semesterStart->setTimezone($timezone);
-    $currentWeekStart->modify('Monday this week');
+    $currentWeekStart->modify('Monday this week'); // Next Monday ?
     return $semesterStart->diff($currentWeekStart)->days / 7 + 1;
 }
 
@@ -76,8 +77,13 @@ function getCourses($data, $date) {
     $week = getWeek($data['semesterStart'], $date);
     $weekday = date('N', $date);
 
-    $courses = array_filter($data['courses'], function ($course) use ($week, $weekday) {
+    $courses = array_filter($data['courses'] ?: [], function ($course) use ($week, $weekday) {
         return in_array($week, $course['weeks']) && $weekday == $course['day'];
     });
-    return $courses;
+    if(count($courses)) {
+        return $courses;
+    }
+
+    $courses = array_filter($data['courses'] ?: [], fn($course) => max($course['weeks']) >= $week);
+    return count($courses) ? [] : false;
 }
