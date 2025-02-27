@@ -35,6 +35,8 @@ foreach($targets as $target) {
     }
 
     // 匹配当前/下节课程
+    $timezone = getTimezoneGMTOffset(getTimezone($target->user_id));
+    $timezoneHint = $timezone == 'GMT+8' ? '' : "({$timezone})";
     foreach($todayCourses as $course) {
         if($time < $course['startTime']) {
             $remain = ceil((strtotime($course['startTime']) - time()) / 60);
@@ -42,8 +44,8 @@ foreach($targets as $target) {
             $results[] = [
                 'user_id' => $target->user_id,
                 'type' => 2,
-                'mainDesc' => $course['name'],
-                'subDesc' => "{$course['startTime']}-{$course['endTime']} ({$remain}后)",
+                'mainDesc' => blockBannedWords($course['name']),
+                'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} ({$remain}后)",
             ];
             continue 2;
         } else if($time >= $course['startTime'] && $time < $course['endTime']) {
@@ -51,8 +53,8 @@ foreach($targets as $target) {
             $results[] = [
                 'user_id' => $target->user_id,
                 'type' => isAbandoned($target->user_id) ? 1 : 0,
-                'mainDesc' => $course['name'],
-                'subDesc' => "{$course['startTime']}-{$course['endTime']} (剩余 {$remain})",
+                'mainDesc' => blockBannedWords($course['name']),
+                'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} (剩余 {$remain})",
             ];
             continue 2;
         }

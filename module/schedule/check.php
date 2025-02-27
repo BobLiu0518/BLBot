@@ -35,6 +35,10 @@ if($courses === false) {
 }
 
 $result = [$nickname." {$date} 课程："];
+    $timezone = getTimezoneGMTOffset(getTimezone($target));
+    if($timezone != 'GMT+8'){
+        $result[]="({$timezone})";
+    }
 foreach($courses as $course) {
     $result[] = "{$course['startTime']}~{$course['endTime']} {$course['name']}";
 }

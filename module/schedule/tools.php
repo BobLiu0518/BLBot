@@ -23,10 +23,12 @@ function setAbandoned($user_id, $abandoned) {
 }
 
 function getScheduleData($user_id) {
-    return getScheduleDb()->get(intval($user_id));
+    $data = getScheduleDb()->get(intval($user_id));
+    date_default_timezone_set($data['timezone'] ?? 'Asia/Shanghai');
+    return $data;
 }
 
-function setScheduleData($user_id, $name, $semesterStart, $courses) {
+function setScheduleData($user_id, $name, $semesterStart, $courses, $timezone = 'Asia/Shanghai') {
     global $Queue;
     usort($courses, function ($a, $b) {
         return $a['startTime'] <=> $b['startTime'];
@@ -40,6 +42,7 @@ function setScheduleData($user_id, $name, $semesterStart, $courses) {
         'name' => $name ?: '未知课表',
         'semesterStart' => $semesterStart ?: 0,
         'courses' => $courses ?: [],
+        'timezone' => $timezone,
     ]);
     $data = $db->get($user_id, 'note');
     $removedNotes = [];
@@ -55,15 +58,24 @@ function setScheduleData($user_id, $name, $semesterStart, $courses) {
     return $ret;
 }
 
-function getWeek($semesterStart, $current) {
+function getTimezone($user_id) {
+    return getScheduleData($user_id)['timezone'] ?? 'Asia/Shanghai';
+}
+
+function getTimezoneGMTOffset($timezone) {
+    $offset = (new DateTime('now', new DateTimeZone($timezone)))->format('P');
+    return 'GMT'.str_replace(':00', '', preg_replace('/(?<=[\+\-])0+/', '', $offset));
+}
+
+function getWeek($semesterStart, $current, $timezone = 'Asia/Shanghai') {
     if(!$semesterStart) $semesterStart = '0';
-    $timezone = new DateTimeZone('Asia/Shanghai');
+    $timezone = new DateTimeZone($timezone);
     $semesterStart = new DateTime('@'.$semesterStart);
     $semesterStart->setTimezone($timezone);
-    $semesterStart->modify('Monday this week'); // Next Monday ?
+    $semesterStart->modify('Monday this week');
     $currentWeekStart = new DateTime('@'.$current);
-    $semesterStart->setTimezone($timezone);
-    $currentWeekStart->modify('Monday this week'); // Next Monday ?
+    $currentWeekStart->setTimezone($timezone);
+    $currentWeekStart->modify('Monday this week');
     return $semesterStart->diff($currentWeekStart)->days / 7 + 1;
 }
 
@@ -74,7 +86,7 @@ function getCourses($data, $date) {
     if(!$data) {
         return false;
     }
-    $week = getWeek($data['semesterStart'], $date);
+    $week = getWeek($data['semesterStart'], $date, $data['timezone'] ?? 'Asia/Shanghai');
     $weekday = date('N', $date);
 
     $courses = array_filter($data['courses'] ?: [], function ($course) use ($week, $weekday) {
