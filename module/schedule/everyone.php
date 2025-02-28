@@ -13,8 +13,7 @@ if(fromGroup()) {
 } else {
     $targets = json_decode("[{\"user_id\":{$Event['user_id']}}]");
 }
-$weekday = date('N');
-$time = date('H:i');
+$current = time();
 
 $results = [];
 $status = ['进行中', '翘课中', '下一节', '已结束', '无课程'];
@@ -23,6 +22,8 @@ foreach($targets as $target) {
     if($todayCourses === false) {
         continue;
     }
+    $weekday = date('N', $current);
+    $time = date('H:i', $current);
 
     if(!count($todayCourses)) {
         $results[] = [

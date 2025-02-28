@@ -69,6 +69,7 @@ function getTimezoneGMTOffset($timezone) {
 
 function getWeek($semesterStart, $current, $timezone = 'Asia/Shanghai') {
     if(!$semesterStart) $semesterStart = '0';
+    if($current < $semesterStart) return -1;
     $timezone = new DateTimeZone($timezone);
     $semesterStart = new DateTime('@'.$semesterStart);
     $semesterStart->setTimezone($timezone);
