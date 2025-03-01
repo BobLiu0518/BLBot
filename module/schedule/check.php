@@ -29,7 +29,7 @@ $nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本
 
 $courses = getCourses($target, $time);
 if($courses === false) {
-    replyAndLeave($nickname.' 未配置课程表哦…');
+    replyAndLeave($nickname.' 未配置课程表，或该学期课程已结束哦…');
 } else if(!count($courses)) {
     replyAndLeave($nickname." {$date} 无课～");
 }
