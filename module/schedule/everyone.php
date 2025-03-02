@@ -6,6 +6,7 @@ loadModule('schedule.tools');
 loadModule('nickname.tools');
 loadModule('poem.tools');
 loadModule('motto.tools');
+loadModule('blocker.tools');
 
 if(fromGroup()) {
     $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351');
@@ -197,5 +198,18 @@ $path = realpath(getCachePath('schedule'))."/{$Event['group_id']}.png";
 $image->drawImage($draw);
 $image->writeImage($path);
 
+$retry = 0;
 $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '351', false);
-replyAndLeave("[CQ:image,file=file://{$path}]");
+$ret = $CQ->sendGroupMsg($Event['group_id'], "[CQ:reply,id={$Event['message_id']}][CQ:image,file=file://{$path}]");
+
+while(!$ret && $retry <= 3) {
+    $retry++;
+    $image->rotateImage(new ImagickPixel('white'), $retry == 2 ? 90 : 180);
+    $image->writeImage($path);
+    $ret = $CQ->sendGroupMsg($Event['group_id'], "[CQ:reply,id={$Event['message_id']}][CQ:image,file=file://{$path}]Origin message intercepted by Tencent, rotated.");
+}
+
+if(!$ret) {
+    $CQ->setGroupReaction($Event['group_id'], $Event['message_id'], '357', true);
+    replyAndLeave('Message intercepted by Tencent.');
+}
