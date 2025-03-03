@@ -32,6 +32,8 @@ foreach($targets as $target) {
             'type' => 4,
             'mainDesc' => '今日无课程',
             'subDesc' => getMotto($target->user_id) ?? getVerse(),
+            'order' => $target->user_id,
+            'subOrder' => 0,
         ];
         continue;
     }
@@ -48,15 +50,19 @@ foreach($targets as $target) {
                 'type' => 2,
                 'mainDesc' => blockBannedWords($course['name']),
                 'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} ({$remain}后)",
+                'order' => strtotime($course['startTime']),
+                'subOrder' => strtotime($course['endTime']),
             ];
             continue 2;
         } else if($time >= $course['startTime'] && $time < $course['endTime']) {
-            $remain = ceil((strtotime($course['endTime']) - time()) / 60).' 分钟';
+            $remain = ceil((strtotime($course['endTime']) - time()) / 60);
             $results[] = [
                 'user_id' => $target->user_id,
                 'type' => isAbandoned($target->user_id) ? 1 : 0,
                 'mainDesc' => blockBannedWords($course['name']),
-                'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} (剩余 {$remain})",
+                'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} (剩余 {$remain} 分钟)",
+                'order' => $remain,
+                'subOrder' => strtotime($course['startTime']),
             ];
             continue 2;
         }
@@ -71,6 +77,8 @@ foreach($targets as $target) {
         'type' => 3,
         'mainDesc' => '今日课程已上完',
         'subDesc' => "共计 {$total} 小时",
+        'order' => -$total,
+        'subOrder' => 0,
     ];
 }
 
@@ -83,7 +91,7 @@ if(!fromGroup()) {
     }
 }
 usort($results, function ($a, $b) {
-    return ($a['type'] <=> $b['type']) * 2 + ($a['subDesc'] <=> $b['subDesc']);
+    return ($a['type'] <=> $b['type']) * 4 + ($a['order'] <=> $b['order']) * 2 + ($a['subOrder'] <=> $b['subOrder']);
 });
 
 // 准备图片
