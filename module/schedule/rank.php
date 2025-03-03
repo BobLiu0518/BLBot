@@ -49,7 +49,7 @@ if(!count($results)) {
 } else {
     $groupName = $CQ->getGroupInfo($Event['group_id'])->group_name;
     $reply = $groupName.' '.$types[$type]['name'].'课程时长榜';
-    foreach(array_splice($results, 0, 9) as $n => $data) {
+    foreach(nextArg() ? $results : array_splice($results, 0, 9) as $n => $data) {
         $n++;
         $user = $CQ->getGroupMemberInfo($Event['group_id'], $data['user_id']);
         $nickname = $user->card ?? $user->nickname;
