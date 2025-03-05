@@ -41,12 +41,14 @@ function delAlias($user_id, $alias) {
     return $db->remove(intval($user_id), 'aliases.'.$alias);
 }
 
-function parseCommandName($name) {
+function parseCommandName($name, $lower = true) {
     global $Config;
     if($Config['enablePrefix2']) {
         $pattern = '/^('.$Config['prefix'].'|'.$Config['prefix2'].')/u';
     } else {
         $pattern = '/^'.$Config['prefix'].'/u';
     }
-    return strtolower(preg_replace($pattern, '', $name));
+    $command = preg_replace($pattern, '', $name);
+    return $lower ? strtolower($command) : $command;
 }
+
