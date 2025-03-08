@@ -1,19 +1,11 @@
 <?php
 
-function sortCredit($a, $b){
-	return $b[1] - $a[1];
-}
-
-function getName($user_id){
-	global $CQ, $Event;
-	return $CQ->getGroupMemberInfo($Event['group_id'], $user_id)->nickname;
-}
-
 global $CQ, $Queue, $Event;
 requireLvl(1);
 loadModule('credit.tools');
-if(!fromGroup()){
-	replyAndLeave("群内财富榜…等等，好像不在群里？");
+loadModule('nickname.tools');
+if(!fromGroup()) {
+    replyAndLeave("群内财富榜…等等，好像不在群里？");
 }
 
 $groupName = $CQ->getGroupInfo($Event['group_id'])->group_name;
@@ -21,17 +13,18 @@ $groupMemberList = $CQ->getGroupMemberList($Event['group_id']);
 $creditData = array();
 $reply = $groupName.'财富榜：';
 
-foreach($groupMemberList as $groupMember){
-	if(($credit = getCredit($groupMember->user_id)) > 0){
-		$creditData[] = array($groupMember->user_id, $credit);
-	}
+foreach($groupMemberList as $groupMember) {
+    if(($credit = getCredit($groupMember->user_id)) > 0) {
+        $creditData[] = array($groupMember->user_id, $credit);
+    }
 }
 
-usort($creditData, 'sortCredit');
-foreach(array_slice($creditData, 0, 5) as $n => $groupMember){
-	$reply .= "\n#".($n + 1).' '.$groupMember[1].'金币 @'.getName($groupMember[0]);
+usort($creditData, fn($a, $b) => $b[1] - $a[1]);
+$lastUserCredit = null;
+foreach(array_slice($creditData, 0, 5) as $n => $groupMember) {
+    $rank = $lastUserCredit === $groupMember[1] ? $rank : $n + 1;
+    $reply .= "\n#{$rank} {$groupMember[1]}金币 @".getNickName($groupMember[0], $Event['group_id']);
+    $lastUserCredit = $totalCredit;
 }
 
-$Queue[]= replyMessage($reply);
-
-?>
+$Queue[] = replyMessage($reply);
