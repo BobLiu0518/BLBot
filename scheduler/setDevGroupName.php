@@ -9,6 +9,7 @@ $Schedulers[] = new BLBot\Scheduler(
     },
     function ($timestamp) {
         global $CQ;
-        $CQ->setGroupName(intval(config('devgroup')), config('devgroupName').' @'.date('H', $timestamp).'点了！');
+        $time = mb_chr(0x32BF + intval(date('m', $timestamp))).mb_chr(0x33DF + intval(date('d', $timestamp))).mb_chr(0x3358 + intval(date('H', $timestamp)));
+        $CQ->setGroupName(intval(config('devgroup')), config('devgroupName').' @'.$time.'了！');
     }
 );
