@@ -6,6 +6,7 @@ requireLvl(6);
 $order = [
     'beijing',
     'shanghai',
+    'shanghai_suburban',
     'guangzhou',
     'foshan',
     'guangdong',
