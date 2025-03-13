@@ -49,69 +49,43 @@ $citiesMeta['guangdong'] = [
     'logo' => 'metro_logo_guangzhou.svg',
 ];
 
-// Load toilets
-$toiletData = $db->query(<<<EOT
-SELECT station_id, location_cn, name_cn
-FROM device
-WHERE category_id = 6
-ORDER BY station_id ASC;
-EOT);
-$toilets = [];
-while($row = $toiletData->fetchArray(SQLITE3_ASSOC)) {
-    if(!$toilets[$row['station_id']]) {
-        $toilets[$row['station_id']] = [];
-    }
-    foreach(explode('。', $row['location_cn']) as $toilet) {
-        if(!$toilet) continue;
-        $toilets[$row['station_id']][] = [
-            'title' => $row['name_cn'],
-            'content' => preg_replace('/虫雷 岗/u', '𧒽岗', $toilet),
-        ];
-    }
-}
-
-// Load lines
-$linesData = $db->query(<<<EOT
-SELECT number, line_no, color
-FROM line
-ORDER BY number ASC;
-EOT);
-$lines = [];
-while($row = $linesData->fetchArray(SQLITE3_ASSOC)) {
-    if(preg_match('/^CJ\d+$/', $row['line_no'])) {
-        $company = 'guangdong';
-    } else if(preg_match('/^(F|TNH)\d+$/', $row['line_no'])) {
-        $company = 'foshan';
-    } else {
-        $company = 'guangzhou';
-    }
-    $lines[$row['number']] = [
-        'company' => $company,
-        'color' => preg_replace('/^[0-9a-f]{6}ff$/i', '#${1}', $row['color']),
-    ];
-}
-
-// Load line stations
-$lineStationData = $db->query(<<<EOT
-SELECT line_number, station_id
-FROM line_station
-ORDER BY station_id ASC, line_number ASC;
-EOT);
+// Load data
 $companies = [];
-while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
-    if(array_key_exists($row['station_id'], $companies)) continue;
-    $companies[$row['station_id']] = $lines[$row['line_number']]['company'];
-}
-
-// Load stations
-$stationData = $db->query(<<<EOT
-SELECT station_id, name_cn
-FROM station;
+$lineStationData = $db->query(<<<EOT
+SELECT s.name_cn AS station_name, l.line_no, d.name_cn AS device_name, d.location_cn
+FROM station s
+JOIN (
+    SELECT ls.station_id, MIN(ll.line_no) AS line_no
+    FROM line_station ls
+    JOIN line ll ON ls.line_number = ll.number
+    GROUP BY station_id
+) l ON s.station_id = l.station_id
+LEFT JOIN device d ON s.station_id = d.station_id AND d.category_id = 6;
 EOT);
-while($row = $stationData->fetchArray(SQLITE3_ASSOC)) {
-    $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', $row['name_cn']);
-    $company = $companies[$row['station_id']];
-    $toiletInfo[$company][$stationName] = ['toilets' => $toilets[$row['station_id']] ?? []];
+while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
+    $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', $row['station_name']);
+    $company = $companies[$row['line_no']];
+    if(!$company) {
+        if(preg_match('/^CJ\d+$/', $row['line_no'])) {
+            $company = 'guangdong';
+        } else if(preg_match('/^(F|TNH)\d+$/', $row['line_no'])) {
+            $company = 'foshan';
+        } else {
+            $company = 'guangzhou';
+        }
+        $companies[$row['line_no']] = $company;
+    }
+    if(!$row['device_name']) {
+        $toiletInfo[$company][$stationName] = ['toilets' => []];
+    } else {
+        foreach(explode('。', $row['location_cn']) as $toilet) {
+            if(!$toilet) continue;
+            $toiletInfo[$company][$stationName]['toilets'][] = [
+                'title' => $row['device_name'],
+                'content' => preg_replace('/虫雷 岗/u', '𧒽岗', $toilet),
+            ];
+        }
+    }
 }
 
 foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
