@@ -51,7 +51,7 @@ $citiesMeta['guangdong'] = [
 
 // Load data
 $companies = [];
-$lineStationData = $db->query(<<<EOT
+$lineStationData = $db->query(<<<SQL
 SELECT s.name_cn AS station_name, l.line_no, d.name_cn AS device_name, d.location_cn
 FROM station s
 JOIN (
@@ -61,7 +61,7 @@ JOIN (
     GROUP BY station_id
 ) l ON s.station_id = l.station_id
 LEFT JOIN device d ON s.station_id = d.station_id AND d.category_id = 6;
-EOT);
+SQL);
 while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
     $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', $row['station_name']);
     $company = $companies[$row['line_no']];

@@ -39,12 +39,12 @@ $stations = json_decode($stations, true)['stations'];
 
 // Load toilets
 $toilets = [];
-$toiletData = $facilityDb->query(<<<EOT
+$toiletData = $facilityDb->query(<<<SQL
 SELECT STATION_ID, STATION_FACILITY_URL_TC
 FROM stationFacilitiesInfo
 WHERE STATION_FACILITY_ID = 6
 ORDER BY CAST(STATION_ID as INT) ASC;
-EOT);
+SQL);
 while($row = $toiletData->fetchArray(SQLITE3_ASSOC)) {
     $toilets[$row['STATION_ID']] = $row['STATION_FACILITY_URL_TC'];
 }
