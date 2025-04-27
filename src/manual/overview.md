@@ -343,7 +343,7 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 见 [金山铁路车次](./jsr)。
 
-## `#jsr.route` {#jsr-route}
+## `#jsr.plan` {#jsr-route}
 
 见 [金山铁路车次](./jsr)。
 
