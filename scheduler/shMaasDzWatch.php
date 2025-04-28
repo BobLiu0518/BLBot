@@ -8,11 +8,12 @@ $Schedulers[] = new BLBot\Scheduler(
         return intval(date('s', $timestamp)) < 5 && intval(date('i', $timestamp)) % 5 == 0;
     },
     function ($timestamp) {
-        global $Queue;
+        global $CQ;
         $notices = [];
         $data = [];
-        $cache = getData('shmaas.json');
+        $cache = getData('shmaas/shmaas.json');
         if ($cache) $cache = json_decode($cache, true);
+        $groups = json_decode(getData('shmaas/groups.json'), true);
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
@@ -40,7 +41,7 @@ $Schedulers[] = new BLBot\Scheduler(
             if (!$cache) continue;
             if (!$cache[$lineInfo]) {
                 $lineInfo .= "\n{$line['sceneName']} {$line['labelName']} {$line['merchantName']}";
-                $lineInfo .= "\n{$line['startSiteName']}-{$line['endSiteName']} ￥".number_format($line['ticketPrice'] / 100, 2, '.', '');
+                $lineInfo .= "\n{$line['startSiteName']}-{$line['endSiteName']} ￥{$line['priceRange']}";
                 $notices[] = "新线：\n{$lineInfo}";
             } else {
                 foreach ($line as $key => $value) {
@@ -53,13 +54,16 @@ $Schedulers[] = new BLBot\Scheduler(
                 }
             }
         }
-        setData('shmaas.json', json_encode($data));
+        setData('shmaas/shmaas.json', json_encode($data));
         if (!$cache) $notices[] = '已初始化 '.count($data).' 条线路信息';
 
         foreach ($notices as $notice) {
             $notice = "[{$lines['nowTime']}]\n{$notice}";
-            setData('shmaas.log', "\n\n".$notice, true);
-            $Queue[] = sendMaster($notice);
+            setData('shmaas/shmaas.log', "\n\n".$notice, true);
+            foreach ($groups as $group) {
+                $CQ->sendGroupMsg($group, $notice);
+                sleep(1);
+            }
         }
     }
 );
