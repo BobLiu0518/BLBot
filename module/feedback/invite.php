@@ -1,6 +1,6 @@
 <?php
 
-requireLvl(1);
+requireLvl(3);
 global $Event, $Queue;
 
 if($Event['group_id'] != config('devgroup')) {
