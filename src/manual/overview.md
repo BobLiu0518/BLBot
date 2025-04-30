@@ -299,7 +299,7 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 向 Bot 主人反馈信息。
 
-## `#feedback.invite` {#feedback-invite}
+## `#feedback.invite` <LvBadge lv=3 /> {#feedback-invite}
 
 申请邀请 Bot 加入群聊。
 
