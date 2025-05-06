@@ -17,9 +17,9 @@ if(fromGroup()) {
 $current = time();
 
 $results = [];
-$status = ['进行中', '翘课中', '下一节', '已结束', '无课程'];
+$status = ['分身中', '进行中', '翘课中', '下一节', '已结束', '无课程'];
 foreach($targets as $target) {
-    $todayCourses = getCourses($target->user_id, time());
+    $todayCourses = getCourses($target->user_id, $current);
     if($todayCourses === false) {
         continue;
     }
@@ -29,7 +29,7 @@ foreach($targets as $target) {
     if(!count($todayCourses)) {
         $results[] = [
             'user_id' => $target->user_id,
-            'type' => 4,
+            'type' => 5,
             'mainDesc' => '今日无课程',
             'subDesc' => getMotto($target->user_id) ?? getVerse(),
             'order' => $target->user_id,
@@ -41,13 +41,14 @@ foreach($targets as $target) {
     // 匹配当前/下节课程
     $timezone = getTimezoneGMTOffset(getTimezone($target->user_id));
     $timezoneHint = $timezone == 'GMT+8' ? '' : "({$timezone})";
+    $nowCourses = [];
     foreach($todayCourses as $course) {
         if($time < $course['startTime']) {
-            $remain = ceil((strtotime($course['startTime']) - time()) / 60);
+            $remain = ceil((strtotime($course['startTime']) - $current) / 60);
             $remain = $remain > 60 ? (floor($remain / 60).' 小时') : ($remain.' 分钟');
             $results[] = [
                 'user_id' => $target->user_id,
-                'type' => 2,
+                'type' => 3,
                 'mainDesc' => blockBannedWords($course['name']),
                 'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} ({$remain}后)",
                 'order' => strtotime($course['startTime']),
@@ -55,31 +56,56 @@ foreach($targets as $target) {
             ];
             continue 2;
         } else if($time >= $course['startTime'] && $time < $course['endTime']) {
-            $remain = ceil((strtotime($course['endTime']) - time()) / 60);
-            $results[] = [
-                'user_id' => $target->user_id,
-                'type' => isAbandoned($target->user_id) ? 1 : 0,
-                'mainDesc' => blockBannedWords($course['name']),
-                'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} (剩余 {$remain} 分钟)",
-                'order' => $remain,
-                'subOrder' => strtotime($course['startTime']),
-            ];
-            continue 2;
+            $nowCourses[] = $course;
         }
     }
-    $total = 0;
-    foreach($todayCourses as $course) {
-        $total += strtotime($course['endTime']) - strtotime($course['startTime']);
+    if(count($nowCourses) == 1 || isAbandoned($target->user_id)) {
+        $course = $nowCourses[0];
+        $remain = ceil((strtotime($course['endTime']) - $current) / 60);
+        $results[] = [
+            'user_id' => $target->user_id,
+            'type' => isAbandoned($target->user_id) ? 2 : 1,
+            'mainDesc' => blockBannedWords($course['name']),
+            'subDesc' => "{$course['startTime']}-{$course['endTime']}{$timezoneHint} (剩余 {$remain} 分钟)",
+            'order' => $remain,
+            'subOrder' => strtotime($course['startTime']),
+        ];
+        continue;
+    } else if(count($nowCourses)) {
+        $firstRemain = 0;
+        $courses = [];
+        $description = [];
+        foreach($nowCourses as $course) {
+            $courses[] = blockBannedWords($course['name']);
+            $description[] = mb_substr($course['name'], 0, 1)."{$course['startTime']}-{$course['endTime']}";
+            if(!$firstRemain) {
+                $firstRemain = ceil((strtotime($course['endTime']) - $current) / 60);
+            }
+        }
+        $results[] = [
+            'user_id' => $target->user_id,
+            'type' => 0,
+            'mainDesc' => implode(' / ', $courses),
+            'subDesc' => implode(' / ', $description).' '.$timezoneHint,
+            'order' => $firstRemain,
+            'subOrder' => strtotime($course['startTime']),
+        ];
+        continue;
+    } else {
+        $total = 0;
+        foreach($todayCourses as $course) {
+            $total += strtotime($course['endTime']) - strtotime($course['startTime']);
+        }
+        $total = number_format($total / 60 / 60, 1);
+        $results[] = [
+            'user_id' => $target->user_id,
+            'type' => 4,
+            'mainDesc' => '今日课程已上完',
+            'subDesc' => "共计 {$total} 小时",
+            'order' => -$total,
+            'subOrder' => 0,
+        ];
     }
-    $total = number_format($total / 60 / 60, 1);
-    $results[] = [
-        'user_id' => $target->user_id,
-        'type' => 3,
-        'mainDesc' => '今日课程已上完',
-        'subDesc' => "共计 {$total} 小时",
-        'order' => -$total,
-        'subOrder' => 0,
-    ];
 }
 
 if(!count($results)) {
@@ -103,10 +129,10 @@ $draw->setTextEncoding('UTF-8');
 $draw->setFont(getFontPath('unifont.otf'));
 $maxContentX = 0;
 $currentX = $currentY = 20;
-$colors = ['#B13333', '#DB6F2D', '#3949AB', '#379151', '#7F7F7F', '#00897B'];
+$colors = ['#D81B60', '#B13333', '#DB6F2D', '#3949AB', '#379151', '#7F7F7F', '#00897B'];
 
 // 画左上角框框
-$draw->setFillColor($colors[5]);
+$draw->setFillColor($colors[6]);
 $draw->rectangle($currentX, $currentY, $currentX + 80, $currentY + 40);
 $draw->rectangle($currentX, $currentY, $currentX + 40, $currentY + 80);
 $currentY += 200;
@@ -187,7 +213,7 @@ $currentX = ($imageWidth - $image->queryFontMetrics($draw, $prompt)['textWidth']
 $draw->annotation($currentX, $currentY + 32, $prompt);
 
 // 画右下角框框
-$draw->setFillColor($colors[5]);
+$draw->setFillColor($colors[6]);
 $draw->rectangle($imageWidth - 60, $currentY, $imageWidth - 20, $currentY + 80);
 $draw->rectangle($imageWidth - 100, $currentY + 40, $imageWidth - 20, $currentY + 80);
 
@@ -195,7 +221,7 @@ $draw->rectangle($imageWidth - 100, $currentY + 40, $imageWidth - 20, $currentY 
 $title = '“群友在上什么课?”';
 $draw->setFontSize(72);
 $titleWidth = $image->queryFontMetrics($draw, $title)['textWidth'];
-$draw->setFillColor($colors[5].'59');
+$draw->setFillColor($colors[6].'59');
 $draw->rectangle(($imageWidth - $titleWidth) / 2 - 20, 136, ($imageWidth + $titleWidth) / 2 + 20, 160);
 $draw->setFillColor('#000000');
 $draw->annotation(($imageWidth - $titleWidth) / 2, 80, $title);
