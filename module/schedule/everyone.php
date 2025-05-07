@@ -44,6 +44,7 @@ foreach($targets as $target) {
     $nowCourses = [];
     foreach($todayCourses as $course) {
         if($time < $course['startTime']) {
+            if(count($nowCourses)) break;
             $remain = ceil((strtotime($course['startTime']) - $current) / 60);
             $remain = $remain > 60 ? (floor($remain / 60).' 小时') : ($remain.' 分钟');
             $results[] = [
