@@ -600,6 +600,10 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 查询上海交通公交线路信息。
 
+## `#shmetro <站点名>` {#shmetro}
+
+查询上海地铁车站站层图信息。
+
 ## `#sjwgj <线路名>` {#sjwgj}
 
 查询松江公交公交线路信息。
