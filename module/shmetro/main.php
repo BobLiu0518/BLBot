@@ -11,8 +11,9 @@ $result = '';
 foreach ($stations as $station) {
   if (trim($station['value']) == $stationName) {
     $code = $station['key'];
-    $pic = getCache("shmetro/{$code}.png");
-    if (!$pic) {
+    $cache = "shmetro/{$code}.png";
+    $pic = getCache($cache);
+    if(!$pic || time() > getCacheTime($cache) + 86400 * 30) {
       $pic = file_get_contents("https://service.shmetro.com/skin/zct/{$code}.jpg");
       setCache("shmetro/{$code}.png", $pic);
     }
