@@ -51,8 +51,8 @@ if(preg_match('/^(G|D|C|Z|T|K|Y|L|X|N)(\d+)$/i', $search, $match)) {
         array_splice($result[$direction], 5);
         $reply .= "\n‣ 往".($direction ? '金山卫' : '上海南').'方向：';
         foreach($result[$direction] as $train) {
-            $reply .= "\n· {$train['time']} {$train['code']}";
-            $reply .= $train['to'] == $station ? ' (终到)' : ' 往'.$train['to'];
+            $reply .= "\n· {$train['time']} {$train['code']} ";
+            $reply .= ($train['to'] == $station ? ' 终到' : '往').$train['to'];
             $reply .= ' '.$train['type'];
         }
         if(!count($result[$direction])) {

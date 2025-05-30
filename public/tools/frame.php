@@ -155,6 +155,10 @@ function getCachePath($cacheFileName) {
     return '../storage/cache/'.$cacheFileName;
 }
 
+function getCacheTime($cacheFileName) {
+    return filemtime(getCachePath($cacheFileName));
+}
+
 function getCacheFolderContents(string $folderPath) {
     $contents = scandir('../storage/cache/'.$folderPath);
     return array_diff($contents, ['.', '..']);
