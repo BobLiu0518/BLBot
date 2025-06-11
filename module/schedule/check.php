@@ -6,7 +6,7 @@ loadModule('schedule.tools');
 global $Event, $CQ;
 
 $arg = nextArg();
-if(preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:,name=.+?)?(?:])?$/', $arg, $matches)) {
+if(fromGroup() && preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:,name=.+?)?(?:])?$/', $arg, $matches)) {
     $target = intval($matches[1]);
     $arg = nextArg(true);
 } else {
@@ -24,8 +24,12 @@ if($arg) {
     $date = '今日';
 }
 
-$user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
-$nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本群哦…");
+if(fromGroup()) {
+    $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
+    $nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本群哦…");
+} else {
+    $nickname = '您';
+}
 
 $courses = getCourses($target, $time);
 if($courses === false) {
