@@ -42,6 +42,7 @@ $Schedulers[] = new BLBot\Scheduler(
             if (!$cache[$lineInfo]) {
                 $lineInfo .= "\n{$line['sceneName']} {$line['labelName']} {$line['merchantName']}";
                 $lineInfo .= "\n{$line['startSiteName']}-{$line['endSiteName']} ￥{$line['priceRange']}";
+                $lineInfo .= "\nhttps://www.shmaas.cn/shopping-h5/customBus/lineDetail?type=1&direction=0&lineNo={$line['lineNo']}&lineName=".urlencode($line['lineName']);
                 $notices[] = "新线：\n{$lineInfo}";
             } else {
                 foreach ($line as $key => $value) {
