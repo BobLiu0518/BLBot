@@ -6,6 +6,10 @@
 
 BLBot 基于 [kjBot](https://github.com/kj415j45/kjBot) 开发，是一个轻量级多功能的 QQ 机器人。
 
+## 用户手册
+
+用户手册见：[bot.bobliu.tech](https://bot.bobliu.tech/)
+
 ## 安装依赖
 
 在开始之前，你需要安装 BLBot 依赖的运行环境：
