@@ -22,7 +22,7 @@ $citiesMeta['nanchang'] = [
 
 // Get lines
 $cityId = '3601';
-$stations = json_decode(request($cityId, 'bas/smartstation/v1/bas/station/list', ['page_no' => 1, 'page_size' => 2000, 'service_id' => '01']), true)['result']['rows'];
+$stations = json_decode(request($cityId, 'v2/bas/smartstation/v1/bas/station/list', ['page_no' => 1, 'page_size' => 2000, 'service_id' => '01']), true)['result']['rows'];
 
 // Get stations
 foreach($stations as $station) {
