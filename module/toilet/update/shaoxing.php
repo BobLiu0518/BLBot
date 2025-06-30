@@ -27,7 +27,7 @@ foreach($stations as $station) {
     $station['title'] = preg_replace('/站$/', '', $station['title']);
     $stationData = file_get_contents($stationDataPage.$station['id']);
     $toiletInfo['shaoxing'][$station['title']] = ['toilets' => []];
-    preg_match('/<p>卫生间<\/p><p>(.+?)<\/p>/', $stationData, $match);
+    preg_match('/<p>卫生间<\/p><p>(.+?)<\/p>/', str_replace('&nbsp;', '', $stationData), $match);
     if($match[1]) {
         foreach(explode('、', $match[1]) as $toilet) {
             $toiletInfo['shaoxing'][$station['title']]['toilets'][] = [
