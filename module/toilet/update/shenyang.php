@@ -20,47 +20,48 @@ $citiesMeta['shenyang'] = [
 ];
 
 // Get lines
-$lines = json_decode(file_get_contents('https://www.symtc.com/sjzx/api/basic/b001'), true)['data'];
+$context = stream_context_create([
+    'http' => [
+        'method' => 'POST',
+    ],
+]);
+$lines = json_decode(file_get_contents('https://www.symtc.com/portalManager/selectLineInfoByDC', false, $context), true)['result'];
 $lineMap = [];
 $context = stream_context_create([
     'http' => [
         'method' => 'POST',
         'header' => 'Content-type: application/json',
-        'content' => json_encode(['line_id' => '00']),
+        'content' => json_encode(['lineId' => '00']),
     ],
 ]);
-$stations = json_decode(file_get_contents('https://www.symtc.com/sjzx/api/basic/b002', false, $context), true)['data'];
-$stationApi = 'https://www.symtc.com/sjzx/api/basic/b009';
+$stations = json_decode(file_get_contents('https://www.symtc.com/portalManager/selectStationInfoByDC', false, $context), true)['result'];
+$context = stream_context_create([
+    'http' => [
+        'method' => 'POST',
+        'header' => 'Content-type: application/json',
+        'content' => json_encode(['device_id' => '00', 'line_id' => '00', 'station_id' => '0000']),
+    ],
+]);
+$devices = json_decode(file_get_contents('https://www.symtc.com/portalManager/selectDeviceInfoByDC', false, $context), true)['result'];
 
 foreach($lines as $line) {
-    $citiesMeta['shenyang']['color'][$line['line_name']] = $line['line_color'];
-    $lineMap[$line['line_id']] = $line['line_name'];
+    $citiesMeta['shenyang']['color'][$line['lineName']] = $line['lineColor'];
+    $lineMap[$line['lineId']] = $line['lineName'];
 }
 
 // Get stations
 foreach($stations as $station) {
-    if(!$station['ats_station_id']) continue;
-    if(!array_key_exists($station['station_name'], $toiletInfo['shenyang'])) {
-        $toiletInfo['shenyang'][$station['station_name']] = ['toilets' => []];
-    }
+    if(!$station['atsStationId']) continue;
+    $toiletInfo['shenyang'][$station['stationName']] = ['toilets' => []];
+}
 
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'POST',
-            'header' => 'Content-type: application/json',
-            'content' => json_encode(['device_id' => '00', 'line_id' => '00', 'station_id' => $station['station_id']]),
-        ],
-    ]);
-    $stationData = json_decode(file_get_contents($stationApi, false, $context), true)['data'];
-
-    foreach($stationData as $facility) {
-        if($facility['device_id'] == '03') {
-            foreach(explode(';', $facility['device_location_desc']) as $toilet) {
-                $toiletInfo['shenyang'][$station['station_name']]['toilets'][] = [
-                    'title' => $lineMap[$facility['line_id']],
-                    'content' => $toilet,
-                ];
-            }
+foreach($devices as $device) {
+    if($device['deviceId'] == '03') {
+        foreach(explode(';', $device['deviceLocationDesc']) as $toilet) {
+            $toiletInfo['shenyang'][$device['stationName']]['toilets'][] = [
+                'title' => $lineMap[$device['lineId']],
+                'content' => $toilet,
+            ];
         }
     }
 }
