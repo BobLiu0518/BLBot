@@ -295,6 +295,10 @@ import MasterBadge from '../../components/MasterBadge.vue';
 
 设置 @QQ 的经验为指定值。
 
+## `#fabing [宾语]` {#fabing}
+
+生成发病文案。
+
 ## `#feedback <内容>` {#feedback}
 
 向 Bot 主人反馈信息。
