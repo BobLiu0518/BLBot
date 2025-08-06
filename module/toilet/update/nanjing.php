@@ -28,7 +28,7 @@ foreach($lines as $line) {
         if(!array_key_exists($station['station_name'], $toiletInfo['nanjing'])) {
             $toiletInfo['nanjing'][$station['station_name']] = ['toilets' => []];
         }
-        $stationInfo = json_decode(request($cityId, 'bas/smartstation/v2/bas/station/detail', ['station_no' => $station['station_no'], 'line_no' => $line['line_no'], 'service_id' => '01', 'train_plan_type' => '01,02,03']), true)['result'];
+        $stationInfo = json_decode(request($cityId, 'bas/smartstation/v2/bas/station/detail', ['station_no' => $station['station_no'], 'line_no' => $line['line_no'], 'service_id' => '01', 'train_plan_type' => '01,02,03', 'calendar_type' => '1,6']), true)['result'];
         foreach($stationInfo['device_list'] as $facility) {
             if($facility['device_name'] == '卫生间') {
                 foreach(preg_split('/\r|\n/', $facility['description']) as $toilet) {
