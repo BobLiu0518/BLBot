@@ -10,7 +10,7 @@ setCache('toilet/'.time().'.bak', json_encode($toiletInfo));
 $toiletInfo['hangzhou'] = [];
 $citiesMeta['hangzhou'] = [
     'name' => '杭州地铁',
-    'support' => '杭港地铁车站数据缺失',
+    'support' => true,
     'source' => '杭州地铁 App',
     'time' => date('Y/m/d'),
     'color' => [
