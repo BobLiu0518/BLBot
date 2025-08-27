@@ -84,7 +84,8 @@ usort($results, function ($a, $b) {
 // 准备图片
 $image = new Imagick();
 $image->newImage(1, 1, '#FFFFFF');
-$image->setImageFormat('png');
+$image->setImageFormat('jpeg');
+$image->setImageCompressionQuality(50);
 $draw = new ImagickDraw();
 $draw->setTextEncoding('UTF-8');
 $draw->setFont(getFontPath('unifont.otf'));
@@ -189,7 +190,7 @@ $draw->annotation(($imageWidth - $titleWidth) / 2, 80, $title);
 
 // 生成图片
 $image->extentImage($imageWidth, $currentY + 100, 0, 0);
-$path = realpath(getCachePath('schedule'))."/{$Event['group_id']}.png";
+$path = realpath(getCachePath('schedule'))."/{$Event['group_id']}.jpg";
 $image->drawImage($draw);
 $image->writeImage($path);
 
