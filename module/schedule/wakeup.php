@@ -25,11 +25,14 @@ EOT);
 $context = stream_context_create([
     'http' => [
         'method' => 'GET',
-        'header' => 'version: 250',
+        'header' => 'version: 280',
     ],
 ]);
-$rawData = json_decode(file_get_contents('https://i.wakeup.fun/share_schedule/get?key='.$code, false, $context), true);
-if (!$rawData['data']) replyAndLeave('数据读取失败，可能是分享口令无效或已过期…');
+$rawData = json_decode(file_get_contents('https://api.wakeup.fun/share_schedule/get?key='.$code, false, $context), true);
+if (!$rawData || !$rawData['data']) {
+    $rawData = json_decode(file_get_contents('https://i.wakeup.fun/share_schedule/get?key='.$code, false, $context), true);
+    if (!$rawData['data']) replyAndLeave('数据读取失败，可能是分享口令无效或已过期…');
+}
 $data = [];
 foreach (explode("\n", $rawData['data']) as $n => $json) {
     $data[$n] = json_decode($json, true);
