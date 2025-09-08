@@ -29,6 +29,7 @@ foreach($iCal->tree->child as $node) {
         $name = '';
         $start = '';
         $end = '';
+        $rrule = null;
         foreach($node->data as $key => $value) {
             if($key == 'SUMMARY') {
                 $name = $value->getValues();
@@ -37,12 +38,15 @@ foreach($iCal->tree->child as $node) {
                 $start = $value->getValues();
             } else if($key == 'DTEND') {
                 $end = $value->getValues();
+            } else if($key == 'RRULE') {
+                $rrule = $value->getValues();
             }
         }
         $events[] = [
             'name' => $name,
             'start' => $start,
             'end' => $end,
+            'rrule' => $rrule,
         ];
     }
 }
@@ -53,13 +57,73 @@ $semesterStart = DateTime::createFromFormat('Ymd\THis', $semesterStart, $timezon
 foreach($events as $event) {
     $start = DateTime::createFromFormat('Ymd\THis', $event['start'], $timezone);
     $end = DateTime::createFromFormat('Ymd\THis', $event['end'], $timezone);
-    $courses[] = [
-        'name' => $event['name'],
-        'weeks' => [ceil($start->diff($semesterStart)->days / 7) + 1],
-        'day' => $start->format('w'),
-        'startTime' => $start->format('H:i'),
-        'endTime' => $end->format('H:i'),
-    ];
+    $courseInstances = [];
+    if ($event['rrule']) {
+        $rruleParts = explode(';', $event['rrule']);
+        $freq = null;
+        $until = null;
+        $byday = null;
+        foreach ($rruleParts as $part) {
+            if (strpos($part, 'FREQ=') === 0) {
+                $freq = str_replace('FREQ=', '', $part);
+            } elseif (strpos($part, 'UNTIL=') === 0) {
+                $until = str_replace('UNTIL=', '', $part);
+            } elseif (strpos($part, 'BYDAY=') === 0) {
+                $byday = str_replace('BYDAY=', '', $part);
+            }
+        }
+        if ($freq === 'WEEKLY' && $until) {
+            $untilDate = new DateTime($until, new DateTimeZone('UTC'));
+            $untilDate->setTimezone($timezone);
+            if ($byday) {
+                $bydays = explode(',', $byday);
+                $dayMap = ['SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6];
+                foreach ($bydays as $bd) {
+                    $targetDay = $dayMap[$bd];
+                    $startDay = $start->format('w');
+                    $diff = ($targetDay - $startDay + 7) % 7;
+                    $baseStart = clone $start;
+                    $baseStart->modify('+' . $diff . ' days');
+                    $current = clone $baseStart;
+                    while ($current <= $untilDate) {
+                        $startClone = clone $current;
+                        $endClone = clone $current;
+                        $endClone->modify('+'.($end->getTimestamp() - $start->getTimestamp()).' seconds');
+                        $courseInstances[] = [
+                            'start' => $startClone,
+                            'end' => $endClone,
+                        ];
+                        $current->modify('+1 week');
+                    }
+                }
+            } else {
+                $current = clone $start;
+                while ($current <= $untilDate) {
+                    $startClone = clone $current;
+                    $endClone = clone $current;
+                    $endClone->modify('+'.($end->getTimestamp() - $start->getTimestamp()).' seconds');
+                    $courseInstances[] = [
+                        'start' => $startClone,
+                        'end' => $endClone,
+                    ];
+                    $current->modify('+1 week');
+                }
+            }
+        } else {
+            $courseInstances[] = ['start' => $start, 'end' => $end];
+        }
+    } else {
+        $courseInstances[] = ['start' => $start, 'end' => $end];
+    }
+    foreach ($courseInstances as $instance) {
+        $courses[] = [
+            'name' => $event['name'],
+            'weeks' => [ceil($instance['start']->diff($semesterStart)->days / 7) + 1],
+            'day' => $instance['start']->format('w'),
+            'startTime' => $instance['start']->format('H:i'),
+            'endTime' => $instance['end']->format('H:i'),
+        ];
+    }
 }
 $semesterStart = $semesterStart->getTimestamp();
 
