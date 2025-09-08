@@ -15,7 +15,6 @@ require('base64.php');
 require('calc.php');
 require('choose.php');
 require('v50.php');
-require('wakeup.php');
 // require('song.php');
 require('repeat.php');
 require('help.php');
