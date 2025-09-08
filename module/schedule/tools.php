@@ -87,6 +87,7 @@ function getCourses($data, $date) {
     if(!$data) {
         return false;
     }
+    if(!is_numeric($date)) $date = $date ? strtotime($date) : time();
     $week = getWeek($data['semesterStart'], $date, $data['timezone'] ?? 'Asia/Shanghai');
     $weekday = date('N', $date);
 

@@ -13,16 +13,7 @@ if(fromGroup() && preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:,name=.+?)?(?:])?$/', $a
     $target = $Event['user_id'];
     $arg .= trim(' '.nextArg(true));
 }
-if($arg) {
-    $time = strtotime($arg);
-    if(!$time) {
-        replyAndLeave("无法识别日期：{$arg}…");
-    }
-    $date = date('Y/m/d', $time);
-} else {
-    $time = time();
-    $date = '今日';
-}
+$time = $arg;
 
 if(fromGroup()) {
     $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
@@ -32,6 +23,7 @@ if(fromGroup()) {
 }
 
 $courses = getCourses($target, $time);
+$date = $time ? date('Y/m/d', strtotime($time)) : '今日';
 if($courses === false) {
     replyAndLeave($nickname.' 未配置课程表，或该学期课程已结束哦…');
 } else if(!count($courses)) {
