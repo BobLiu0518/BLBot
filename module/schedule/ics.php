@@ -20,7 +20,12 @@ EOT);
 
 $events = [];
 
-$iCal = new ZCiCal(file_get_contents($link));
+if(!preg_match('/^(?:https?|webcal):\/\/(.+?)\//', $link, $matches)) {
+    replyAndLeave('请输入完整的链接噢~');
+}
+$domain = $matches[1];
+
+$iCal = new ZCiCal(file_get_contents(str_replace('webcal://', 'https://', $link)));
 $timezoneName = 'Asia/Shanghai';
 foreach($iCal->tree->child as $node) {
     if($node->getName() == 'VTIMEZONE' && $node->data['TZID']->getValues()) {
@@ -118,7 +123,7 @@ foreach($events as $event) {
     foreach ($courseInstances as $instance) {
         $courses[] = [
             'name' => $event['name'],
-            'weeks' => [ceil($instance['start']->diff($semesterStart)->days / 7) + 1],
+            'weeks' => [floor($instance['start']->diff($semesterStart)->days / 7) + 1],
             'day' => $instance['start']->format('w'),
             'startTime' => $instance['start']->format('H:i'),
             'endTime' => $instance['end']->format('H:i'),
@@ -127,5 +132,5 @@ foreach($events as $event) {
 }
 $semesterStart = $semesterStart->getTimestamp();
 
-setScheduleData($Event['user_id'], 'iCalendar', $semesterStart, $courses, $timezoneName);
+setScheduleData($Event['user_id'], 'iCalendar:'.$domain, $semesterStart, $courses, $timezoneName);
 replyAndLeave('成功读取课程表～');
