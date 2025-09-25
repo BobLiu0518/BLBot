@@ -60,7 +60,7 @@ foreach($targets as $target) {
             $nowCourses[] = $course;
         }
     }
-    if(count($nowCourses) == 1 || isAbandoned($target->user_id)) {
+    if(count($nowCourses) == 1 || isAbandoned($target->user_id) && count($nowCourses)) {
         $course = $nowCourses[0];
         $remain = ceil((strtotime($course['endTime']) - $current) / 60);
         $results[] = [
