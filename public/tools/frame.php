@@ -275,7 +275,7 @@ function loadModule(string $module) {
 
     if(file_exists('../module/'.$moduleFile)) {
         require_once('../module/'.$moduleFile);
-    } else if(strlen($module) <= 15) {
+    } else if(strlen($module) <= 15 && $module != '接龙') {
         $prefix = config('prefix', '/');
         replyAndLeave("指令 {$prefix}{$module} 不存在哦…不知道怎么使用 Bot ？发送 {$prefix}help 即可查看帮助～");
     }
