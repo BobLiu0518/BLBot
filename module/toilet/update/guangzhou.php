@@ -63,7 +63,7 @@ JOIN (
 LEFT JOIN device d ON s.station_id = d.station_id AND d.category_id = 6;
 SQL);
 while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
-    $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', $row['station_name']);
+    $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', str_replace('（城际）', '', $row['station_name']));
     $company = $companies[$row['line_no']];
     if(!$company) {
         if(preg_match('/^CJ\d+$/', $row['line_no'])) {
