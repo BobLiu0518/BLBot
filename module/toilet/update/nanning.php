@@ -9,8 +9,8 @@ setCache('toilet/'.time().'.bak', json_encode($toiletInfo));
 $toiletInfo['nanning'] = [];
 $citiesMeta['nanning'] = [
     'name' => '南宁轨道交通',
-    'support' => false,
-    'source' => null,
+    'support' => true,
+    'source' => '南宁轨道交通 App',
     'time' => date('Y/m/d'),
     'color' => [
         'main' => '#18BEF2',
@@ -20,20 +20,30 @@ $citiesMeta['nanning'] = [
     'logo' => 'metro_logo_nanning.svg',
 ];
 
-// Get HTML
-$context = stream_context_create([
-    'http' => [
-        'method' => 'GET',
-        'header' => 'User-Agent: Mozilla/5.0',
-    ],
-]);
-$stationsPage = file_get_contents('https://www.nngdjt.com/html/service1c/', false, $context);
-preg_match_all('/<span class="station" id="\d+"\s*>\s*(.+)\s*<\/span>/', $stationsPage, $match);
-foreach($match[1] as $station) {
-    if(!preg_match('/(客运|火车)(东|南|西|北)?站$/', $station)) {
-        $station = preg_replace('/站$/', '', $station);
+$info = json_decode(file_get_contents('https://cms-api.nngdjtapp.com/api/subwaymap/v1/allInfo'), true)['data'];
+foreach($info['subwayMap']['lines'] as $line){
+    $citiesMeta['nanning']['color'][$line['ln']] = "#{$line['lc']}";
+}
+foreach($info['stations'] as $station) {
+    $stationName = $station['stationName'];
+    if(!preg_match('/(客运|火车)(东|南|西|北)?站$/', $stationName)) {
+        $stationName = preg_replace('/站$/', '', $stationName);
     }
-    $toiletInfo['nanning'][trim($station)] = [];
+    if(isset($toiletInfo['nanning'][$stationName])){
+        continue;
+    }
+    $toiletInfo['nanning'][$stationName] = ['toilets' => []];
+    $detail = json_decode(file_get_contents('https://cms-api.nngdjtapp.com/api/v1/station/'.$station['sid']), true);
+    foreach($detail['stationInfo']['infrastructures'] as $infrastructures){
+        foreach($infrastructures['infrastuctures'] as $infrastructure){
+            if($infrastructure['name'] == '卫生间'){
+                $toiletInfo['nanning'][$stationName]['toilets'][] = [
+                    'title' => '卫生间',
+                    'content' => $infrastructure['desc'],
+                ];
+            }
+        }
+    }
 }
 
 // Save data
