@@ -98,14 +98,6 @@ while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
     }
 }
 
-foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
-    foreach($toiletInfo[$company] as $station => $data) {
-        if(preg_match('/^(.+)（(.+)）$/u', $station, $matches) && $matches[2] != '有轨') {
-            $toiletInfo[$company][$matches[1]] = ['redirect' => [$station]];
-        }
-    }
-}
-
 // Handle tram redirect
 $toiletInfo['guangzhou']['广州塔']['redirect'] = ['广州塔（有轨）'];
 $toiletInfo['foshan']['林岳东']['redirect'] = ['林岳东（有轨）'];
@@ -116,6 +108,36 @@ $toiletInfo['guangzhou']['虫雷 岗']['redirect'] = ['𧒽岗'];
 $toiletInfo['guangzhou']['虫雷岗']['redirect'] = ['𧒽岗'];
 $toiletInfo['foshan']['虫雷 岗'] = ['redirect' => ['𧒽岗']];
 $toiletInfo['foshan']['虫雷岗'] = ['redirect' => ['𧒽岗']];
+
+// Handle metro & intercity railway interchange
+$toiletInfo['guangdong']['佛山西站'] = ['redirect' => ['佛山西']];
+$toiletInfo['foshan']['佛山西'] = ['redirect' => ['佛山西站']];
+$toiletInfo['guangdong']['东平'] = ['redirect' => ['顺德北']];
+$toiletInfo['foshan']['顺德北'] = ['redirect' => ['东平']];
+$toiletInfo['guangdong']['北滘西站'] = ['redirect' => ['北滘西']];
+$toiletInfo['foshan']['北滘西'] = ['redirect' => ['北滘西站']];
+$toiletInfo['guangdong']['广州南站'] = ['redirect' => ['番禺']];
+$toiletInfo['guangzhou']['番禺'] = ['redirect' => ['广州南站']];
+$toiletInfo['guangdong']['汉溪长隆'] = ['redirect' => ['广州长隆']];
+$toiletInfo['guangzhou']['广州长隆'] = ['redirect' => ['汉溪长隆']];
+$toiletInfo['guangdong']['官桥'] = ['redirect' => ['官桥北']];
+$toiletInfo['guangzhou']['官桥北'] = ['redirect' => ['官桥']];
+$toiletInfo['guangdong']['广州北站'] = ['redirect' => ['花都']];
+$toiletInfo['guangzhou']['花都'] = ['redirect' => ['广州北站']];
+$toiletInfo['guangdong']['机场北（2号航站楼）'] = ['redirect' => ['白云机场北']];
+$toiletInfo['guangzhou']['白云机场北'] = ['redirect' => ['机场北（2号航站楼）']];
+$toiletInfo['guangdong']['机场南（1号航站楼）'] = ['redirect' => ['白云机场南']];
+$toiletInfo['guangzhou']['白云机场南'] = ['redirect' => ['机场南（1号航站楼）']];
+$toiletInfo['guangdong']['大石'] = ['redirect' => ['大石东']];
+$toiletInfo['guangzhou']['大石东'] = ['redirect' => ['大石']];
+
+foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
+    foreach($toiletInfo[$company] as $station => $data) {
+        if(preg_match('/^(.+)（(.+)）$/u', $station, $matches) && $matches[2] != '有轨') {
+            $toiletInfo[$company][$matches[1]] = ['redirect' => [$station]];
+        }
+    }
+}
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
