@@ -60,7 +60,17 @@ JOIN (
     JOIN line ll ON ls.line_number = ll.number
     GROUP BY station_id
 ) l ON s.station_id = l.station_id
-LEFT JOIN device d ON s.station_id = d.station_id AND d.category_id = 6;
+LEFT JOIN (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY station_id ORDER BY
+        CASE category_id
+            WHEN 6 THEN 1
+            WHEN 98 THEN 2
+            WHEN 99 THEN 3
+            ELSE 4
+        END) as rn
+    FROM device
+    WHERE category_id IN (6, 98, 99)
+) d ON s.station_id = d.station_id AND d.rn = 1;
 SQL);
 while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
     $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', str_replace('（城际）', '', $row['station_name']));
