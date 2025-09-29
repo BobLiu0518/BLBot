@@ -52,7 +52,19 @@ $citiesMeta['guangdong'] = [
 // Load data
 $companies = [];
 $lineStationData = $db->query(<<<SQL
-SELECT s.name_cn AS station_name, l.line_no, d.name_cn AS device_name, d.location_cn
+SELECT 
+    s.name_cn AS station_name, 
+    l.line_no, 
+    COALESCE(
+        d1.name_cn, 
+        d2.name_cn, 
+        d3.name_cn
+    ) AS device_name,
+    COALESCE(
+        d1.location_cn, 
+        d2.location_cn, 
+        d3.location_cn
+    ) AS location_cn
 FROM station s
 JOIN (
     SELECT ls.station_id, MIN(ll.line_no) AS line_no
@@ -60,17 +72,9 @@ JOIN (
     JOIN line ll ON ls.line_number = ll.number
     GROUP BY station_id
 ) l ON s.station_id = l.station_id
-LEFT JOIN (
-    SELECT *, ROW_NUMBER() OVER (PARTITION BY station_id ORDER BY
-        CASE category_id
-            WHEN 6 THEN 1
-            WHEN 98 THEN 2
-            WHEN 99 THEN 3
-            ELSE 4
-        END) as rn
-    FROM device
-    WHERE category_id IN (6, 98, 99)
-) d ON s.station_id = d.station_id AND d.rn = 1;
+LEFT JOIN device d1 ON s.station_id = d1.station_id AND d1.category_id = 6
+LEFT JOIN device d2 ON s.station_id = d2.station_id AND d2.category_id = 98
+LEFT JOIN device d3 ON s.station_id = d3.station_id AND d3.category_id = 99;
 SQL);
 while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
     $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', str_replace('（城际）', '', $row['station_name']));
