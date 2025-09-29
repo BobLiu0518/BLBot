@@ -24,9 +24,16 @@ $links = [
     'https://mp.weixin.qq.com/s/uW9dd-HZtaZYygJkaRydMA',
 ];
 
+$context = stream_context_create([
+	'http' => [
+		'method' => 'GET',
+		'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+	],
+]);
+
 // Get data
 foreach($links as $link) {
-    $toiletsInfo = file_get_contents($link);
+    $toiletsInfo = file_get_contents($link, false, $context);
     preg_match('/var oriCreateTime = \'(\d+)\';/', $toiletsInfo, $match);
     $time = intval($match[1]);
     $citiesMeta['dongguan']['time'] = min($time, $citiesMeta['dongguan']['time']);
@@ -58,6 +65,9 @@ foreach($links as $link) {
     }
 }
 $citiesMeta['dongguan']['time'] = date('Y/m/d', $citiesMeta['dongguan']['time']);
+
+// Handle metro & intercity railway interchange
+$toiletInfo['dongguan']['西平西'] = ['redirect' => ['西平']];
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));

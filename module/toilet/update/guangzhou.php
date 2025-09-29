@@ -130,6 +130,7 @@ $toiletInfo['guangdong']['机场南（1号航站楼）'] = ['redirect' => ['白�
 $toiletInfo['guangzhou']['白云机场南'] = ['redirect' => ['机场南（1号航站楼）']];
 $toiletInfo['guangdong']['大石'] = ['redirect' => ['大石东']];
 $toiletInfo['guangzhou']['大石东'] = ['redirect' => ['大石']];
+$toiletInfo['guangdong']['西平'] = ['redirect' => ['西平西']];
 
 foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
     foreach($toiletInfo[$company] as $station => $data) {
