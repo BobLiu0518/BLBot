@@ -69,6 +69,10 @@ $citiesMeta['dongguan']['time'] = date('Y/m/d', $citiesMeta['dongguan']['time'])
 // Handle metro & intercity railway interchange
 $toiletInfo['dongguan']['西平西'] = ['redirect' => ['西平']];
 
+// Handle Hongfu Road station name change (temporary)
+$toiletInfo['dongguan']['市民中心'] = $toiletInfo['dongguan']['鸿福路'];
+$toiletInfo['dongguan']['鸿福路'] = ['redirect' => ['市民中心']];
+
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
 setData('toilet/citiesMeta.json', json_encode($citiesMeta));
