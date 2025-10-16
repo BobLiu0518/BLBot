@@ -5,6 +5,7 @@ loadModule('alias.tools');
 $alias = nextArg();
 if($alias === null) {
     $Queue[] = replyMessage('不知道你打算删什么别名呢…');
+    return;
 }
 
 $alias = parseCommandName($alias);
