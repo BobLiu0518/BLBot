@@ -3,6 +3,7 @@
 global $CQ, $Event;
 requireLvl(1);
 loadModule('schedule.tools');
+loadModule('nickname.tools');
 
 if(!fromGroup()) {
     replyAndLeave('不在群内哦…');
@@ -51,8 +52,7 @@ if(!count($results)) {
     $reply = $groupName.' '.$types[$type]['name'].'课程时长榜';
     $lastUserHours = null;
     foreach(nextArg() ? $results : array_splice($results, 0, 9) as $n => $data) {
-        $user = $CQ->getGroupMemberInfo($Event['group_id'], $data['user_id']);
-        $nickname = $user->card ?? $user->nickname;
+        $nickname = getNickname($data['user_id']);
         $totalHours = number_format($data['total'] / 60 / 60, $types[$type]['round']);
         $rank = $lastUserHours === $totalHours ? $rank : $n + 1;
         $reply .= "\n#{$rank} {$totalHours}小时 @{$nickname}";
