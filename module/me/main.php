@@ -35,16 +35,12 @@ $statusEnd = getStatusEndTime($QQ);
 $credit = getCredit($QQ);
 $msg = "您的金币余额为 {$credit}，经验值为 {$exp}，等级为 Lv{$level} ～";
 if($Event['user_id'] == $QQ) {
-    switch($level) {
-        case 2:
-            $msg .= "\n再签到 ".(30 - $exp)." 天即可升级 Lv3～";
-            break;
-        case 1:
-            $msg .= "\n再签到 ".(7 - $exp)." 天即可升级 Lv2～";
-            break;
-        case 0:
-            $msg .= "\n签到后即可升级 Lv1 哦～";
-            break;
+    if($level == 0) {
+        $msg .= "\n签到后即可升级 Lv1 哦～";
+    } else if($level > 0 && $level < 5) {
+        $lvlMap = getLvlMap();
+        $nextLvl = $lvlMap[6 - $level - 1];
+        $msg .= "\n再签到 ".($nextLvl['exp'] - $exp)." 天即可升级 Lv{$nextLvl['lvl']}～";
     }
 }
 switch($status) {
