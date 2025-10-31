@@ -7,6 +7,7 @@ $toiletInfo = json_decode(getData('toilet/toiletInfo.json'), true);
 $citiesMeta = json_decode(getData('toilet/citiesMeta.json'), true);
 setCache('toilet/'.time().'.bak', json_encode($toiletInfo));
 $toiletInfo['shanghai'] = [];
+$toiletInfo['shanghai_suburban'] = [];
 $citiesMeta['shanghai'] = [
     'name' => '上海地铁',
     'support' => true,
@@ -31,16 +32,17 @@ $citiesMeta['shanghai_suburban'] = [
 ];
 
 // Load stations
-$stations = json_decode(file_get_contents('https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx?act=getAllStations'), true);
+$context = stream_context_create(['http' => ['header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36']]);
+$stations = json_decode(file_get_contents('https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx?act=getAllStations', false, $context), true);
 $stationInfoApi = 'https://m.shmetro.com/interface/metromap/metromap.aspx?func=stationInfo&stat_id=';
-$lines = json_decode(file_get_contents('https://m.shmetro.com/interface/metromap/metromap.aspx?func=lines'), true);
+$lines = json_decode(file_get_contents('https://m.shmetro.com/interface/metromap/metromap.aspx?func=lines', false, $context), true);
 $getCompany = fn($line) => intval($line) > 50 ? 'shanghai_suburban' : 'shanghai';
 $lineName = fn($id) => $id == 41 ? '浦江线' : ($id == 51 ? '机场联络线' : "{$id}号线");
 foreach($stations as $station) {
     $company = $getCompany(substr($station['key'], 0, 2));
 
     // Load data
-    $stationInfo = json_decode(file_get_contents($stationInfoApi.$station['key']), true)[0];
+    $stationInfo = json_decode(file_get_contents($stationInfoApi.$station['key'], false, $context), true)[0];
     $stationName = $station['value'];
     $toilets = json_decode($stationInfo['toilet_position'] ?? '', true)['toilet'];
 
@@ -87,6 +89,7 @@ $toiletInfo['shanghai']['浦电路']['redirect'] = ['向城路'];
 $toiletInfo['shanghai']['松江南站'] = ['redirect' => ['上海松江站']];
 $toiletInfo['shanghai']['华泾西'] = ['redirect' => ['景洪路']];
 $toiletInfo['shanghai']['诸光路'] = ['redirect' => ['国家会展中心']];
+$toiletInfo['shanghai']['蟠祥路'] = ['redirect' => ['蟠祥路·国家会计学院']];
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
