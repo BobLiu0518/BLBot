@@ -2,6 +2,7 @@
 
 requireLvl(1);
 loadModule('schedule.tools');
+loadModule('nickname.tools');
 
 global $Event, $CQ;
 
@@ -15,12 +16,7 @@ if(fromGroup() && preg_match('/^(?:\[CQ:at,qq=)?(\d+)(?:,name=.+?)?(?:])?$/', $a
 }
 $time = $arg;
 
-if(fromGroup()) {
-    $user = $CQ->getGroupMemberInfo($Event['group_id'], $target);
-    $nickname = $user->card ?? $user->nickname ?? replyAndLeave("{$target} 不在本群哦…");
-} else {
-    $nickname = '您';
-}
+$nickname = fromGroup() ? getNickname($target, $Event['group_id']) : '您';
 
 $courses = getCourses($target, $time);
 $date = $time ? date('Y/m/d', strtotime($time)) : '今日';
