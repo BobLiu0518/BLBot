@@ -10,7 +10,7 @@ $toiletInfo['dongguan'] = [];
 $citiesMeta['dongguan'] = [
     'name' => '东莞轨道交通',
     'support' => true,
-    'source' => '东莞轨道交通微信公众号文章',
+    'source' => '东莞地铁 App',
     'time' => time(),
     'color' => [
         'main' => '#78C123',
@@ -19,61 +19,58 @@ $citiesMeta['dongguan'] = [
     'logo' => 'metro_logo_dongguan.svg',
 ];
 
-// Link to Weixin article
-$links = [
-    'https://mp.weixin.qq.com/s/uW9dd-HZtaZYygJkaRydMA',
-];
+$mapData = json_decode(file_get_contents('https://itpstatic.dggdjt.com/stations/map-app.json'), true);
+$accData = json_decode(file_get_contents('https://itpstatic.dggdjt.com/stations/acclocation.json'), true);
+$facApi = 'https://itpapi.dggdjt.com/marketingpis/appSides/getStationFacility';
 
-$context = stream_context_create([
-	'http' => [
-		'method' => 'GET',
-		'header' => 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-	],
-]);
+$lineMap = [];
+$stationMap = [];
 
-// Get data
-foreach($links as $link) {
-    $toiletsInfo = file_get_contents($link, false, $context);
-    preg_match('/var oriCreateTime = \'(\d+)\';/', $toiletsInfo, $match);
-    $time = intval($match[1]);
-    $citiesMeta['dongguan']['time'] = min($time, $citiesMeta['dongguan']['time']);
-    preg_match_all('/<tr>(.+?)<\/tr>/u', $toiletsInfo, $rowMatch);
-    foreach($rowMatch[1] as $row) {
-        preg_match_all('/<td.*?><span.*?>(.+?)<\/span><\/td>/u', $row, $cellMatch);
-        $station = '';
-        $position = '';
-        foreach($cellMatch[1] as $id => $cell) {
-            if(preg_match('/<strong>/u', $cell)) break;
-            if($id == 0) {
-                if(!preg_match('/^(.+)火车站$/u', $cell)) {
-                    $station = preg_replace('/站$/u', '', $cell);
-                } else {
-                    $station = $cell;
-                }
-            } else if($id == 1) {
-                $position = $cell;
-            } else if($station) {
-                if(!array_key_exists($station, $toiletInfo['dongguan'])) {
-                    $toiletInfo['dongguan'][$station] = ['toilets' => []];
-                }
-                $toiletInfo['dongguan'][$station]['toilets'][] = [
-                    'title' => $position,
-                    'content' => $cell,
-                ];
-            }
+foreach($mapData['lines_data'] as $line) {
+    $lineMap[$line['id']] = $line['cn_name'];
+    $citiesMeta['dongguan']['color'][$line['cn_name']] = "#{$line['color']}";
+}
+
+foreach($mapData['stations_data'] as $station) {
+    $stationMap[$station['id']] = $station['cn_name'];
+}
+
+foreach($accData as $acc) {
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/json',
+            'content' => json_encode([
+                'cityCode' => '5230',
+                'deviceLocation' => strval($acc['device_location']),
+            ]),
+        ],
+    ]);
+    $facData = json_decode(file_get_contents($facApi, false, $context), true);
+
+    foreach($facData['resData']['device'] as $device){
+        if($device['facilityType'] != 3) continue;
+
+        $stationName = str_replace('（地铁）', '', $stationMap[$acc['station_id']]);
+        $lineName = $lineMap[$acc['line_id']];
+
+        if(!$toiletInfo['dongguan'][$stationName]){
+            $toiletInfo['dongguan'][$stationName] = ['toilets' => []];
         }
+        $toiletInfo['dongguan'][$stationName]['toilets'][] = [
+            'title' => $lineName,
+            'content' => $device['facilityDesc'],
+        ];
     }
 }
-$citiesMeta['dongguan']['time'] = date('Y/m/d', $citiesMeta['dongguan']['time']);
 
 // Handle metro & intercity railway interchange
 $toiletInfo['dongguan']['西平西'] = ['redirect' => ['西平']];
 
 // Handle Hongfu Road station name change (temporary)
-$toiletInfo['dongguan']['市民中心'] = $toiletInfo['dongguan']['鸿福路'];
 $toiletInfo['dongguan']['鸿福路'] = ['redirect' => ['市民中心']];
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
 setData('toilet/citiesMeta.json', json_encode($citiesMeta));
-replyAndLeave('更新数据成功，共 '.count($toiletInfo['dongguan']).' 条数据（文章更新时间 '.$citiesMeta['dongguan']['time'].'）');
+replyAndLeave('更新数据成功，共 '.count($toiletInfo['dongguan']).' 条数据');
