@@ -33,6 +33,7 @@ foreach($map['lines_data'] as $line) {
 $stationsMap = [];
 foreach($map['stations_data'] as $station) {
     $stationsMap[$station['id']] = $station['cn_name'];
+    $toiletInfo['beijing'][$station['cn_name']] = ['toilets' => []];
 }
 
 foreach($accLocation as $device) {
