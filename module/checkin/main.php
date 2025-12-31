@@ -125,7 +125,8 @@ switch(getStatus($User_id)) {
                         }
                     }
                 }
-                $reply .= "\n你是今天第 {$checkinData['checked']} 个{$word}的～";
+                $today = date('md') == '0101' ? '今年' : '今天';
+                $reply .= "\n你是{$today}第 {$checkinData['checked']} 个{$word}的～";
             }
             delData('checkin/'.$Event['user_id']);
             setData('checkin/'.$Event['user_id'], '');
