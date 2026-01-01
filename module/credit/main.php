@@ -1,5 +1,4 @@
 <?php
 
-loadModule('credit.see');
+loadModule('me');
 
-?>
