@@ -413,6 +413,7 @@ function startGame($rhData): never {
                         '失控冲出了赛'.$assets['h'].'场',
                         '被先辈撅飞了十米甚至九米',
                         '向恶魔许愿胜利，但是代价是自己的生命',
+                        '尝试达速跨越北京北',
                     ]);
                 }
             } else if($determination <= 997 || $specialEventTriggered) {
