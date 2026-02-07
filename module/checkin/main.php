@@ -59,7 +59,7 @@ switch(getStatus($User_id)) {
                 "{$word}过了呢",
                 "准备一直{$word}调戏我吗？",
                 "其实你再怎么{$word}也无人在意 0 人在意 NBCS 哈",
-                "{$word}{$word}，你早八签到了吗？",
+                "{$word}{$word}，你早八{$word}了吗？",
                 '嫌自己金币不够可以试试 #attack 别人',
                 "Tips: 其实{$word}获得的金币一点用都没有",
                 "Tips: {$word}的金币多少与今日人品有关哦！",
@@ -135,3 +135,4 @@ switch(getStatus($User_id)) {
 }
 
 $Queue[] = replyMessage($reply);
+
