@@ -52,17 +52,17 @@ $citiesMeta['guangdong'] = [
 // Load data
 $companies = [];
 $lineStationData = $db->query(<<<SQL
-SELECT 
-    s.name_cn AS station_name, 
-    l.line_no, 
+SELECT
+    s.name_cn AS station_name,
+    l.line_no,
     COALESCE(
-        d1.name_cn, 
-        d2.name_cn, 
+        d1.name_cn,
+        d2.name_cn,
         d3.name_cn
     ) AS device_name,
     COALESCE(
-        d1.location_cn, 
-        d2.location_cn, 
+        d1.location_cn,
+        d2.location_cn,
         d3.location_cn
     ) AS location_cn
 FROM station s
@@ -77,15 +77,15 @@ LEFT JOIN device d2 ON s.station_id = d2.station_id AND d2.category_id = 98
 LEFT JOIN device d3 ON s.station_id = d3.station_id AND d3.category_id = 99;
 SQL);
 while($row = $lineStationData->fetchArray(SQLITE3_ASSOC)) {
-    $stationName = preg_replace('/^虫雷 岗/u', '𧒽岗', str_replace('（城际）', '', $row['station_name']));
+    $stationName = str_replace('虫雷 岗', '𧒽岗', preg_replace('/（(?!有轨）$).+?）$/u', '', $row['station_name']));
     $company = $companies[$row['line_no']];
     if(!$company) {
-        if(preg_match('/^CJ\d+$/', $row['line_no'])) {
-            $company = 'guangdong';
-        } else if(preg_match('/^(F|TNH)\d+$/', $row['line_no'])) {
+        if(preg_match('/^(F|TNH)\d+$/', $row['line_no'])) {
             $company = 'foshan';
-        } else {
+        } else if(preg_match('/^[0-9A-Z]+$/', $row['line_no'])) {
             $company = 'guangzhou';
+        } else {
+            $company = 'guangdong';
         }
         $companies[$row['line_no']] = $company;
     }
@@ -128,21 +128,15 @@ $toiletInfo['guangdong']['官桥'] = ['redirect' => ['官桥北']];
 $toiletInfo['guangzhou']['官桥北'] = ['redirect' => ['官桥']];
 $toiletInfo['guangdong']['广州北站'] = ['redirect' => ['花都']];
 $toiletInfo['guangzhou']['花都'] = ['redirect' => ['广州北站']];
-$toiletInfo['guangdong']['机场北（2号航站楼）'] = ['redirect' => ['白云机场北']];
-$toiletInfo['guangzhou']['白云机场北'] = ['redirect' => ['机场北（2号航站楼）']];
-$toiletInfo['guangdong']['机场南（1号航站楼）'] = ['redirect' => ['白云机场南']];
-$toiletInfo['guangzhou']['白云机场南'] = ['redirect' => ['机场南（1号航站楼）']];
+$toiletInfo['guangdong']['机场北'] = ['redirect' => ['白云机场北']];
+$toiletInfo['guangzhou']['白云机场北'] = ['redirect' => ['机场北']];
+$toiletInfo['guangdong']['机场南'] = ['redirect' => ['白云机场南']];
+$toiletInfo['guangzhou']['白云机场南'] = ['redirect' => ['机场南']];
 $toiletInfo['guangdong']['大石'] = ['redirect' => ['大石东']];
 $toiletInfo['guangzhou']['大石东'] = ['redirect' => ['大石']];
 $toiletInfo['guangdong']['西平'] = ['redirect' => ['西平西']];
-
-foreach(['guangzhou', 'foshan', 'guangdong'] as $company) {
-    foreach($toiletInfo[$company] as $station => $data) {
-        if(preg_match('/^(.+)（(.+)）$/u', $station, $matches) && $matches[2] != '有轨') {
-            $toiletInfo[$company][$matches[1]] = ['redirect' => [$station]];
-        }
-    }
-}
+$toiletInfo['guangdong']['机场北'] = ['redirect' => ['深圳机场北']];
+$toiletInfo['guangdong']['机场'] = ['redirect' => ['深圳机场']];
 
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));

@@ -56,6 +56,10 @@ foreach($lines as $line) {
     }
 }
 
+// Handle metro & intercity railway interchange
+$toiletInfo['shenzhen']['深圳机场'] = ['redirect' => ['机场']];
+$toiletInfo['shenzhen']['深圳机场北'] = ['redirect' => ['机场北']];
+
 // Save data
 setData('toilet/toiletInfo.json', json_encode($toiletInfo));
 setData('toilet/citiesMeta.json', json_encode($citiesMeta));
