@@ -128,6 +128,8 @@ $toiletInfo['guangdong']['官桥'] = ['redirect' => ['官桥北']];
 $toiletInfo['guangzhou']['官桥北'] = ['redirect' => ['官桥']];
 $toiletInfo['guangdong']['广州北站'] = ['redirect' => ['花都']];
 $toiletInfo['guangzhou']['花都'] = ['redirect' => ['广州北站']];
+$toiletInfo['guangdong']['新南'] = ['redirect' => ['九佛']];
+$toiletInfo['guangzhou']['九佛'] = ['redirect' => ['新南']];
 $toiletInfo['guangdong']['机场北'] = ['redirect' => ['白云机场北', '深圳机场北']];
 $toiletInfo['guangzhou']['白云机场北'] = ['redirect' => ['机场北']];
 $toiletInfo['guangdong']['机场南'] = ['redirect' => ['白云机场南']];
